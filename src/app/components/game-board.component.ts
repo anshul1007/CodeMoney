@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { GameService } from '../services/game.service';
 import { Level, DragItem, DropZone } from '../models/game.models';
 
 @Component({
   selector: 'app-game-board',
   standalone: true,
-  imports: [CommonModule, DragDropModule],
+  imports: [CommonModule],
   templateUrl: './game-board.component.html'
 })
 export class GameBoardComponent implements OnInit {
@@ -16,6 +15,7 @@ export class GameBoardComponent implements OnInit {
   showFeedback: boolean = false;
   isCorrect: boolean = false;
   allLevels: Level[] = [];
+  draggedItem: DragItem | null = null;
 
   constructor(private gameService: GameService) {}
 
@@ -39,35 +39,60 @@ export class GameBoardComponent implements OnInit {
     }
     this.feedback = '';
     this.showFeedback = false;
+  }  // HTML5 Drag and Drop methods
+  onDragStart(event: DragEvent, item: DragItem) {
+    this.draggedItem = item;
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', item.id);
+    }
   }
-  drop(event: CdkDragDrop<DragItem[]>, dropZone: DropZone) {
-    if (event.previousContainer === event.container) {
-      // Moving within the same container
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      const draggedItem = event.previousContainer.data[event.previousIndex];
-      
-      // Check if this item is accepted in this drop zone
-      if (dropZone.acceptedItems.includes(draggedItem.id)) {
-        // Check if drop zone has space
-        if (!dropZone.maxItems || dropZone.placedItems.length < dropZone.maxItems) {
-          // Transfer the item
-          transferArrayItem(
-            event.previousContainer.data,
-            event.container.data,
-            event.previousIndex,
-            event.currentIndex
-          );
-          
-          // Update the original item status
-          if (this.currentLevel) {
-            const originalItem = this.currentLevel.dragItems.find(item => item.id === draggedItem.id);
-            if (originalItem) {
-              originalItem.isPlaced = true;
-            }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'move';
+    }
+  }
+
+  onDrop(event: DragEvent, dropZone: DropZone) {
+    event.preventDefault();
+    
+    if (!this.draggedItem) return;
+
+    // Check if this item is accepted in this drop zone
+    if (dropZone.acceptedItems.includes(this.draggedItem.id)) {
+      // Check if drop zone has space
+      if (!dropZone.maxItems || dropZone.placedItems.length < dropZone.maxItems) {
+        // Remove item from current location if it's already placed
+        if (this.draggedItem.isPlaced) {
+          this.removeItemFromAllZones(this.draggedItem);
+        }
+
+        // Add item to new drop zone
+        dropZone.placedItems.push({ ...this.draggedItem });
+        
+        // Update the original item status
+        if (this.currentLevel) {
+          const originalItem = this.currentLevel.dragItems.find(item => item.id === this.draggedItem!.id);
+          if (originalItem) {
+            originalItem.isPlaced = true;
           }
         }
       }
+    }
+    
+    this.draggedItem = null;
+  }
+
+  private removeItemFromAllZones(item: DragItem) {
+    if (this.currentLevel) {
+      this.currentLevel.dropZones.forEach(zone => {
+        const index = zone.placedItems.findIndex(placedItem => placedItem.id === item.id);
+        if (index > -1) {
+          zone.placedItems.splice(index, 1);
+        }
+      });
     }
   }
   returnToInventory(item: DragItem, dropZone: DropZone) {
