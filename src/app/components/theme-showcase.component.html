@@ -10,21 +10,21 @@
           A comprehensive design system for financial education, featuring modern colors, 
           typography, and components designed for learning and engagement.
         </p>        <div class="mt-6">
-          <a routerLink="/" class="btn-primary font-bold shadow-xl">← Back to Home</a>
+          <a routerLink="/" class="btn-nav-home">← Back to Home</a>
         </div>
       </div>
     </div>    <!-- Color Palettes -->
     <section class="mb-16">
-      <div class="bg-neutral-800/95 backdrop-blur-lg rounded-3xl p-8 border border-white/30 shadow-2xl">
-        <h2 class="text-3xl font-display font-bold text-white mb-8 drop-shadow-lg">Color Palettes</h2>
+      <div class="section-dark">
+        <h2 class="section-header text-white">Color Palettes</h2>
           <div class="space-y-8">
-          <div *ngFor="let palette of colorPalettes" class="bg-white/95 rounded-2xl p-6 shadow-xl border border-neutral-200">
-            <h3 class="text-xl font-semibold text-neutral-800 mb-4">{{ palette.name }}</h3>
-            <div class="grid grid-cols-5 md:grid-cols-10 gap-2">
+          <div *ngFor="let palette of colorPalettes" class="color-palette-card">
+            <h3 class="color-palette-title">{{ palette.name }}</h3>
+            <div class="color-grid-small">
               <div *ngFor="let color of palette.colors" 
                    [style.background-color]="color.value"
-                   class="h-16 rounded-lg flex items-end justify-center shadow-lg">
-                <span class="text-xs font-mono bg-black/70 text-white px-2 py-1 rounded-t mb-0 font-bold">
+                   class="color-swatch">
+                <span class="color-swatch-label">
                   {{ color.name }}
                 </span>
               </div>
@@ -34,86 +34,175 @@
       </div>
     </section>    <!-- Educational Colors -->
     <section class="mb-16">
-      <div class="bg-neutral-800/95 backdrop-blur-lg rounded-3xl p-8 border border-white/30 shadow-2xl">
-        <h2 class="text-3xl font-display font-bold text-white mb-8 drop-shadow-lg">Educational Colors</h2>        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="section-dark">
+        <h2 class="section-header text-white">Educational Colors</h2>        <div class="color-grid-large">
           <div *ngFor="let color of educationColors" 
                [style.background-color]="color.value"
-               class="h-24 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-xl border border-white/20 drop-shadow-lg">
+               class="color-demo-box">
             {{ color.name }}
           </div>
         </div>
       </div>
     </section>    <!-- Financial Colors -->
     <section class="mb-16">
-      <div class="bg-neutral-800/95 backdrop-blur-lg rounded-3xl p-8 border border-white/30 shadow-2xl">
-        <h2 class="text-3xl font-display font-bold text-white mb-8 drop-shadow-lg">Financial Colors</h2>        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div class="section-dark">
+        <h2 class="section-header text-white">Financial Colors</h2>
+        <div class="color-grid-large">
           <div *ngFor="let color of financeColors" 
                [style.background-color]="color.value"
-               class="h-24 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-xl border border-white/20 drop-shadow-lg">
+               class="color-demo-box">
             {{ color.name }}
           </div>
         </div>
       </div>
     </section>    <!-- Typography -->
     <section class="mb-16">
-      <div class="bg-white/95 rounded-3xl p-8 shadow-2xl border border-neutral-200">
-        <h2 class="text-3xl font-display font-bold text-neutral-900 mb-8">Typography</h2>
+      <div class="section-content">
+        <h2 class="section-title">Typography</h2>
         <div class="space-y-6">
           <div>
-            <h1 class="text-6xl font-display font-bold text-primary-600 drop-shadow-lg">Display Font</h1>
-            <p class="text-neutral-600 mt-2 font-medium">Poppins - Used for headings and display text</p>
+            <h1 class="display-font-showcase">Display Font</h1>
+            <p class="font-description">Poppins - Used for headings and display text</p>
           </div>
           <div>
-            <h2 class="text-4xl font-sans font-semibold text-neutral-800">Body Font</h2>
-            <p class="text-neutral-600 mt-2 font-medium">Inter - Used for body text and UI elements</p>
+            <h2 class="body-font-showcase">Body Font</h2>
+            <p class="font-description">Inter - Used for body text and UI elements</p>
           </div>
           <div>
-            <code class="text-lg font-mono bg-neutral-100 px-4 py-3 rounded-lg text-neutral-800 font-bold">Monospace Font</code>
-            <p class="text-neutral-600 mt-2 font-medium">Used for code, numbers, and technical content</p>
+            <code class="mono-font-showcase">Monospace Font</code>
+            <p class="font-description">Used for code, numbers, and technical content</p>
+          </div>
+          
+          <!-- Font Size Examples -->
+          <div>
+            <h3 class="font-scale-title">Font Size Scale</h3>
+            <div class="font-examples">
+              <p class="font-example-xs">Extra Small - 12px</p>
+              <p class="font-example-sm">Small - 14px</p>
+              <p class="font-example-base">Base - 16px</p>
+              <p class="font-example-lg">Large - 18px</p>
+              <p class="font-example-xl">Extra Large - 20px</p>
+              <p class="font-example-2xl">2XL - 24px</p>
+              <p class="font-example-3xl">3XL - 30px</p>
+            </div>
           </div>
         </div>
       </div>
-    </section>    <!-- Button Components -->
+    </section><!-- Button Components -->
     <section class="mb-16">
-      <div class="bg-white/95 rounded-3xl p-8 shadow-2xl border border-neutral-200">
-        <h2 class="text-3xl font-display font-bold text-neutral-900 mb-8">Button Components</h2>
-        <div class="flex flex-wrap gap-4 mb-6">
-          <button class="btn-primary font-bold shadow-xl">Primary Button</button>
-          <button class="btn-secondary font-bold shadow-xl">Secondary Button</button>
-          <button class="bg-success-600 hover:bg-success-700 text-white px-6 py-3 rounded-lg font-bold transition-all duration-200 hover:-translate-y-1 hover:shadow-xl">
-            Success Button
-          </button>
-          <button class="bg-warning-600 hover:bg-warning-700 text-white px-6 py-3 rounded-lg font-bold transition-all duration-200 hover:-translate-y-1 hover:shadow-xl">
-            Warning Button
-          </button>
-          <button class="bg-error-600 hover:bg-error-700 text-white px-6 py-3 rounded-lg font-bold transition-all duration-200 hover:-translate-y-1 hover:shadow-xl">
-            Error Button
-          </button>
+      <div class="section-content">
+        <h2 class="section-title">Button Components</h2>
+          <!-- Primary Button Styles -->
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold text-neutral-800 mb-4">Primary Button Styles</h3>
+          <div class="flex flex-wrap gap-4">
+            <button class="btn-primary">
+              Primary Button
+            </button>
+            <button class="btn-secondary">
+              Secondary Button
+            </button>
+            <button class="btn-success">
+              Success Button
+            </button>
+            <button class="btn-warning">
+              Warning Button
+            </button>
+            <button class="btn-error">
+              Error Button
+            </button>
+          </div>
+        </div>
+
+        <!-- Financial Theme Buttons -->
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold text-neutral-800 mb-4">Financial Theme Buttons</h3>
+          <div class="flex flex-wrap gap-4">
+            <button class="btn-profit">
+              💰 Profit
+            </button>
+            <button class="btn-loss">
+              📉 Loss
+            </button>
+            <button class="btn-investment">
+              💼 Investment
+            </button>
+            <button class="btn-savings">
+              🏦 Savings
+            </button>
+          </div>
+        </div>
+
+        <!-- Button Variants -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">          <div class="p-6 border border-neutral-300 rounded-lg bg-neutral-50">
+            <h4 class="font-bold text-neutral-800 mb-4">Button Sizes</h4>
+            <div class="space-y-3">
+              <button class="btn-primary btn-sm w-full">
+                Small Button
+              </button>
+              <button class="btn-primary w-full">
+                Medium Button
+              </button>
+              <button class="btn-primary btn-lg w-full">
+                Large Button
+              </button>
+            </div>
+          </div>
+          
+          <div class="p-6 border border-neutral-300 rounded-lg bg-neutral-50">
+            <h4 class="font-bold text-neutral-800 mb-4">Button States</h4>
+            <div class="space-y-3">
+              <button class="btn-primary w-full">
+                Normal State
+              </button>
+              <button class="btn-disabled w-full" disabled>
+                Disabled State
+              </button>              <button class="btn-primary w-full ring-4 ring-blue-200">
+                Focused State
+              </button>
+            </div>
+          </div>
+
+          <div class="p-6 border border-neutral-300 rounded-lg bg-neutral-50">
+            <h4 class="font-bold text-neutral-800 mb-4">Outline Buttons</h4>
+            <div class="space-y-3">
+              <button class="btn-outline-primary w-full">
+                Primary Outline
+              </button>
+              <button class="btn-outline-secondary w-full">
+                Secondary Outline
+              </button>              <button class="btn-outline-success w-full">
+                Success Outline
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </section>    <!-- Card Components -->
+    </section><!-- Card Components -->
     <section class="mb-16">
       <div class="bg-neutral-800/95 backdrop-blur-lg rounded-3xl p-8 border border-white/30 shadow-2xl">
         <h2 class="text-3xl font-display font-bold text-white mb-8 drop-shadow-lg">Card Components</h2>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="card shadow-2xl">
+          <div class="card-basic">
             <h3 class="text-xl font-bold text-neutral-800 mb-3">Basic Card</h3>
             <p class="text-neutral-600 mb-4 font-medium">This is a standard card component with hover effects and clean styling.</p>
-            <button class="btn-primary font-bold">Learn More</button>
+            <button class="btn-card-primary">
+              Learn More
+            </button>
           </div>
           
-          <div class="card educational-gradient text-white shadow-2xl border border-white/20">
-            <h3 class="text-xl font-bold mb-3 drop-shadow-lg">Educational Card</h3>
-            <p class="text-white/90 mb-4 font-medium drop-shadow-lg">A themed card for educational content with gradient background.</p>
-            <button class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg font-bold transition-all duration-200 border border-white/30">
+          <div class="card-educational">
+            <h3>Educational Card</h3>
+            <p>A themed card for educational content with gradient background.</p>
+            <button class="btn-card-transparent">
               Explore
             </button>
           </div>
           
-          <div class="card financial-gradient text-white shadow-2xl border border-white/20">
-            <h3 class="text-xl font-bold mb-3 drop-shadow-lg">Financial Card</h3>
-            <p class="text-white/90 mb-4 font-medium drop-shadow-lg">A themed card for financial content with professional styling.</p>
-            <button class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg font-bold transition-all duration-200 border border-white/30">
+          <div class="card-financial">
+            <h3>Financial Card</h3>
+            <p>A themed card for financial content with professional styling.</p>
+            <button class="btn-card-transparent">
               Calculate
             </button>
           </div>
@@ -124,88 +213,128 @@
       <div class="bg-neutral-800/95 backdrop-blur-lg rounded-3xl p-8 border border-white/30 shadow-2xl">
         <h2 class="text-3xl font-display font-bold text-white mb-8 drop-shadow-lg">Gradients & Backgrounds</h2>
         <div class="grid md:grid-cols-3 gap-6">
-          <div class="educational-gradient h-32 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-xl border border-white/20 drop-shadow-lg">
+          <div class="gradient-showcase gradient-educational">
             Educational Gradient
           </div>
-          <div class="financial-gradient h-32 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-xl border border-white/20 drop-shadow-lg">
+          <div class="gradient-showcase financial-gradient">
             Financial Gradient
           </div>
-          <div class="bg-gradient-to-br from-primary-400 to-secondary-600 h-32 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-xl border border-white/20 drop-shadow-lg">
+          <div class="gradient-showcase gradient-brand">
             Brand Gradient
           </div>
         </div>
       </div>
     </section>    <!-- Animation Examples -->
     <section class="mb-16">
-      <div class="bg-white/95 rounded-3xl p-8 shadow-2xl border border-neutral-200">
-        <h2 class="text-3xl font-display font-bold text-neutral-900 mb-8">Animations</h2>
-        <div class="grid md:grid-cols-4 gap-6">
-          <div class="bg-primary-100 p-6 rounded-xl text-center animate-fade-in shadow-lg border border-primary-200">
-            <div class="w-12 h-12 bg-primary-500 rounded-full mx-auto mb-3 shadow-lg"></div>
-            <p class="text-sm font-bold text-primary-700">Fade In</p>
+      <div class="section-content">
+        <h2 class="section-title">Animations</h2>
+        
+        <div class="grid md:grid-cols-4 gap-6 mb-8">
+          <div class="anim-card anim-card-primary opacity-0 animate-fade-in" 
+               style="animation-delay: 0.1s;">
+            <div class="icon-circle icon-circle-primary"></div>
+            <p class="text-sm font-bold text-primary">Fade In</p>
           </div>
-          <div class="bg-secondary-100 p-6 rounded-xl text-center animate-slide-up shadow-lg border border-secondary-200">
-            <div class="w-12 h-12 bg-secondary-500 rounded-full mx-auto mb-3 shadow-lg"></div>
-            <p class="text-sm font-bold text-secondary-700">Slide Up</p>
+          <div class="anim-card anim-card-secondary translate-y-4 opacity-0 animate-slide-up" 
+               style="animation-delay: 0.2s;">
+            <div class="icon-circle icon-circle-secondary"></div>
+            <p class="text-sm font-bold text-secondary">Slide Up</p>
           </div>
-          <div class="bg-success-100 p-6 rounded-xl text-center animate-scale-up shadow-lg border border-success-200">
-            <div class="w-12 h-12 bg-success-500 rounded-full mx-auto mb-3 shadow-lg"></div>
-            <p class="text-sm font-bold text-success-700">Scale Up</p>
+          <div class="anim-card anim-card-success scale-75 opacity-0 animate-scale-up" 
+               style="animation-delay: 0.3s;">
+            <div class="icon-circle icon-circle-success"></div>
+            <p class="text-sm font-bold text-success">Scale Up</p>
           </div>
-          <div class="bg-warning-100 p-6 rounded-xl text-center animate-bounce-gentle shadow-lg border border-warning-200">
-            <div class="w-12 h-12 bg-warning-500 rounded-full mx-auto mb-3 shadow-lg"></div>
-            <p class="text-sm font-bold text-warning-700">Bounce</p>
+          <div class="anim-card anim-card-warning animate-bounce-gentle" 
+               style="animation-delay: 0.4s;">
+            <div class="icon-circle icon-circle-warning"></div>
+            <p class="text-sm font-bold text-warning">Bounce</p>
+          </div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="p-6 border border-neutral-300 rounded-lg">
+            <h4 class="font-bold text-neutral-800 mb-4">Hover Animations</h4>
+            <div class="space-y-4">
+              <div class="hover-card hover-card-blue hover-card-scale">
+                Hover to Scale
+              </div>
+              <div class="hover-card hover-card-green hover-card-float">
+                Hover to Float
+              </div>
+              <div class="hover-card hover-card-orange hover-card-rotate">
+                Hover to Rotate
+              </div>
+            </div>
+          </div>
+          
+          <div class="p-6 border border-neutral-300 rounded-lg">
+            <h4 class="font-bold text-neutral-800 mb-4">Loading Animations</h4>
+            <div class="space-y-4">
+              <div class="loading-item">
+                <div class="loading-dot loading-dot-pulse"></div>
+                <span class="loading-text">Pulse Animation</span>
+              </div>
+              <div class="loading-item">
+                <div class="loading-dot loading-dot-bounce"></div>
+                <span class="loading-text">Bounce Animation</span>
+              </div>
+              <div class="loading-item">
+                <div class="loading-dot loading-dot-spin"></div>
+                <span class="loading-text">Spin Animation</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>    <!-- Financial Data Display -->
+    </section><!-- Financial Data Display -->
     <section class="mb-16">
-      <div class="bg-white/95 rounded-3xl p-8 shadow-2xl border border-neutral-200">
-        <h2 class="text-3xl font-display font-bold text-neutral-900 mb-8">Financial Data Display</h2>
+      <div class="section-content">
+        <h2 class="section-title">Financial Data Display</h2>
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="bg-white rounded-xl p-6 shadow-xl border-l-4 border-finance-profit">
+          <div class="finance-card finance-card-profit">
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm font-bold text-neutral-600">Total Profit</p>
                 <p class="text-2xl font-bold text-finance-profit">$1,234.56</p>
               </div>
-              <div class="p-3 bg-success-100 rounded-lg shadow-lg">
+              <div class="icon-container icon-container-success">
                 <span class="text-2xl">📈</span>
               </div>
             </div>
           </div>
           
-          <div class="bg-white rounded-xl p-6 shadow-xl border-l-4 border-finance-savings">
+          <div class="finance-card finance-card-savings">
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm font-bold text-neutral-600">Savings</p>
                 <p class="text-2xl font-bold text-finance-savings">$987.65</p>
               </div>
-              <div class="p-3 bg-warning-100 rounded-lg shadow-lg">
+              <div class="icon-container icon-container-warning">
                 <span class="text-2xl">🏦</span>
               </div>
             </div>
           </div>
           
-          <div class="bg-white rounded-xl p-6 shadow-xl border-l-4 border-finance-investment">
+          <div class="finance-card finance-card-investment">
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm font-bold text-neutral-600">Investments</p>
                 <p class="text-2xl font-bold text-finance-investment">$2,468.13</p>
               </div>
-              <div class="p-3 bg-primary-100 rounded-lg shadow-lg">
+              <div class="icon-container icon-container-blue">
                 <span class="text-2xl">💼</span>
               </div>
             </div>
           </div>
           
-          <div class="bg-white rounded-xl p-6 shadow-xl border-l-4 border-finance-loss">
+          <div class="finance-card finance-card-loss">
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm font-bold text-neutral-600">Expenses</p>
                 <p class="text-2xl font-bold text-finance-loss">$543.21</p>
               </div>
-              <div class="p-3 bg-error-100 rounded-lg shadow-lg">
+              <div class="icon-container icon-container-error">
                 <span class="text-2xl">💸</span>
               </div>
             </div>

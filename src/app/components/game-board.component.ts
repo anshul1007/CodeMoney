@@ -8,8 +8,7 @@ import { Level, DragItem, DropZone } from '../models/game.models';
   selector: 'app-game-board',
   standalone: true,
   imports: [CommonModule, DragDropModule],
-  templateUrl: './game-board.component.html',
-  styleUrls: ['./game-board.component.css']
+  templateUrl: './game-board.component.html'
 })
 export class GameBoardComponent implements OnInit {
   currentLevel: Level | null = null;
