@@ -1,63 +1,155 @@
 <div class="min-h-screen educational-gradient text-white font-body">
   <div class="px-5 py-15 text-center max-w-6xl mx-auto">
-    <div class="bg-neutral-900/80 backdrop-blur-lg rounded-3xl p-10 shadow-glow animate-fade-in border border-white/20">
-      <h1 class="text-6xl mb-5 font-display font-bold drop-shadow-2xl sm:text-4xl animate-slide-up">
-        <span class="text-cyan-300">Code</span><span class="text-yellow-300">Money</span>
-      </h1>      <h2 class="text-3xl mb-5 text-white font-light sm:text-2xl animate-slide-up drop-shadow-lg">Learn Financial Literacy Through Interactive Adventures</h2>
-      <p class="text-xl leading-relaxed mb-10 text-gray-50 max-w-3xl mx-auto sm:text-lg animate-fade-in drop-shadow-lg font-medium">
-        Join Lucy on her entrepreneurial journey as she learns about balance sheets, 
-        income statements, and financial planning through her lemonade stand business!
+    <div
+      class="bg-neutral-900/80 backdrop-blur-lg rounded-3xl p-10 shadow-glow animate-fade-in border border-white/20"
+    >
+      <h1
+        class="text-6xl mb-5 font-display font-bold drop-shadow-2xl sm:text-4xl animate-slide-up"
+      >
+        <span class="text-cyan-300">Code</span
+        ><span class="text-yellow-300">Money</span>
+      </h1>
+      <h2
+        class="text-3xl mb-5 text-white font-light sm:text-2xl animate-slide-up drop-shadow-lg"
+      >
+        Learn Financial Literacy Through Interactive Adventures
+      </h2>
+      <p
+        class="text-xl leading-relaxed mb-10 text-gray-50 max-w-3xl mx-auto sm:text-lg animate-fade-in drop-shadow-lg font-medium"
+      >
+        Join Lucy on her entrepreneurial journey as she learns about starting a
+        business, managing costs, and finding funding through interactive Money
+        Mission games!
       </p>
-      <div class="mb-10">        <div class="inline-block bg-neutral-800/95 p-8 rounded-2xl m-5 border border-white/40 shadow-xl">
+      <div class="mb-10">
+        <div
+          class="inline-block bg-neutral-800/95 p-8 rounded-2xl m-5 border border-white/40 shadow-xl"
+        >
           <div class="text-6xl mb-4 drop-shadow-lg">👧</div>
-          <div class="text-2xl font-bold mb-3 text-white drop-shadow-lg">Meet Lucy</div>
-          <div class="text-gray-100 italic font-medium">Your financial mentor</div>
+          <div class="text-2xl font-bold mb-3 text-white drop-shadow-lg">
+            Meet Lucy
+          </div>
+          <div class="text-gray-100 italic font-medium">
+            Your financial mentor
+          </div>
         </div>
-      </div>      <div class="flex justify-center gap-8 flex-wrap sm:flex-col sm:items-center">
-        <button class="bg-primary-600 hover:bg-primary-700 text-white text-xl px-10 py-5 rounded-xl font-bold transition-all duration-200 hover:-translate-y-1 hover:shadow-xl min-w-[200px] animate-scale-up sm:w-full sm:max-w-xs" routerLink="/game">
+      </div>
+      <div
+        class="flex justify-center gap-8 flex-wrap sm:flex-col sm:items-center"
+      >
+        <button
+          class="bg-primary-600 hover:bg-primary-700 text-white text-xl px-10 py-5 rounded-xl font-bold transition-all duration-200 hover:-translate-y-1 hover:shadow-xl min-w-[200px] animate-scale-up sm:w-full sm:max-w-xs"
+          routerLink="/courses"
+        >
           🚀 Start Learning
-        </button>        
-        <button class="bg-secondary-600 hover:bg-secondary-700 text-white text-xl px-10 py-5 rounded-xl font-bold transition-all duration-200 hover:-translate-y-1 hover:shadow-xl min-w-[200px] animate-scale-up sm:w-full sm:max-w-xs" (click)="resetProgress()">
+        </button>
+        <button
+          class="bg-secondary-600 hover:bg-secondary-700 text-white text-xl px-10 py-5 rounded-xl font-bold transition-all duration-200 hover:-translate-y-1 hover:shadow-xl min-w-[200px] animate-scale-up sm:w-full sm:max-w-xs"
+          (click)="resetProgress()"
+        >
           🔄 Reset Progress
         </button>
-        <button class="bg-success-600 hover:bg-success-700 text-white text-xl px-10 py-5 rounded-xl font-bold transition-all duration-200 hover:-translate-y-1 hover:shadow-xl min-w-[200px] animate-scale-up sm:w-full sm:max-w-xs shadow-lg" routerLink="/theme">
+        <button
+          class="bg-success-600 hover:bg-success-700 text-white text-xl px-10 py-5 rounded-xl font-bold transition-all duration-200 hover:-translate-y-1 hover:shadow-xl min-w-[200px] animate-scale-up sm:w-full sm:max-w-xs shadow-lg"
+          routerLink="/theme"
+        >
           🎨 Theme Demo
         </button>
       </div>
-  </div>
-    <div class="bg-white text-neutral-700 p-15 mx-auto my-10 rounded-3xl max-w-6xl shadow-2xl border border-neutral-200">
-    <h3 class="text-center text-4xl mb-10 font-display font-bold text-neutral-900">What You'll Learn</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">      <div class="bg-white rounded-xl p-6 shadow-xl border border-neutral-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 text-center animate-fade-in">
-        <div class="text-5xl mb-5">📊</div>
-        <h4 class="text-2xl mb-4 font-semibold text-neutral-800">Balance Sheets</h4>
-        <p class="text-neutral-600 leading-relaxed">Learn the fundamental equation: Assets = Liabilities + Equity</p>
-      </div>
-      
-      <div class="bg-white rounded-xl p-6 shadow-xl border border-neutral-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 text-center animate-fade-in">
-        <div class="text-5xl mb-5">🎯</div>
-        <h4 class="text-2xl mb-4 font-semibold text-neutral-800">Drag & Drop Learning</h4>
-        <p class="text-neutral-600 leading-relaxed">Interactive gameplay that makes learning financial concepts fun</p>
-      </div>
-      
-      <div class="bg-white rounded-xl p-6 shadow-xl border border-neutral-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 text-center animate-fade-in">
-        <div class="text-5xl mb-5">🏆</div>
-        <h4 class="text-2xl mb-4 font-semibold text-neutral-800">Progressive Challenges</h4>
-        <p class="text-neutral-600 leading-relaxed">Start simple and advance to complex business scenarios</p>
-      </div>
-      
-      <div class="bg-white rounded-xl p-6 shadow-xl border border-neutral-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 text-center animate-fade-in">
-        <div class="text-5xl mb-5">💡</div>
-        <h4 class="text-2xl mb-4 font-semibold text-neutral-800">Real-World Skills</h4>
-        <p class="text-neutral-600 leading-relaxed">Apply financial knowledge to everyday business situations</p>
+    </div>
+    <div
+      class="bg-white text-neutral-700 p-15 mx-auto my-10 rounded-3xl max-w-6xl shadow-2xl border border-neutral-200"
+    >
+      <h3
+        class="text-center text-4xl mb-10 font-display font-bold text-neutral-900"
+      >
+        What You'll Learn
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
+        <div
+          class="bg-white rounded-xl p-6 shadow-xl border border-neutral-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 text-center animate-fade-in"
+        >
+          <div class="text-5xl mb-5">🧩</div>
+          <h4 class="text-2xl mb-4 font-semibold text-neutral-800">
+            Item Selection
+          </h4>
+          <p class="text-neutral-600 leading-relaxed">
+            Learn what you need to start a business by choosing the right items
+          </p>
+        </div>
+
+        <div
+          class="bg-white rounded-xl p-6 shadow-xl border border-neutral-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 text-center animate-fade-in"
+        >
+          <div class="text-5xl mb-5">💰</div>
+          <h4 class="text-2xl mb-4 font-semibold text-neutral-800">
+            Cost Estimation
+          </h4>
+          <p class="text-neutral-600 leading-relaxed">
+            Practice estimating how much business items cost in the real world
+          </p>
+        </div>
+
+        <div
+          class="bg-white rounded-xl p-6 shadow-xl border border-neutral-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 text-center animate-fade-in"
+        >
+          <div class="text-5xl mb-5">💸</div>
+          <h4 class="text-2xl mb-4 font-semibold text-neutral-800">
+            Funding Sources
+          </h4>
+          <p class="text-neutral-600 leading-relaxed">
+            Discover different ways to get money to start your business
+          </p>
+        </div>
+
+        <div
+          class="bg-white rounded-xl p-6 shadow-xl border border-neutral-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 text-center animate-fade-in"
+        >
+          <div class="text-5xl mb-5">⭐</div>
+          <h4 class="text-2xl mb-4 font-semibold text-neutral-800">
+            Star Scoring
+          </h4>
+          <p class="text-neutral-600 leading-relaxed">
+            Earn stars based on your performance and unlock new levels
+          </p>
+        </div>
       </div>
     </div>
-  </div>  <div class="bg-neutral-800/95 backdrop-blur-lg mx-auto my-10 p-10 rounded-3xl max-w-6xl border border-white/30 shadow-2xl">
-    <h3 class="text-center text-4xl mb-8 font-display font-bold text-white drop-shadow-lg">Course: Lemonade Stand Basics</h3>
-    <div class="flex justify-center">
-      <div class="bg-white text-neutral-700 p-8 rounded-2xl max-w-lg text-center shadow-2xl border-2 border-neutral-200">
-        <h4 class="text-2xl mb-4 font-bold text-neutral-800">Chapter 1: Understanding Balance Sheets</h4>
-        <p class="text-neutral-600 leading-relaxed mb-5 font-medium">Master the basics of assets, liabilities, and equity through Lucy's lemonade business</p>
-        <div class="text-white px-6 py-3 rounded-full font-bold inline-block shadow-xl border border-white/20" style="background: linear-gradient(135deg, #10b981 0%, #059669 25%, #047857 50%, #065f46 75%, #064e3b 100%);">2 Interactive Levels</div>
+    <div
+      class="bg-neutral-800/95 backdrop-blur-lg mx-auto my-10 p-10 rounded-3xl max-w-6xl border border-white/30 shadow-2xl"
+    >
+      <h3
+        class="text-center text-4xl mb-8 font-display font-bold text-white drop-shadow-lg"
+      >
+        Course: Money Missions
+      </h3>
+      <div class="flex justify-center">
+        <div
+          class="bg-white text-neutral-700 p-8 rounded-2xl max-w-lg text-center shadow-2xl border-2 border-neutral-200"
+        >
+          <h4 class="text-2xl mb-4 font-bold text-neutral-800">
+            Unit 1: Start Your Lemonade Stand!
+          </h4>
+          <p class="text-neutral-600 leading-relaxed mb-5 font-medium">
+            Learn what you need to start a business, estimate costs, and find
+            funding sources through fun interactive games
+          </p>
+          <div
+            class="text-white px-6 py-3 rounded-full font-bold inline-block shadow-xl border border-white/20"
+            style="
+              background: linear-gradient(
+                135deg,
+                #10b981 0%,
+                #059669 25%,
+                #047857 50%,
+                #065f46 75%,
+                #064e3b 100%
+              );
+            "
+          >
+            3 Interactive Levels
+          </div>
+        </div>
       </div>
     </div>
   </div>
