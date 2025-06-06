@@ -1,0 +1,55 @@
+<!-- CodeMoney Monkey Mascot Logo - Enhanced Version -->
+<svg width="180" height="100" viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient for depth -->
+    <radialGradient id="faceGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" style="stop-color:#F4A460;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D2691E;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Coin gradient -->
+    <radialGradient id="coinGrad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#FEF3C7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Monkey face outer -->
+  <ellipse cx="90" cy="50" rx="40" ry="35" fill="url(#faceGrad)" stroke="#8B4513" stroke-width="2"/>
+  
+  <!-- Code bracket ears with background circles for better visibility -->
+  <!-- Left ear background -->
+  <circle cx="45" cy="35" r="15" fill="#4F46E5" opacity="0.2"/>
+  <!-- Left ear (< bracket) -->
+  <text x="45" y="45" text-anchor="middle" fill="#4F46E5" font-family="monospace" font-size="24" font-weight="bold">&lt;</text>
+  
+  <!-- Right ear background -->
+  <circle cx="135" cy="35" r="15" fill="#4F46E5" opacity="0.2"/>
+  <!-- Right ear (> bracket) -->
+  <text x="135" y="45" text-anchor="middle" fill="#4F46E5" font-family="monospace" font-size="24" font-weight="bold">&gt;</text>
+  
+  <!-- Inner face area -->
+  <ellipse cx="90" cy="55" rx="28" ry="25" fill="#F4A460"/>
+  
+  <!-- Coin eyes with better detail -->
+  <!-- Left eye coin -->
+  <circle cx="78" cy="45" r="10" fill="url(#coinGrad)" stroke="#D97706" stroke-width="1.5"/>
+  <circle cx="78" cy="45" r="6" fill="#FEF3C7" opacity="0.8"/>
+  <text x="78" y="49" text-anchor="middle" fill="#92400E" font-size="8" font-weight="bold">₹</text>
+  
+  <!-- Right eye coin -->
+  <circle cx="102" cy="45" r="10" fill="url(#coinGrad)" stroke="#D97706" stroke-width="1.5"/>
+  <circle cx="102" cy="45" r="6" fill="#FEF3C7" opacity="0.8"/>
+  <text x="102" y="49" text-anchor="middle" fill="#92400E" font-size="8" font-weight="bold">₹</text>
+  
+  <!-- Nose -->
+  <ellipse cx="90" cy="58" rx="3" ry="4" fill="#8B4513"/>
+  <ellipse cx="90" cy="57" rx="1" ry="2" fill="#A0522D"/>
+  
+  <!-- Happy smile -->
+  <path d="M 75 68 Q 90 78 105 68" stroke="#8B4513" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Small highlight on cheeks for friendliness -->
+  <circle cx="65" cy="60" r="3" fill="#FFB6C1" opacity="0.6"/>
+  <circle cx="115" cy="60" r="3" fill="#FFB6C1" opacity="0.6"/>
+  
+</svg>

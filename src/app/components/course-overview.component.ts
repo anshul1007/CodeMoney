@@ -23,6 +23,14 @@ import { Course, Unit, Lesson, Level } from '../models/game.models';
             <span class="text-xl">🏠</span>
             <span class="font-medium text-gray-700">Back to Home</span>
           </button>
+          <!-- Logo in top right -->
+          <div class="hidden md:block">
+            <img
+              src="/assets/logo-code-money.svg"
+              alt="CodeMoney Monkey Mascot"
+              class="h-10 w-auto hover:scale-105 transition-transform duration-300"
+            />
+          </div>
         </div>
 
         <div class="text-center mb-8">
