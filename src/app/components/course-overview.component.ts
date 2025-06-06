@@ -10,111 +10,125 @@ import { Course, Unit, Lesson, Level } from '../models/game.models';
   imports: [CommonModule, RouterModule],
   template: `
     <div
-      class="min-h-screen bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 p-4"
+      class="min-h-screen bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 p-3 sm:p-4 md:p-6"
     >
       <!-- Header -->
-      <div class="max-w-7xl mx-auto mb-8">
+      <div class="max-w-7xl mx-auto mb-6 sm:mb-8">
         <!-- Navigation Bar -->
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center justify-between mb-4 sm:mb-6">
           <button
             routerLink="/"
-            class="flex items-center space-x-2 px-4 py-2 bg-white hover:bg-gray-50 rounded-lg shadow-md transition-colors duration-200"
+            class="flex items-center space-x-2 px-3 sm:px-4 py-2 bg-white hover:bg-gray-50 rounded-lg shadow-md transition-colors duration-200"
           >
-            <span class="text-xl">🏠</span>
-            <span class="font-medium text-gray-700">Back to Home</span>
+            <span class="text-lg sm:text-xl">🏠</span>
+            <span class="font-medium text-gray-700 text-sm sm:text-base"
+              >Back to Home</span
+            >
           </button>
           <!-- Logo in top right -->
-          <div class="hidden md:block">
+          <div class="hidden sm:block">
             <img
               src="/assets/logo-code-money.svg"
               alt="CodeMoney Monkey Mascot"
-              class="h-10 w-auto hover:scale-105 transition-transform duration-300"
+              class="h-8 sm:h-10 w-auto hover:scale-105 transition-transform duration-300"
             />
           </div>
         </div>
 
-        <div class="text-center mb-8">
-          <h1 class="text-4xl font-bold text-gray-800 mb-2">
+        <div class="text-center mb-6 sm:mb-8">
+          <h1
+            class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2"
+          >
             💰 Money Mission Academy
           </h1>
-          <p class="text-lg text-gray-600">
+          <p class="text-base sm:text-lg text-gray-600">
             Learn about money, business, and finance through fun games!
           </p>
         </div>
 
         <!-- Progress Overview -->
-        <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-              <div class="text-3xl">🌟</div>
+        <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center space-x-3 sm:space-x-4">
+              <div class="text-2xl sm:text-3xl">🌟</div>
               <div>
-                <h3 class="font-bold text-gray-800">Your Progress</h3>
-                <p class="text-gray-600">
+                <h3 class="font-bold text-gray-800 text-sm sm:text-base">
+                  Your Progress
+                </h3>
+                <p class="text-gray-600 text-sm sm:text-base">
                   {{ progress.totalStars }} stars earned
                 </p>
               </div>
             </div>
             <div class="text-right">
-              <div class="text-2xl font-bold text-blue-600">
+              <div class="text-xl sm:text-2xl font-bold text-blue-600">
                 {{ progress.completedLevels.length }}
               </div>
-              <div class="text-sm text-gray-500">Levels Completed</div>
+              <div class="text-xs sm:text-sm text-gray-500">
+                Levels Completed
+              </div>
             </div>
           </div>
         </div>
-
         <!-- Courses -->
-        <div class="space-y-8">
+        <div class="space-y-6 sm:space-y-8">
           <div
             *ngFor="let course of courses"
             class="bg-white rounded-2xl shadow-lg overflow-hidden"
           >
             <!-- Course Header -->
             <div
-              class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6"
+              class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 sm:p-6"
             >
-              <div class="flex items-center space-x-4">
-                <span class="text-4xl">{{ course.icon }}</span>
+              <div class="flex items-center space-x-3 sm:space-x-4">
+                <span class="text-3xl sm:text-4xl">{{ course.icon }}</span>
                 <div>
-                  <h2 class="text-2xl font-bold">{{ course.title }}</h2>
-                  <p class="text-blue-100">{{ course.description }}</p>
+                  <h2 class="text-xl sm:text-2xl font-bold">
+                    {{ course.title }}
+                  </h2>
+                  <p class="text-blue-100 text-sm sm:text-base">
+                    {{ course.description }}
+                  </p>
                 </div>
               </div>
             </div>
 
             <!-- Units -->
-            <div class="p-6 space-y-6">
+            <div class="p-4 sm:p-6 space-y-4 sm:space-y-6">
               <div
                 *ngFor="let unit of course.units"
                 class="border border-gray-200 rounded-xl overflow-hidden"
               >
                 <!-- Unit Header -->
-                <div class="bg-gray-50 p-4 border-b border-gray-200">
-                  <div class="flex items-center space-x-3">
-                    <span class="text-2xl">{{ unit.icon }}</span>
+                <div class="bg-gray-50 p-3 sm:p-4 border-b border-gray-200">
+                  <div class="flex items-center space-x-2 sm:space-x-3">
+                    <span class="text-xl sm:text-2xl">{{ unit.icon }}</span>
                     <div>
-                      <h3 class="text-lg font-bold text-gray-800">
+                      <h3 class="text-base sm:text-lg font-bold text-gray-800">
                         {{ unit.title }}
                       </h3>
-                      <p class="text-sm text-gray-600">
+                      <p class="text-xs sm:text-sm text-gray-600">
                         {{ unit.description }}
                       </p>
                     </div>
                   </div>
                 </div>
-
                 <!-- Lessons -->
-                <div class="p-4 space-y-4">
+                <div class="p-3 sm:p-4 space-y-3 sm:space-y-4">
                   <div
                     *ngFor="let lesson of unit.lessons"
                     class="border border-gray-100 rounded-lg overflow-hidden"
                   >
                     <!-- Lesson Header -->
-                    <div class="bg-gray-25 p-3 border-b border-gray-100">
+                    <div class="bg-gray-25 p-2 sm:p-3 border-b border-gray-100">
                       <div class="flex items-center space-x-2">
-                        <span class="text-xl">{{ lesson.icon }}</span>
+                        <span class="text-lg sm:text-xl">{{
+                          lesson.icon
+                        }}</span>
                         <div>
-                          <h4 class="font-semibold text-gray-800">
+                          <h4
+                            class="font-semibold text-gray-800 text-sm sm:text-base"
+                          >
                             {{ lesson.title }}
                           </h4>
                           <p class="text-xs text-gray-500">
@@ -125,9 +139,9 @@ import { Course, Unit, Lesson, Level } from '../models/game.models';
                     </div>
 
                     <!-- Levels -->
-                    <div class="p-3">
+                    <div class="p-2 sm:p-3">
                       <div
-                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3"
                       >
                         <div
                           *ngFor="let level of lesson.levels"
@@ -151,7 +165,7 @@ import { Course, Unit, Lesson, Level } from '../models/game.models';
                           "
                         >
                           <div
-                            class="border rounded-lg p-4 relative"
+                            class="border rounded-lg p-3 sm:p-4 relative"
                             [ngClass]="{
                               'border-green-300 bg-green-50': level.isCompleted,
                               'border-blue-300 bg-blue-50':
@@ -164,19 +178,19 @@ import { Course, Unit, Lesson, Level } from '../models/game.models';
                             <div class="text-center mb-2">
                               <div
                                 *ngIf="level.isCompleted"
-                                class="text-2xl text-green-600"
+                                class="text-xl sm:text-2xl text-green-600"
                               >
                                 ✅
                               </div>
                               <div
                                 *ngIf="!level.isCompleted && level.isUnlocked"
-                                class="text-2xl text-blue-600"
+                                class="text-xl sm:text-2xl text-blue-600"
                               >
                                 🎯
                               </div>
                               <div
                                 *ngIf="!level.isUnlocked"
-                                class="text-2xl text-gray-400"
+                                class="text-xl sm:text-2xl text-gray-400"
                               >
                                 🔒
                               </div>
@@ -184,7 +198,7 @@ import { Course, Unit, Lesson, Level } from '../models/game.models';
 
                             <!-- Level Info -->
                             <h5
-                              class="font-medium text-sm text-center mb-1"
+                              class="font-medium text-xs sm:text-sm text-center mb-1"
                               [ngClass]="{
                                 'text-green-800': level.isCompleted,
                                 'text-blue-800':

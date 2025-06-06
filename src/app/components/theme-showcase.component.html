@@ -1,40 +1,52 @@
 <div class="min-h-screen educational-gradient text-white font-body">
-  <div class="max-w-7xl mx-auto p-8">
+  <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
     <!-- Header -->
-    <div class="text-center mb-12">
+    <div class="text-center mb-8 sm:mb-12">
       <div
-        class="bg-neutral-900/80 backdrop-blur-lg rounded-3xl p-10 shadow-glow border border-white/20 mb-8"
+        class="bg-neutral-900/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-glow border border-white/20 mb-6 sm:mb-8"
       >
-        <h1 class="text-5xl font-display font-bold mb-4 drop-shadow-2xl">
+        <h1
+          class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 sm:mb-4 drop-shadow-2xl"
+        >
           <span class="text-cyan-300">Code</span
           ><span class="text-yellow-300">Money</span> Theme Showcase
         </h1>
         <p
-          class="text-xl text-gray-50 max-w-3xl mx-auto drop-shadow-lg font-medium"
+          class="text-sm sm:text-base md:text-lg lg:text-xl text-gray-50 max-w-3xl mx-auto drop-shadow-lg font-medium"
         >
           A comprehensive design system for financial education, featuring
           modern colors, typography, and components designed for learning and
           engagement.
         </p>
-        <div class="mt-6">
-          <a routerLink="/" class="btn-nav-home">← Back to Home</a>
+        <div class="mt-4 sm:mt-6">
+          <a routerLink="/" class="btn-nav-home text-sm sm:text-base"
+            >← Back to Home</a
+          >
         </div>
       </div>
     </div>
     <!-- Color Palettes -->
-    <section class="mb-16">
+    <section class="mb-12 sm:mb-16">
       <div class="section-dark">
-        <h2 class="section-header text-white">Color Palettes</h2>
-        <div class="space-y-8">
+        <h2 class="section-header text-white text-xl sm:text-2xl lg:text-3xl">
+          Color Palettes
+        </h2>
+        <div class="space-y-6 sm:space-y-8">
           <div *ngFor="let palette of colorPalettes" class="color-palette-card">
-            <h3 class="color-palette-title">{{ palette.name }}</h3>
-            <div class="color-grid-small">
+            <h3 class="color-palette-title text-base sm:text-lg">
+              {{ palette.name }}
+            </h3>
+            <div
+              class="color-grid-small grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3"
+            >
               <div
                 *ngFor="let color of palette.colors"
                 [style.background-color]="color.value"
-                class="color-swatch"
+                class="color-swatch aspect-square rounded-lg min-h-[60px] sm:min-h-[80px] flex items-center justify-center"
               >
-                <span class="color-swatch-label">
+                <span
+                  class="color-swatch-label text-xs sm:text-sm font-medium text-center px-1"
+                >
                   {{ color.name }}
                 </span>
               </div>
@@ -44,14 +56,18 @@
       </div>
     </section>
     <!-- Educational Colors -->
-    <section class="mb-16">
+    <section class="mb-12 sm:mb-16">
       <div class="section-dark">
-        <h2 class="section-header text-white">Educational Colors</h2>
-        <div class="color-grid-large">
+        <h2 class="section-header text-white text-xl sm:text-2xl lg:text-3xl">
+          Educational Colors
+        </h2>
+        <div
+          class="color-grid-large grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"
+        >
           <div
             *ngFor="let color of educationColors"
             [style.background-color]="color.value"
-            class="color-demo-box"
+            class="color-demo-box aspect-square rounded-xl min-h-[80px] sm:min-h-[100px] flex items-center justify-center text-xs sm:text-sm md:text-base font-medium text-center p-2"
           >
             {{ color.name }}
           </div>
@@ -59,14 +75,18 @@
       </div>
     </section>
     <!-- Financial Colors -->
-    <section class="mb-16">
+    <section class="mb-12 sm:mb-16">
       <div class="section-dark">
-        <h2 class="section-header text-white">Financial Colors</h2>
-        <div class="color-grid-large">
+        <h2 class="section-header text-white text-xl sm:text-2xl lg:text-3xl">
+          Financial Colors
+        </h2>
+        <div
+          class="color-grid-large grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"
+        >
           <div
             *ngFor="let color of financeColors"
             [style.background-color]="color.value"
-            class="color-demo-box"
+            class="color-demo-box aspect-square rounded-xl min-h-[80px] sm:min-h-[100px] flex items-center justify-center text-xs sm:text-sm md:text-base font-medium text-center p-2"
           >
             {{ color.name }}
           </div>
@@ -74,110 +94,193 @@
       </div>
     </section>
     <!-- Typography -->
-    <section class="mb-16">
+    <section class="mb-12 sm:mb-16">
       <div class="section-content">
-        <h2 class="section-title">Typography</h2>
-        <div class="space-y-6">
+        <h2 class="section-title text-xl sm:text-2xl lg:text-3xl">
+          Typography
+        </h2>
+        <div class="space-y-4 sm:space-y-6">
           <div>
-            <h1 class="display-font-showcase">Display Font</h1>
-            <p class="font-description">
+            <h1
+              class="display-font-showcase text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
+            >
+              Display Font
+            </h1>
+            <p class="font-description text-sm sm:text-base">
               Poppins - Used for headings and display text
             </p>
           </div>
           <div>
-            <h2 class="body-font-showcase">Body Font</h2>
-            <p class="font-description">
+            <h2
+              class="body-font-showcase text-lg sm:text-xl md:text-2xl lg:text-3xl"
+            >
+              Body Font
+            </h2>
+            <p class="font-description text-sm sm:text-base">
               Inter - Used for body text and UI elements
             </p>
           </div>
           <div>
-            <code class="mono-font-showcase">Monospace Font</code>
-            <p class="font-description">
+            <code class="mono-font-showcase text-sm sm:text-base md:text-lg"
+              >Monospace Font</code
+            >
+            <p class="font-description text-sm sm:text-base">
               Used for code, numbers, and technical content
             </p>
           </div>
 
           <!-- Font Size Examples -->
           <div>
-            <h3 class="font-scale-title">Font Size Scale</h3>
-            <div class="font-examples">
-              <p class="font-example-xs">Extra Small - 12px</p>
-              <p class="font-example-sm">Small - 14px</p>
-              <p class="font-example-base">Base - 16px</p>
-              <p class="font-example-lg">Large - 18px</p>
-              <p class="font-example-xl">Extra Large - 20px</p>
-              <p class="font-example-2xl">2XL - 24px</p>
-              <p class="font-example-3xl">3XL - 30px</p>
+            <h3 class="font-scale-title text-base sm:text-lg">
+              Font Size Scale
+            </h3>
+            <div class="font-examples space-y-2">
+              <p class="font-example-xs text-xs">Extra Small - 12px</p>
+              <p class="font-example-sm text-sm">Small - 14px</p>
+              <p class="font-example-base text-base">Base - 16px</p>
+              <p class="font-example-lg text-lg">Large - 18px</p>
+              <p class="font-example-xl text-xl">Extra Large - 20px</p>
+              <p class="font-example-2xl text-2xl">2XL - 24px</p>
+              <p class="font-example-3xl text-3xl">3XL - 30px</p>
             </div>
           </div>
         </div>
       </div>
     </section>
     <!-- Button Components -->
-    <section class="mb-16">
+    <section class="mb-12 sm:mb-16">
       <div class="section-content">
-        <h2 class="section-title">Button Components</h2>
+        <h2 class="section-title text-xl sm:text-2xl lg:text-3xl">
+          Button Components
+        </h2>
         <!-- Primary Button Styles -->
-        <div class="mb-8">
-          <h3 class="text-xl font-semibold text-neutral-800 mb-4">
+        <div class="mb-6 sm:mb-8">
+          <h3
+            class="text-lg sm:text-xl font-semibold text-neutral-800 mb-3 sm:mb-4"
+          >
             Primary Button Styles
           </h3>
-          <div class="flex flex-wrap gap-4">
-            <button class="btn-primary">Primary Button</button>
-            <button class="btn-secondary">Secondary Button</button>
-            <button class="btn-success">Success Button</button>
-            <button class="btn-warning">Warning Button</button>
-            <button class="btn-error">Error Button</button>
+          <div class="flex flex-wrap gap-2 sm:gap-3 md:gap-4">
+            <button class="btn-primary text-sm sm:text-base px-3 sm:px-4 py-2">
+              Primary Button
+            </button>
+            <button
+              class="btn-secondary text-sm sm:text-base px-3 sm:px-4 py-2"
+            >
+              Secondary Button
+            </button>
+            <button class="btn-success text-sm sm:text-base px-3 sm:px-4 py-2">
+              Success Button
+            </button>
+            <button class="btn-warning text-sm sm:text-base px-3 sm:px-4 py-2">
+              Warning Button
+            </button>
+            <button class="btn-error text-sm sm:text-base px-3 sm:px-4 py-2">
+              Error Button
+            </button>
           </div>
         </div>
 
         <!-- Financial Theme Buttons -->
-        <div class="mb-8">
-          <h3 class="text-xl font-semibold text-neutral-800 mb-4">
+        <div class="mb-6 sm:mb-8">
+          <h3
+            class="text-lg sm:text-xl font-semibold text-neutral-800 mb-3 sm:mb-4"
+          >
             Financial Theme Buttons
           </h3>
-          <div class="flex flex-wrap gap-4">
-            <button class="btn-profit">💰 Profit</button>
-            <button class="btn-loss">📉 Loss</button>
-            <button class="btn-investment">💼 Investment</button>
-            <button class="btn-savings">🏦 Savings</button>
+          <div class="flex flex-wrap gap-2 sm:gap-3 md:gap-4">
+            <button class="btn-profit text-sm sm:text-base px-3 sm:px-4 py-2">
+              💰 Profit
+            </button>
+            <button class="btn-loss text-sm sm:text-base px-3 sm:px-4 py-2">
+              📉 Loss
+            </button>
+            <button
+              class="btn-investment text-sm sm:text-base px-3 sm:px-4 py-2"
+            >
+              💼 Investment
+            </button>
+            <button class="btn-savings text-sm sm:text-base px-3 sm:px-4 py-2">
+              🏦 Savings
+            </button>
           </div>
         </div>
 
         <!-- Button Variants -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          <div class="p-6 border border-neutral-300 rounded-lg bg-neutral-50">
-            <h4 class="font-bold text-neutral-800 mb-4">Button Sizes</h4>
-            <div class="space-y-3">
-              <button class="btn-primary btn-sm w-full">Small Button</button>
-              <button class="btn-primary w-full">Medium Button</button>
-              <button class="btn-primary btn-lg w-full">Large Button</button>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8"
+        >
+          <div
+            class="p-4 sm:p-6 border border-neutral-300 rounded-lg bg-neutral-50"
+          >
+            <h4
+              class="font-bold text-neutral-800 mb-3 sm:mb-4 text-sm sm:text-base"
+            >
+              Button Sizes
+            </h4>
+            <div class="space-y-2 sm:space-y-3">
+              <button class="btn-primary btn-sm w-full text-sm px-3 py-1.5">
+                Small Button
+              </button>
+              <button class="btn-primary w-full text-sm sm:text-base px-4 py-2">
+                Medium Button
+              </button>
+              <button
+                class="btn-primary btn-lg w-full text-base sm:text-lg px-5 py-3"
+              >
+                Large Button
+              </button>
             </div>
           </div>
 
-          <div class="p-6 border border-neutral-300 rounded-lg bg-neutral-50">
-            <h4 class="font-bold text-neutral-800 mb-4">Button States</h4>
-            <div class="space-y-3">
-              <button class="btn-primary w-full">Normal State</button>
-              <button class="btn-disabled w-full" disabled>
+          <div
+            class="p-4 sm:p-6 border border-neutral-300 rounded-lg bg-neutral-50"
+          >
+            <h4
+              class="font-bold text-neutral-800 mb-3 sm:mb-4 text-sm sm:text-base"
+            >
+              Button States
+            </h4>
+            <div class="space-y-2 sm:space-y-3">
+              <button class="btn-primary w-full text-sm sm:text-base px-4 py-2">
+                Normal State
+              </button>
+              <button
+                class="btn-disabled w-full text-sm sm:text-base px-4 py-2"
+                disabled
+              >
                 Disabled State
               </button>
-              <button class="btn-primary w-full ring-4 ring-blue-200">
+              <button
+                class="btn-primary w-full ring-4 ring-blue-200 text-sm sm:text-base px-4 py-2"
+              >
                 Focused State
               </button>
             </div>
           </div>
 
-          <div class="p-6 border border-neutral-300 rounded-lg bg-neutral-50">
-            <h4 class="font-bold text-neutral-800 mb-4">Outline Buttons</h4>
-            <div class="space-y-3">
-              <button class="btn-outline-primary w-full">
+          <div
+            class="p-4 sm:p-6 border border-neutral-300 rounded-lg bg-neutral-50"
+          >
+            <h4
+              class="font-bold text-neutral-800 mb-3 sm:mb-4 text-sm sm:text-base"
+            >
+              Outline Buttons
+            </h4>
+            <div class="space-y-2 sm:space-y-3">
+              <button
+                class="btn-outline-primary w-full text-sm sm:text-base px-4 py-2"
+              >
                 Primary Outline
               </button>
-              <button class="btn-outline-secondary w-full">
+              <button
+                class="btn-outline-secondary w-full text-sm sm:text-base px-4 py-2"
+              >
                 Secondary Outline
               </button>
-              <button class="btn-outline-success w-full">
+              <button
+                class="btn-outline-success w-full text-sm sm:text-base px-4 py-2"
+              >
                 Success Outline
               </button>
             </div>
@@ -186,19 +289,27 @@
       </div>
     </section>
     <!-- Card Components -->
-    <section class="mb-16">
+    <section class="mb-12 sm:mb-16">
       <div
-        class="bg-neutral-800/95 backdrop-blur-lg rounded-3xl p-8 border border-white/30 shadow-2xl"
+        class="bg-neutral-800/95 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/30 shadow-2xl"
       >
         <h2
-          class="text-3xl font-display font-bold text-white mb-8 drop-shadow-lg"
+          class="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-white mb-6 sm:mb-8 drop-shadow-lg"
         >
           Card Components
         </h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+        >
           <div class="card-basic">
-            <h3 class="text-xl font-bold text-neutral-800 mb-3">Basic Card</h3>
-            <p class="text-neutral-600 mb-4 font-medium">
+            <h3
+              class="text-lg sm:text-xl font-bold text-neutral-800 mb-2 sm:mb-3"
+            >
+              Basic Card
+            </h3>
+            <p
+              class="text-sm sm:text-base text-neutral-600 mb-3 sm:mb-4 font-medium"
+            >
               This is a standard card component with hover effects and clean
               styling.
             </p>
