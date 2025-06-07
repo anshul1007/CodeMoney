@@ -271,7 +271,6 @@ export class CourseService {
     const lesson = this.getLesson(courseId, unitId, lessonId);
     return lesson?.levels.find((level) => level.id === levelId);
   }
-
   completeLevel(
     courseId: string,
     unitId: string,
@@ -279,48 +278,103 @@ export class CourseService {
     levelId: string,
     stars: number,
   ): void {
+    console.log('completeLevel called with:', {
+      courseId,
+      unitId,
+      lessonId,
+      levelId,
+      stars,
+    });
+
     const level = this.getLevel(courseId, unitId, lessonId, levelId);
+    console.log('Found level:', level);
+
     if (level) {
       level.isCompleted = true;
       level.stars = Math.max(level.stars, stars);
+      console.log('Level marked as completed with stars:', level.stars);
 
       // Update progress
       const currentProgress = this.progressSubject.value;
       if (!currentProgress.completedLevels.includes(levelId)) {
         currentProgress.completedLevels.push(levelId);
         currentProgress.totalStars += stars;
+        console.log(
+          'Updated progress - completed levels:',
+          currentProgress.completedLevels,
+        );
       }
 
       // Unlock next level
       this.unlockNextLevel(courseId, unitId, lessonId, levelId);
 
       this.progressSubject.next(currentProgress);
+      console.log('Progress updated and broadcast');
+    } else {
+      console.log('Level not found for completion');
     }
   }
-
   private unlockNextLevel(
     courseId: string,
     unitId: string,
     lessonId: string,
     levelId: string,
   ): void {
+    console.log('unlockNextLevel called with:', {
+      courseId,
+      unitId,
+      lessonId,
+      levelId,
+    });
+
     const lesson = this.getLesson(courseId, unitId, lessonId);
-    if (!lesson) return;
+    if (!lesson) {
+      console.log('Lesson not found for unlocking next level');
+      return;
+    }
+
+    console.log(
+      'Found lesson with levels:',
+      lesson.levels.map((l) => ({ id: l.id, isUnlocked: l.isUnlocked })),
+    );
 
     const currentLevelIndex = lesson.levels.findIndex(
       (level) => level.id === levelId,
     );
+
+    console.log(
+      'Current level index:',
+      currentLevelIndex,
+      'Total levels:',
+      lesson.levels.length,
+    );
+
     if (
       currentLevelIndex >= 0 &&
       currentLevelIndex < lesson.levels.length - 1
     ) {
       const nextLevel = lesson.levels[currentLevelIndex + 1];
+      console.log(
+        'Next level to unlock:',
+        nextLevel.id,
+        'Currently unlocked:',
+        nextLevel.isUnlocked,
+      );
+
       nextLevel.isUnlocked = true;
 
       const currentProgress = this.progressSubject.value;
       if (!currentProgress.unlockedLevels.includes(nextLevel.id)) {
         currentProgress.unlockedLevels.push(nextLevel.id);
+        console.log('Added to unlocked levels:', nextLevel.id);
+        console.log('All unlocked levels:', currentProgress.unlockedLevels);
+      } else {
+        console.log('Level was already unlocked:', nextLevel.id);
       }
+    } else {
+      console.log(
+        'No next level to unlock - either invalid index or last level',
+      );
     }
   }
 

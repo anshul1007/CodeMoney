@@ -1,0 +1,130 @@
+<!-- CodeMoney Monkey Mascot Logo - Dark Theme Version -->
+<svg width="180" height="100" viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Dark theme gradient for depth -->
+    <radialGradient id="faceGradDark" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" style="stop-color:#8B7355;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Dark theme coin gradient -->
+    <radialGradient id="coinGradDark" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#FEF3C7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D97706;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Dark theme ear gradients -->
+    <radialGradient id="earGradDark" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" style="stop-color:#374151;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#1F2937;stop-opacity:0.8" />
+    </radialGradient>
+    
+    <!-- Dark theme glow effect filter -->
+    <filter id="earGlowDark" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Dark theme money eyes glow filter -->
+    <filter id="moneyGlowDark" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Dark theme animated golden gradient -->
+    <radialGradient id="goldGradDark" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" style="stop-color:#FBBF24;stop-opacity:1">
+        <animate attributeName="stop-color" 
+          values="#FBBF24;#F59E0B;#FBBF24" 
+          dur="2s" 
+          repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#92400E;stop-opacity:0.8">
+        <animate attributeName="stop-color" 
+          values="#92400E;#B45309;#92400E" 
+          dur="2s" 
+          repeatCount="indefinite"/>
+      </stop>
+    </radialGradient>
+  </defs>
+  
+  <!-- Monkey face outer -->
+  <ellipse cx="90" cy="50" rx="40" ry="35" fill="url(#faceGradDark)" stroke="#4A4A4A" stroke-width="2"/>
+  
+  <!-- Code bracket ears with dark theme -->
+  <!-- Left ear background -->
+  <circle cx="45" cy="35" r="15" fill="url(#earGradDark)" filter="url(#earGlowDark)"/>
+  <!-- Left ear (< bracket) -->
+  <text x="45" y="45" text-anchor="middle" fill="#60A5FA" font-family="monospace" font-size="24" font-weight="bold" filter="url(#earGlowDark)">
+    &lt;
+    <animate attributeName="fill" 
+      values="#60A5FA;#34D399;#FBBF24;#F87171;#A78BFA;#60A5FA" 
+      dur="4s" 
+      repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Right ear background -->
+  <circle cx="135" cy="35" r="15" fill="url(#earGradDark)" filter="url(#earGlowDark)"/>
+  <!-- Right ear (> bracket) -->
+  <text x="135" y="45" text-anchor="middle" fill="#60A5FA" font-family="monospace" font-size="24" font-weight="bold" filter="url(#earGlowDark)">
+    &gt;
+    <animate attributeName="fill" 
+      values="#60A5FA;#A78BFA;#F87171;#FBBF24;#34D399;#60A5FA" 
+      dur="4s" 
+      repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Inner face area -->
+  <ellipse cx="90" cy="55" rx="28" ry="25" fill="#8B7355"/>
+  
+  <!-- Coin eyes with heartbeat effect -->
+  <!-- Left eye with heartbeat effect -->
+  <g transform-origin="78 45">
+    <animateTransform attributeName="transform" type="scale" 
+      values="1;1.2;1;1.15;1;1;1;1" 
+      dur="2s" 
+      repeatCount="indefinite"/>
+    <!-- Left eye coin base -->
+    <circle cx="78" cy="45" r="10" fill="url(#coinGradDark)" stroke="#B45309" stroke-width="1.5"/>
+    <circle cx="78" cy="45" r="6" fill="#FEF3C7" opacity="0.9"/>
+    <!-- Left eye rupee symbol with glow -->
+    <text x="78" y="49" text-anchor="middle" fill="#92400E" font-size="8" font-weight="bold" filter="url(#moneyGlowDark)">
+      ₹
+      <animate attributeName="fill" values="#92400E;#FBBF24;#F59E0B;#92400E" dur="2s" repeatCount="indefinite"/>
+    </text>
+  </g>
+  
+  <!-- Right eye with heartbeat effect -->
+  <g transform-origin="102 45">
+    <animateTransform attributeName="transform" type="scale" 
+      values="1;1;1.2;1;1.15;1;1;1" 
+      dur="2s" 
+      repeatCount="indefinite"/>
+    <!-- Right eye coin base -->
+    <circle cx="102" cy="45" r="10" fill="url(#coinGradDark)" stroke="#B45309" stroke-width="1.5"/>
+    <circle cx="102" cy="45" r="6" fill="#FEF3C7" opacity="0.9"/>
+    <!-- Right eye rupee symbol with glow -->
+    <text x="102" y="49" text-anchor="middle" fill="#92400E" font-size="8" font-weight="bold" filter="url(#moneyGlowDark)">
+      ₹
+      <animate attributeName="fill" values="#92400E;#F59E0B;#FBBF24;#92400E" dur="2s" repeatCount="indefinite"/>
+    </text>
+  </g>
+  
+  <!-- Nose -->
+  <ellipse cx="90" cy="58" rx="3" ry="4" fill="#654321"/>
+  <ellipse cx="90" cy="57" rx="1" ry="2" fill="#8B7355"/>
+  
+  <!-- Happy smile -->
+  <path d="M 75 68 Q 90 78 105 68" stroke="#654321" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Small highlight on cheeks for friendliness -->
+  <circle cx="65" cy="60" r="3" fill="#F87171" opacity="0.4"/>
+  <circle cx="115" cy="60" r="3" fill="#F87171" opacity="0.4"/>
+  
+</svg>

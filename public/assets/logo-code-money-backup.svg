@@ -11,10 +11,36 @@
     <radialGradient id="coinGrad" cx="30%" cy="30%" r="70%">
       <stop offset="0%" style="stop-color:#FEF3C7;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
-    </radialGradient>      <!-- Simple ear gradients -->
-    <radialGradient id="earGrad" cx="50%" cy="50%" r="70%">
-      <stop offset="0%" style="stop-color:#E0E7FF;stop-opacity:0.9" />
-      <stop offset="100%" style="stop-color:#C7D2FE;stop-opacity:0.7" />
+    </radialGradient>
+      <!-- Animated colorwave gradients for ears -->
+    <radialGradient id="leftEarGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:0.8">
+        <animate attributeName="stop-color" 
+          values="#FF6B6B;#4ECDC4;#45B7D1;#96CEB4;#FFEAA7;#DDA0DD;#FF6B6B" 
+          dur="3s" 
+          repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#4F46E5;stop-opacity:0.4">
+        <animate attributeName="stop-color" 
+          values="#4F46E5;#FF6B6B;#4ECDC4;#45B7D1;#96CEB4;#FFEAA7;#4F46E5" 
+          dur="3s" 
+          repeatCount="indefinite"/>
+      </stop>
+    </radialGradient>
+    
+    <radialGradient id="rightEarGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" style="stop-color:#4ECDC4;stop-opacity:0.8">
+        <animate attributeName="stop-color" 
+          values="#4ECDC4;#45B7D1;#96CEB4;#FFEAA7;#DDA0DD;#FF6B6B;#4ECDC4" 
+          dur="3s" 
+          repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#4F46E5;stop-opacity:0.4">
+        <animate attributeName="stop-color" 
+          values="#4F46E5;#4ECDC4;#45B7D1;#96CEB4;#FFEAA7;#DDA0DD;#4F46E5" 
+          dur="3s" 
+          repeatCount="indefinite"/>
+      </stop>
     </radialGradient>
       <!-- Glow effect filter -->
     <filter id="earGlow" x="-50%" y="-50%" width="200%" height="200%">
@@ -52,26 +78,24 @@
   </defs>
   
   <!-- Monkey face outer -->
-  <ellipse cx="90" cy="50" rx="40" ry="35" fill="url(#faceGrad)" stroke="#8B4513" stroke-width="2"/>  <!-- Code bracket ears with simple backgrounds -->
-  <!-- Left ear background -->
-  <circle cx="45" cy="35" r="15" fill="url(#earGrad)" filter="url(#earGlow)"/>
+  <ellipse cx="90" cy="50" rx="40" ry="35" fill="url(#faceGrad)" stroke="#8B4513" stroke-width="2"/>  <!-- Code bracket ears with animated colorwave backgrounds -->  <!-- Left ear background with colorwave -->
+  <circle cx="45" cy="35" r="15" fill="url(#leftEarGrad)" filter="url(#earGlow)"/>
   <!-- Left ear (< bracket) -->
   <text x="45" y="45" text-anchor="middle" fill="#4F46E5" font-family="monospace" font-size="24" font-weight="bold" filter="url(#earGlow)">
     &lt;
     <animate attributeName="fill" 
-      values="#4F46E5;#3B82F6;#06B6D4;#10B981;#F59E0B;#EF4444;#4F46E5" 
-      dur="4s" 
+      values="#4F46E5;#FF6B6B;#4ECDC4;#45B7D1;#96CEB4;#4F46E5" 
+      dur="3s" 
       repeatCount="indefinite"/>
   </text>
-  
-  <!-- Right ear background -->
-  <circle cx="135" cy="35" r="15" fill="url(#earGrad)" filter="url(#earGlow)"/>
+    <!-- Right ear background with colorwave -->
+  <circle cx="135" cy="35" r="15" fill="url(#rightEarGrad)" filter="url(#earGlow)"/>
   <!-- Right ear (> bracket) -->
   <text x="135" y="45" text-anchor="middle" fill="#4F46E5" font-family="monospace" font-size="24" font-weight="bold" filter="url(#earGlow)">
     &gt;
     <animate attributeName="fill" 
-      values="#4F46E5;#EF4444;#F59E0B;#10B981;#06B6D4;#3B82F6;#4F46E5" 
-      dur="4s" 
+      values="#4F46E5;#96CEB4;#45B7D1;#4ECDC4;#FF6B6B;#4F46E5" 
+      dur="3s" 
       repeatCount="indefinite"/>
   </text>
   
