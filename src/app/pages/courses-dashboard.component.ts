@@ -1,14 +1,22 @@
-import { Component, OnInit, signal, computed, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  signal,
+  computed,
+  inject,
+  DestroyRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CourseService } from '../services/course.service';
 import {
   ProgressOverviewComponent,
   UserProgress,
-} from './progress-overview.component';
-import { CourseCardComponent } from './course-card.component';
+} from '../components/progress-overview.component';
+import { CourseCardComponent } from '../components/course-card.component';
 import { Course } from '../models/course.models';
-import { HeaderComponent } from './header.component';
+import { HeaderComponent } from '../components/header.component';
 
 @Component({
   selector: 'app-courses-dashboard',
@@ -23,18 +31,19 @@ import { HeaderComponent } from './header.component';
   templateUrl: './courses-dashboard.component.html',
 })
 export class CoursesDashboardComponent implements OnInit {
-  private courseService = inject(CourseService);
+  private readonly courseService = inject(CourseService);
+  private readonly destroyRef = inject(DestroyRef);
 
   // Signals for reactive state management
-  courses = signal<Course[]>([]);
-  progress = signal<UserProgress>({
+  readonly courses = signal<readonly Course[]>([]);
+  readonly progress = signal<UserProgress>({
     totalStars: 0,
     completedLevels: [],
     unlockedLevels: [],
   });
 
   // Computed signals for derived state
-  totalLevels = computed(() => {
+  readonly totalLevels = computed(() => {
     return this.courses().reduce((total, course) => {
       return (
         total +
@@ -50,7 +59,7 @@ export class CoursesDashboardComponent implements OnInit {
     }, 0);
   });
 
-  completionPercentage = computed(() => {
+  readonly completionPercentage = computed(() => {
     const total = this.totalLevels();
     if (total === 0) return 0;
     return Math.round((this.progress().completedLevels.length / total) * 100);
@@ -65,15 +74,17 @@ export class CoursesDashboardComponent implements OnInit {
     const coursesData = this.courseService.getCourses();
     this.courses.set(coursesData);
   }
-
   private loadProgress(): void {
-    this.courseService.getProgress().subscribe((progressData) => {
-      this.progress.set({
-        totalStars: progressData.totalStars,
-        completedLevels: progressData.completedLevels,
-        unlockedLevels: progressData.unlockedLevels,
+    this.courseService
+      .getProgress()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((progressData) => {
+        this.progress.set({
+          totalStars: progressData.totalStars,
+          completedLevels: progressData.completedLevels,
+          unlockedLevels: progressData.unlockedLevels,
+        });
       });
-    });
   }
   onLevelClick(event: {
     courseId: string;
@@ -83,4 +94,8 @@ export class CoursesDashboardComponent implements OnInit {
   }): void {
     // Level click handling is done by routerLink in template
   }
+
+  // Performance optimization: trackBy function
+  readonly trackByCourseId = (index: number, course: Course): string =>
+    course.id;
 }

@@ -6,20 +6,18 @@ import {
   effect,
   inject,
   ChangeDetectionStrategy,
+  DestroyRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CourseService } from '../services/course.service';
-import {
-  EstimationField,
-  FundingSource,
-  GameItem,
-  Level,
-} from '../models/course.models';
-import { SelectionGameComponent } from './games/selection-game.component';
-import { EstimationGameComponent } from './games/estimation-game.component';
-import { FundingGameComponent } from './games/funding-game.component';
+import { Level, GameItem, EstimationField } from '../models/game.models';
+import { FundingSource } from '../models/financial.models';
+import { SelectionGameComponent } from '../components/games/selection-game.component';
+import { EstimationGameComponent } from '../components/games/estimation-game.component';
+import { FundingGameComponent } from '../components/games/funding-game.component';
 
 @Component({
   selector: 'app-level-player',
@@ -35,26 +33,27 @@ import { FundingGameComponent } from './games/funding-game.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LevelPlayerComponent implements OnInit {
-  // Injected services
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private courseService = inject(CourseService);
+  // Injected services (modern inject API)
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly courseService = inject(CourseService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  // Signal-based reactive state
-  currentLevel = signal<Level | null>(null);
-  gameItems = signal<GameItem[]>([]);
-  estimationFields = signal<EstimationField[]>([]);
-  fundingSources = signal<FundingSource[]>([]);
-  gameSubmitted = signal<boolean>(false);
-  showHints = signal<boolean>(false);
-  lastScore = signal<number>(0);
-  totalEstimatedCost = signal<number>(0);
+  // Signal-based reactive state (readonly for public access)
+  readonly currentLevel = signal<Level | null>(null);
+  readonly gameItems = signal<GameItem[]>([]);
+  readonly estimationFields = signal<EstimationField[]>([]);
+  readonly fundingSources = signal<FundingSource[]>([]);
+  readonly gameSubmitted = signal<boolean>(false);
+  readonly showHints = signal<boolean>(false);
+  readonly lastScore = signal<number>(0);
+  readonly totalEstimatedCost = signal<number>(0);
 
-  // Route parameters as signals
-  courseId = signal<string>('');
-  unitId = signal<string>('');
-  lessonId = signal<string>('');
-  levelId = signal<string>('');
+  // Route parameters as signals (readonly)
+  readonly courseId = signal<string>('');
+  readonly unitId = signal<string>('');
+  readonly lessonId = signal<string>('');
+  readonly levelId = signal<string>('');
 
   // Computed signals for derived state
   isLastLevel = computed(() => {
@@ -122,32 +121,37 @@ export class LevelPlayerComponent implements OnInit {
       this.totalEstimatedCost.set(total);
     }
   });
-
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.courseId.set(params['courseId']);
-      this.unitId.set(params['unitId']);
-      this.lessonId.set(params['lessonId']);
-      this.levelId.set(params['levelId']);
+    this.route.params
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        this.courseId.set(params['courseId']);
+        this.unitId.set(params['unitId']);
+        this.lessonId.set(params['lessonId']);
+        this.levelId.set(params['levelId']);
 
-      // Check if the user is trying to access a level directly
-      this.checkLevelAccess();
-    });
+        // Check if the user is trying to access a level directly
+        this.checkLevelAccess();
+      });
   }
+
   // Add method to check if user can access this level directly
   private checkLevelAccess(): void {
-    const progress = this.courseService.getProgress().subscribe((progress) => {
-      // If the level is not in unlockedLevels, redirect to the courses page
-      if (!progress.unlockedLevels.includes(this.levelId())) {
-        this.router.navigate(['/courses']);
-      } else {
-        // Level is unlocked, load it
-        this.loadLevel();
+    this.courseService
+      .getProgress()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((progress) => {
+        // If the level is not in unlockedLevels, redirect to the courses page
+        if (!progress.unlockedLevels.includes(this.levelId())) {
+          this.router.navigate(['/courses']);
+        } else {
+          // Level is unlocked, load it
+          this.loadLevel();
 
-        // Load saved estimated cost from previous level if available
-        this.loadSavedCost();
-      }
-    });
+          // Load saved estimated cost from previous level if available
+          this.loadSavedCost();
+        }
+      });
   }
 
   // Load saved cost if exists in localStorage

@@ -1,12 +1,13 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  computed,
+  input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameItem } from '../../models/course.models';
+import { GameItem } from '../../models/game.models';
 
 @Component({
   selector: 'app-selection-game',
@@ -16,23 +17,23 @@ import { GameItem } from '../../models/course.models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectionGameComponent {
-  @Input() gameItems: GameItem[] = [];
-  @Input() isSubmitted: boolean = false;
+  readonly gameItems = input<GameItem[]>([]);
+  readonly isSubmitted = input<boolean>(false);
   @Output() itemClick = new EventEmitter<GameItem>();
 
-  // Computed property for selected items count
-  get selectedItemsCount(): number {
-    return this.gameItems.filter((item) => item.isSelected).length;
-  }
+  // Modern computed property for better performance
+  readonly selectedItemsCount = computed(
+    () => this.gameItems().filter((item) => item.isSelected).length,
+  );
 
+  readonly canSubmit = computed(() => this.selectedItemsCount() >= 2);
   onItemClick(item: GameItem): void {
-    if (!this.isSubmitted) {
+    if (!this.isSubmitted()) {
       this.itemClick.emit(item);
     }
   }
 
-  // Track by function for better performance in *ngFor
-  trackByItemId(index: number, item: GameItem): string {
-    return item.id || index.toString();
-  }
+  // Track by function for optimal *ngFor performance
+  trackByItemId = (index: number, item: GameItem): string =>
+    item.id || index.toString();
 }

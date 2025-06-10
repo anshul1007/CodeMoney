@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { EstimationField } from '../../models/course.models';
+import { EstimationField } from '../../models/game.models';
 
 @Component({
   selector: 'app-estimation-game',
@@ -21,11 +21,18 @@ export class EstimationGameComponent {
   @Input() isSubmitted: boolean = false;
   @Output() valueChange = new EventEmitter<void>();
 
-  // Computed property for total cost
+  // Optimized computed property for total cost
   get totalCost(): number {
     return this.estimationFields.reduce(
       (total, field) => total + (field.userEstimate || 0),
       0,
+    );
+  }
+
+  // New computed property for validation
+  get allFieldsComplete(): boolean {
+    return this.estimationFields.every(
+      (field) => field.userEstimate !== undefined && field.userEstimate > 0,
     );
   }
 

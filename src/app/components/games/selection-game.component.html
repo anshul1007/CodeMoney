@@ -4,12 +4,14 @@
   >
     Guess which items you need for your lemonade stand:
   </h3>
-
   <!-- Progress indicator -->
   <div class="text-center mb-4 p-2 bg-blue-50 rounded-lg">
     <p class="text-sm text-blue-800">
-      Selected: <span class="font-bold">{{ selectedItemsCount }}</span> items
-      <span *ngIf="selectedItemsCount < 2" class="text-xs text-gray-600 block">
+      Selected: <span class="font-bold">{{ selectedItemsCount() }}</span> items
+      <span
+        *ngIf="selectedItemsCount() < 2"
+        class="text-xs text-gray-600 block"
+      >
         (Select at least 2 items to continue)
       </span>
     </p>
@@ -19,7 +21,7 @@
     class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4"
   >
     <div
-      *ngFor="let item of gameItems; trackBy: trackByItemId"
+      *ngFor="let item of gameItems(); trackBy: trackByItemId"
       class="item-card cursor-pointer transition-all duration-200 hover:scale-105"
       [class.selected]="item.isSelected"
       [class.correct]="item.isSelected && item.isCorrect && isSubmitted"

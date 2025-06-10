@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FundingSource } from '../../models/course.models';
+import { FundingSource } from '../../models/financial.models';
 
 @Component({
   selector: 'app-funding-game',
@@ -22,15 +22,13 @@ export class FundingGameComponent {
   @Input() isSubmitted: boolean = false;
   @Output() sourceClick = new EventEmitter<FundingSource>();
   @Output() amountChange = new EventEmitter<void>();
-
-  // Computed property for selected sources
+  // Optimized computed properties for better performance
   get selectedSources(): FundingSource[] {
     return this.fundingSources.filter(
       (source) => source.isSelected && (source.amount || 0) > 0,
     );
   }
 
-  // Computed property for total funding
   get totalFunding(): number {
     return this.selectedSources.reduce(
       (total, source) => total + (source.amount || 0),
@@ -38,14 +36,19 @@ export class FundingGameComponent {
     );
   }
 
-  // Computed property for funding gap
   get fundingGap(): number {
     return Math.max(0, this.totalEstimatedCost - this.totalFunding);
   }
 
-  // Computed property for funding sufficiency
   get isFundingSufficient(): boolean {
-    return this.totalFunding >= this.totalEstimatedCost;
+    return (
+      this.totalFunding >= this.totalEstimatedCost &&
+      this.totalEstimatedCost > 0
+    );
+  }
+
+  get hasSelectedSources(): boolean {
+    return this.selectedSources.length > 0;
   }
 
   onSourceClick(source: FundingSource): void {

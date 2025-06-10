@@ -1,10 +1,10 @@
 import {
   Component,
   EventEmitter,
-  Input,
   Output,
   computed,
-  signal,
+  input,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Course } from '../models/course.models';
@@ -20,10 +20,11 @@ export interface UserProgress {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './progress-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgressOverviewComponent {
-  @Input() courses = signal<Course[]>([]);
-  @Input() progress = signal<UserProgress>({
+  readonly courses = input<readonly Course[]>([]);
+  readonly progress = input<UserProgress>({
     totalStars: 0,
     completedLevels: [],
     unlockedLevels: [],
@@ -36,8 +37,8 @@ export class ProgressOverviewComponent {
     levelId: string;
   }>();
 
-  // Computed signals for calculations
-  totalLevels = computed(() => {
+  // Optimized computed signals for performance
+  readonly totalLevels = computed(() => {
     return this.courses().reduce((total, course) => {
       return (
         total +
@@ -53,13 +54,23 @@ export class ProgressOverviewComponent {
     }, 0);
   });
 
-  progressPercentage = computed(() => {
+  readonly progressPercentage = computed(() => {
     const total = this.totalLevels();
     if (total === 0) return 0;
     return Math.round((this.progress().completedLevels.length / total) * 100);
   });
 
-  currentLevel = computed(() => {
+  readonly currentLevel = computed(() => {
     return Math.floor(this.progress().totalStars / 10) + 1;
+  });
+
+  readonly completionMessage = computed(() => {
+    const percentage = this.progressPercentage();
+    if (percentage === 0) return 'Start your learning journey!';
+    if (percentage < 25) return 'Great start! Keep going!';
+    if (percentage < 50) return "You're making good progress!";
+    if (percentage < 75) return 'Excellent work! Almost there!';
+    if (percentage < 100) return 'So close to completing everything!';
+    return "Congratulations! You've completed all levels!";
   });
 }

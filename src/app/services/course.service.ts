@@ -1,19 +1,15 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, effect } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  Course,
-  GameProgress,
-  Lesson,
-  Level,
-  Unit,
-} from '../models/course.models';
+import { Course, Lesson, Unit } from '../models/course.models';
+import { Level } from '../models/game.models';
+import { GameProgress } from '../models/progress.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CourseService {
-  // Keep BehaviorSubject for backward compatibility with existing code
-  private progressSubject = new BehaviorSubject<GameProgress>({
+  // Modern signal-based state management (primary)
+  private readonly progressSignal = signal<GameProgress>({
     currentCourse: 'money-mission',
     currentUnit: 'lemonade-stand',
     currentLesson: 'getting-started',
@@ -24,21 +20,15 @@ export class CourseService {
     totalStars: 0,
   });
 
-  progress$ = this.progressSubject.asObservable();
+  // Legacy BehaviorSubject for backward compatibility - sync with signals
+  private readonly progressSubject = new BehaviorSubject<GameProgress>(
+    this.progressSignal(),
+  );
 
-  // Add signal-based state management
-  private progressSignal = signal<GameProgress>({
-    currentCourse: 'money-mission',
-    currentUnit: 'lemonade-stand',
-    currentLesson: 'getting-started',
-    currentLevel: 'choose-items',
-    completedLevels: [],
-    unlockedLevels: ['choose-items'],
-    score: 0,
-    totalStars: 0,
-  });
+  // Keep for backward compatibility
+  readonly progress$ = this.progressSubject.asObservable();
 
-  // Computed signals for derived state
+  // Modern computed signals for derived state
   readonly completedLevelsCount = computed(
     () => this.progressSignal().completedLevels.length,
   );
@@ -50,7 +40,12 @@ export class CourseService {
   // Public read-only access to progress signal
   readonly progress = this.progressSignal.asReadonly();
 
-  private courses: Course[] = [
+  // Auto-sync signals with BehaviorSubject for compatibility
+  private readonly syncEffect = effect(() => {
+    this.progressSubject.next(this.progressSignal());
+  });
+  // Optimized course data with readonly arrays for better performance
+  private readonly courses: readonly Course[] = [
     {
       id: 'money-mission',
       title: 'Money Mission: Build Your Own Business!',
@@ -264,8 +259,7 @@ export class CourseService {
       ],
     },
   ];
-
-  getCourses(): Course[] {
+  getCourses(): readonly Course[] {
     return this.courses;
   }
 
@@ -295,7 +289,8 @@ export class CourseService {
   ): Level | undefined {
     const lesson = this.getLesson(courseId, unitId, lessonId);
     return lesson?.levels.find((level) => level.id === levelId);
-  }  completeLevel(
+  }
+  completeLevel(
     courseId: string,
     unitId: string,
     lessonId: string,
@@ -308,19 +303,25 @@ export class CourseService {
       level.isCompleted = true;
       level.stars = Math.max(level.stars, stars);
 
-      // Update progress
-      const currentProgress = this.progressSubject.value;
+      // Update progress using signals (modern approach)
+      const currentProgress = this.progressSignal();
+
       if (!currentProgress.completedLevels.includes(levelId)) {
-        currentProgress.completedLevels.push(levelId);
-        currentProgress.totalStars += stars;
+        // Create new progress object for immutability
+        const updatedProgress = {
+          ...currentProgress,
+          completedLevels: [...currentProgress.completedLevels, levelId],
+          totalStars: currentProgress.totalStars + stars,
+        };
+
+        this.progressSignal.set(updatedProgress);
       }
 
       // Unlock next level
       this.unlockNextLevel(courseId, unitId, lessonId, levelId);
-
-      this.progressSubject.next(currentProgress);
     }
-  }  private unlockNextLevel(
+  }
+  private unlockNextLevel(
     courseId: string,
     unitId: string,
     lessonId: string,
@@ -340,12 +341,17 @@ export class CourseService {
       currentLevelIndex < lesson.levels.length - 1
     ) {
       const nextLevel = lesson.levels[currentLevelIndex + 1];
-
       nextLevel.isUnlocked = true;
 
-      const currentProgress = this.progressSubject.value;
+      // Update progress using signals
+      const currentProgress = this.progressSignal();
       if (!currentProgress.unlockedLevels.includes(nextLevel.id)) {
-        currentProgress.unlockedLevels.push(nextLevel.id);
+        const updatedProgress = {
+          ...currentProgress,
+          unlockedLevels: [...currentProgress.unlockedLevels, nextLevel.id],
+        };
+
+        this.progressSignal.set(updatedProgress);
       }
     }
   }

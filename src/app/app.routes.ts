@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
-import { WelcomeComponent } from './components/welcome.component';
-import { ThemeShowcaseComponent } from './components/theme-showcase.component';
-import { CoursesDashboardComponent } from './components/courses-dashboard.component';
-import { LevelPlayerComponent } from './components/level-player.component';
+import {
+  WelcomeComponent,
+  ThemeShowcaseComponent,
+  CoursesDashboardComponent,
+  LevelPlayerComponent,
+} from './pages';
 
 export const routes: Routes = [
   { path: '', component: WelcomeComponent },

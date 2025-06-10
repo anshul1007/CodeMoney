@@ -1182,7 +1182,7 @@
   padding: 1.5rem;
   box-shadow:
     0 25px 25px -5px rgb(0 0 0 / 0.1),
-    0 8px 10px -6px rgb(0 0 0 / 0.1);
+    0 8px 10px -4px rgb(0 0 0 / 0.1);
   border: 1px solid var(--color-neutral-200);
 }
 
@@ -1643,3 +1643,231 @@ textarea {
 }
 
 /* === END COURSE OVERVIEW COMPONENT STYLES === */
+
+/* === ACCESSIBILITY ENHANCEMENTS === */
+
+/* High Contrast Mode */
+.high-contrast {
+  --color-text: #000000;
+  --color-bg: #ffffff;
+  --color-border: #000000;
+  --color-link: #0000ff;
+  --color-link-visited: #800080;
+  --color-focus: #ff0000;
+
+  background: var(--color-bg) !important;
+  color: var(--color-text) !important;
+}
+
+.high-contrast * {
+  background-color: var(--color-bg) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+
+.high-contrast a {
+  color: var(--color-link) !important;
+  text-decoration: underline !important;
+}
+
+.high-contrast a:visited {
+  color: var(--color-link-visited) !important;
+}
+
+.high-contrast :focus {
+  outline: 3px solid var(--color-focus) !important;
+  outline-offset: 2px !important;
+}
+
+/* Large Text Mode */
+.large-text {
+  font-size: 120%;
+}
+
+.large-text h1 {
+  font-size: 2.5rem;
+}
+.large-text h2 {
+  font-size: 2rem;
+}
+.large-text h3 {
+  font-size: 1.75rem;
+}
+.large-text h4 {
+  font-size: 1.5rem;
+}
+.large-text h5 {
+  font-size: 1.25rem;
+}
+.large-text h6 {
+  font-size: 1.125rem;
+}
+.large-text p,
+.large-text span,
+.large-text div {
+  font-size: 1.125rem;
+}
+.large-text button {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+}
+.large-text input,
+.large-text textarea {
+  font-size: 1.125rem;
+  padding: 0.75rem;
+}
+
+/* Reduced Motion */
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Screen Reader Mode */
+.screen-reader {
+  /* Enhanced focus indicators for screen readers */
+}
+
+.screen-reader :focus {
+  outline: 4px solid #005fcc !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 6px rgba(0, 95, 204, 0.3) !important;
+}
+
+/* Keyboard Navigation */
+.keyboard-navigation :focus {
+  outline: 2px solid #005fcc !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px rgba(0, 95, 204, 0.2) !important;
+}
+
+/* Skip Links */
+.skip-link:focus {
+  top: 6px !important;
+  background: #000 !important;
+  color: #fff !important;
+  padding: 8px !important;
+  text-decoration: none !important;
+  z-index: 1000 !important;
+  border-radius: 4px !important;
+}
+
+/* Screen Reader Only Content */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Focus Within */
+.focus-within:focus-within {
+  outline: 2px solid #005fcc;
+  outline-offset: 2px;
+}
+
+/* Enhanced Button Focus */
+button:focus,
+a:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid #005fcc !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px rgba(0, 95, 204, 0.2) !important;
+}
+
+/* High Contrast Focus for Buttons */
+.high-contrast button:focus,
+.high-contrast a:focus,
+.high-contrast input:focus,
+.high-contrast textarea:focus,
+.high-contrast select:focus {
+  outline: 3px solid #ff0000 !important;
+  outline-offset: 2px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* === PERFORMANCE OPTIMIZATIONS === */
+
+/* Contain Layout Shifts */
+.contain-layout {
+  contain: layout style paint;
+}
+
+/* Optimize Animations */
+.animate-optimized {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Intersection Observer Loading States */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Dark Mode Optimizations */
+@media (prefers-color-scheme: dark) {
+  .loading-skeleton {
+    background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+    background-size: 200% 100%;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-break-before {
+    page-break-before: always;
+  }
+  .print-break-after {
+    page-break-after: always;
+  }
+  .print-break-inside {
+    page-break-inside: avoid;
+  }
+
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+}
