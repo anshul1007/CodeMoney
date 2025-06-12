@@ -32,26 +32,29 @@
           Color Palettes
         </h2>
         <div class="space-y-6 sm:space-y-8">
-          <div *ngFor="let palette of colorPalettes" class="color-palette-card">
-            <h3 class="color-palette-title text-base sm:text-lg">
-              {{ palette.name }}
-            </h3>
-            <div
-              class="color-grid-small grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3"
-            >
+          @for (palette of colorPalettes; track palette.name) {
+            <div class="color-palette-card">
+              <h3 class="color-palette-title text-base sm:text-lg">
+                {{ palette.name }}
+              </h3>
               <div
-                *ngFor="let color of palette.colors"
-                [style.background-color]="color.value"
-                class="color-swatch aspect-square rounded-lg min-h-[60px] sm:min-h-[80px] flex items-center justify-center"
+                class="color-grid-small grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3"
               >
-                <span
-                  class="color-swatch-label text-xs sm:text-sm font-medium text-center px-1"
-                >
-                  {{ color.name }}
-                </span>
+                @for (color of palette.colors; track color.name) {
+                  <div
+                    [style.background-color]="color.value"
+                    class="color-swatch aspect-square rounded-lg min-h-[60px] sm:min-h-[80px] flex items-center justify-center"
+                  >
+                    <span
+                      class="color-swatch-label text-xs sm:text-sm font-medium text-center px-1"
+                    >
+                      {{ color.name }}
+                    </span>
+                  </div>
+                }
               </div>
             </div>
-          </div>
+          }
         </div>
       </div>
     </section>
@@ -64,13 +67,14 @@
         <div
           class="color-grid-large grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"
         >
-          <div
-            *ngFor="let color of educationColors"
-            [style.background-color]="color.value"
-            class="color-demo-box aspect-square rounded-xl min-h-[80px] sm:min-h-[100px] flex items-center justify-center text-xs sm:text-sm md:text-base font-medium text-center p-2"
-          >
-            {{ color.name }}
-          </div>
+          @for (color of educationColors; track color.name) {
+            <div
+              [style.background-color]="color.value"
+              class="color-demo-box aspect-square rounded-xl min-h-[80px] sm:min-h-[100px] flex items-center justify-center text-xs sm:text-sm md:text-base font-medium text-center p-2"
+            >
+              {{ color.name }}
+            </div>
+          }
         </div>
       </div>
     </section>
@@ -83,13 +87,14 @@
         <div
           class="color-grid-large grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"
         >
-          <div
-            *ngFor="let color of financeColors"
-            [style.background-color]="color.value"
-            class="color-demo-box aspect-square rounded-xl min-h-[80px] sm:min-h-[100px] flex items-center justify-center text-xs sm:text-sm md:text-base font-medium text-center p-2"
-          >
-            {{ color.name }}
-          </div>
+          @for (color of financeColors; track color.name) {
+            <div
+              [style.background-color]="color.value"
+              class="color-demo-box aspect-square rounded-xl min-h-[80px] sm:min-h-[100px] flex items-center justify-center text-xs sm:text-sm md:text-base font-medium text-center p-2"
+            >
+              {{ color.name }}
+            </div>
+          }
         </div>
       </div>
     </section>

@@ -5,6 +5,7 @@ import {
   computed,
   inject,
   DestroyRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -28,7 +29,35 @@ import { HeaderComponent } from '../components/header.component';
     CourseCardComponent,
     HeaderComponent,
   ],
-  templateUrl: './courses-dashboard.component.html',
+  template: `
+    <div
+      class="min-h-screen bg-gradient-to-br from-sky-50 via-indigo-50 to-violet-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
+    >
+      <!-- Header Component -->
+      <app-header title="💰 Course Dashboard"></app-header>
+
+      <!-- Progress Bar Section -->
+      <app-progress-overview
+        [progress]="progress()"
+        [courses]="courses()"
+      ></app-progress-overview>
+
+      <!-- Content -->
+      <div class="container mx-auto max-w-7xl px-4 md:px-6">
+        <!-- Courses Grid with Enhanced Performance -->
+        <div
+          class="grid gap-4 sm:gap-6"
+          role="main"
+          aria-label="Available courses"
+        >
+          @for (course of courses(); track course.id) {
+            <app-course-card [course]="course"></app-course-card>
+          }
+        </div>
+      </div>
+    </div>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CoursesDashboardComponent implements OnInit {
   private readonly courseService = inject(CourseService);
@@ -85,14 +114,6 @@ export class CoursesDashboardComponent implements OnInit {
           unlockedLevels: progressData.unlockedLevels,
         });
       });
-  }
-  onLevelClick(event: {
-    courseId: string;
-    unitId: string;
-    lessonId: string;
-    levelId: string;
-  }): void {
-    // Level click handling is done by routerLink in template
   }
 
   // Performance optimization: trackBy function

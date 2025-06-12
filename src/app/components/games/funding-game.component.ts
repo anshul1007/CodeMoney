@@ -1,8 +1,7 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -17,18 +16,18 @@ import { FundingSource } from '../../models/financial.models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FundingGameComponent {
-  @Input() fundingSources: FundingSource[] = [];
-  @Input() totalEstimatedCost: number = 0;
-  @Input() isSubmitted: boolean = false;
-  @Output() sourceClick = new EventEmitter<FundingSource>();
-  @Output() amountChange = new EventEmitter<void>();
+  readonly fundingSources = input<FundingSource[]>([]);
+  readonly totalEstimatedCost = input<number>(0);
+  readonly isSubmitted = input<boolean>(false);
+  readonly sourceClick = output<FundingSource>();
+  readonly amountChange = output<void>();
+
   // Optimized computed properties for better performance
   get selectedSources(): FundingSource[] {
-    return this.fundingSources.filter(
+    return this.fundingSources().filter(
       (source) => source.isSelected && (source.amount || 0) > 0,
     );
   }
-
   get totalFunding(): number {
     return this.selectedSources.reduce(
       (total, source) => total + (source.amount || 0),
@@ -37,13 +36,13 @@ export class FundingGameComponent {
   }
 
   get fundingGap(): number {
-    return Math.max(0, this.totalEstimatedCost - this.totalFunding);
+    return Math.max(0, this.totalEstimatedCost() - this.totalFunding);
   }
 
   get isFundingSufficient(): boolean {
     return (
-      this.totalFunding >= this.totalEstimatedCost &&
-      this.totalEstimatedCost > 0
+      this.totalFunding >= this.totalEstimatedCost() &&
+      this.totalEstimatedCost() > 0
     );
   }
 
@@ -52,7 +51,7 @@ export class FundingGameComponent {
   }
 
   onSourceClick(source: FundingSource): void {
-    if (!this.isSubmitted) {
+    if (!this.isSubmitted()) {
       this.sourceClick.emit(source);
     }
   }
@@ -69,7 +68,6 @@ export class FundingGameComponent {
     return this.totalFunding;
   }
 
-  // Track by function for better performance in *ngFor
   trackBySourceId(index: number, source: FundingSource): string {
     return source.id || index.toString();
   }

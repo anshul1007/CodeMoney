@@ -1,10 +1,9 @@
 import {
   Component,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
   computed,
   input,
+  output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameItem } from '../../models/game.models';
@@ -19,7 +18,7 @@ import { GameItem } from '../../models/game.models';
 export class SelectionGameComponent {
   readonly gameItems = input<GameItem[]>([]);
   readonly isSubmitted = input<boolean>(false);
-  @Output() itemClick = new EventEmitter<GameItem>();
+  readonly itemClick = output<GameItem>();
 
   // Modern computed property for better performance
   readonly selectedItemsCount = computed(
@@ -33,7 +32,6 @@ export class SelectionGameComponent {
     }
   }
 
-  // Track by function for optimal *ngFor performance
   trackByItemId = (index: number, item: GameItem): string =>
     item.id || index.toString();
 }

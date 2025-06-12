@@ -1,8 +1,7 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -17,28 +16,27 @@ import { EstimationField } from '../../models/game.models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EstimationGameComponent {
-  @Input() estimationFields: EstimationField[] = [];
-  @Input() isSubmitted: boolean = false;
-  @Output() valueChange = new EventEmitter<void>();
+  readonly estimationFields = input<EstimationField[]>([]);
+  readonly isSubmitted = input<boolean>(false);
+  readonly valueChange = output<void>();
 
   // Optimized computed property for total cost
   get totalCost(): number {
-    return this.estimationFields.reduce(
+    return this.estimationFields().reduce(
       (total, field) => total + (field.userEstimate || 0),
       0,
     );
   }
-
   // New computed property for validation
   get allFieldsComplete(): boolean {
-    return this.estimationFields.every(
+    return this.estimationFields().every(
       (field) => field.userEstimate !== undefined && field.userEstimate > 0,
     );
   }
 
   // Computed property for validation
   get allFieldsValid(): boolean {
-    return this.estimationFields.every(
+    return this.estimationFields().every(
       (field) => field.userEstimate !== undefined && field.userEstimate > 0,
     );
   }
@@ -58,7 +56,6 @@ export class EstimationGameComponent {
     return this.totalCost;
   }
 
-  // Track by function for better performance in *ngFor
   trackByFieldId(index: number, field: EstimationField): string {
     return field.id || index.toString();
   }

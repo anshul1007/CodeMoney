@@ -6,6 +6,7 @@ import {
   computed,
   inject,
   OnDestroy,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -76,38 +77,41 @@ export class GlobalErrorHandler implements ErrorHandler, OnDestroy {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div
-      *ngIf="errorHandler.hasErrors()"
-      class="fixed top-4 right-4 z-50 max-w-sm bg-red-50 border border-red-200 rounded-lg shadow-lg p-4 animate-slide-in"
-      role="alert"
-      aria-live="assertive"
-    >
-      <div class="flex items-start space-x-3">
-        <div class="flex-shrink-0">
-          <span class="text-red-500 text-xl">⚠️</span>
-        </div>
-        <div class="flex-1 min-w-0">
-          <h3 class="text-sm font-medium text-red-800">Something went wrong</h3>
-          <p class="text-xs text-red-700 mt-1 line-clamp-2">
-            {{ errorHandler.latestError()?.message }}
-          </p>
-          <div class="mt-3 flex space-x-2">
-            <button
-              (click)="reloadPage()"
-              class="text-xs bg-red-100 hover:bg-red-200 text-red-800 px-2 py-1 rounded transition-colors"
-            >
-              Reload
-            </button>
-            <button
-              (click)="dismissError()"
-              class="text-xs text-red-600 hover:text-red-800 px-2 py-1 transition-colors"
-            >
-              Dismiss
-            </button>
+    @if (errorHandler.hasErrors()) {
+      <div
+        class="fixed top-4 right-4 z-50 max-w-sm bg-red-50 border border-red-200 rounded-lg shadow-lg p-4 animate-slide-in"
+        role="alert"
+        aria-live="assertive"
+      >
+        <div class="flex items-start space-x-3">
+          <div class="flex-shrink-0">
+            <span class="text-red-500 text-xl">⚠️</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-sm font-medium text-red-800">
+              Something went wrong
+            </h3>
+            <p class="text-xs text-red-700 mt-1 line-clamp-2">
+              {{ errorHandler.latestError()?.message }}
+            </p>
+            <div class="mt-3 flex space-x-2">
+              <button
+                (click)="reloadPage()"
+                class="text-xs bg-red-100 hover:bg-red-200 text-red-800 px-2 py-1 rounded transition-colors"
+              >
+                Reload
+              </button>
+              <button
+                (click)="dismissError()"
+                class="text-xs text-red-600 hover:text-red-800 px-2 py-1 transition-colors"
+              >
+                Dismiss
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    }
   `,
   styles: [
     `
@@ -127,6 +131,7 @@ export class GlobalErrorHandler implements ErrorHandler, OnDestroy {
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorBoundaryComponent {
   readonly errorHandler = inject(GlobalErrorHandler);

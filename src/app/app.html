@@ -1,38 +1,36 @@
 <div class="app-container">
   <router-outlet></router-outlet>
-
   <!-- Accessibility Panel (Development/Debug/Opt-in only) -->
-  <!-- <app-accessibility-panel
-    *ngIf="showAccessibilityPanel()"
-  ></app-accessibility-panel> -->
-
+  <!-- @if (showAccessibilityPanel()) {
+    <app-accessibility-panel></app-accessibility-panel>
+  } -->
   <!-- Accessibility Hint (Production only) -->
-  <!-- <div
-    *ngIf="isProduction() && !showAccessibilityPanel()"
-    class="fixed bottom-4 right-4 z-40"
-  >
-    <button
-      (click)="toggleAccessibilityPanel()"
-      class="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg transition-all duration-200 opacity-60 hover:opacity-100"
-      title="Enable accessibility panel (Alt+A)"
-      aria-label="Show accessibility options"
-    >
-      <svg
-        class="w-4 h-4"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-        aria-hidden="true"
+  <!-- @if (isProduction() && !showAccessibilityPanel()) {
+    <div class="fixed bottom-4 right-4 z-40">
+      <button
+        (click)="toggleAccessibilityPanel()"
+        class="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg transition-all duration-200 opacity-60 hover:opacity-100"
+        title="Enable accessibility panel (Alt+A)"
+        aria-label="Show accessibility options"
       >
-        <path
-          d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.846-.615a1 1 0 01.894 1.79l-1.846.615 1.846 3.382a1 1 0 01-1.788.894L13.06 8.688 10 7.323V16a1 1 0 11-2 0V7.323L5.06 8.688l-1.846 2.293a1 1 0 01-1.788-.894L3.272 6.705 1.426 6.09a1 1 0 01.894-1.79l1.846.615L8.12 3.333A1.001 1.001 0 0110 2z"
-        />
-      </svg>
-    </button>
-  </div> -->
+        <svg
+          class="w-4 h-4"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          aria-hidden="true"
+        >
+          <path
+            d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.846-.615a1 1 0 01.894 1.79l-1.846.615 1.846 3.382a1 1 0 01-1.788.894L13.06 8.688 10 7.323V16a1 1 0 11-2 0V7.323L5.06 8.688l-1.846 2.293a1 1 0 01-1.788-.894L3.272 6.705 1.426 6.09a1 1 0 01.894-1.79l1.846.615L8.12 3.333A1.001 1.001 0 0110 2z"
+          />
+        </svg>
+      </button>
+    </div>
+  } -->
 
   <!-- Global Error Boundary -->
   <app-error-boundary></app-error-boundary>
-
   <!-- Performance Monitor (Development/Debug only) -->
-  <!-- <app-performance-monitor *ngIf="!isProduction()"></app-performance-monitor> -->
+  <!-- @if (!isProduction()) {
+    <app-performance-monitor></app-performance-monitor>
+  } -->
 </div>

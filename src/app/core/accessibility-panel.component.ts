@@ -1,4 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccessibilityService } from './accessibility.service';
 
@@ -33,235 +38,244 @@ import { AccessibilityService } from './accessibility.service';
       </button>
 
       <!-- Accessibility Panel -->
-      <div
-        *ngIf="isPanelOpen()"
-        class="mt-2 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 p-4 w-80 animate-fade-in"
-        role="dialog"
-        aria-label="Accessibility settings"
-        [attr.aria-hidden]="!isPanelOpen()"
-      >
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-200">
-            Accessibility Options
-          </h2>
-          <button
-            (click)="togglePanel()"
-            class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 p-1 rounded transition-colors"
-            aria-label="Close panel"
-          >
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fill-rule="evenodd"
-                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Accessibility Settings -->
-        <div class="space-y-4">
-          <!-- High Contrast -->
-          <div class="flex items-center justify-between">
-            <label
-              for="high-contrast"
-              class="text-sm font-medium text-slate-700 dark:text-slate-300"
+      @if (isPanelOpen()) {
+        <div
+          class="mt-2 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 p-4 w-80 animate-fade-in"
+          role="dialog"
+          aria-label="Accessibility settings"
+          [attr.aria-hidden]="!isPanelOpen()"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <h2
+              class="text-lg font-semibold text-slate-800 dark:text-slate-200"
             >
-              High Contrast
-            </label>
+              Accessibility Options
+            </h2>
             <button
-              id="high-contrast"
-              (click)="accessibilityService.toggleSetting('highContrast')"
-              class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-              [class.bg-blue-600]="
-                accessibilityService.currentSettings().highContrast
-              "
-              [class.bg-slate-300]="
-                !accessibilityService.currentSettings().highContrast
-              "
-              role="switch"
-              [attr.aria-checked]="
-                accessibilityService.currentSettings().highContrast
-              "
+              (click)="togglePanel()"
+              class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 p-1 rounded transition-colors"
+              aria-label="Close panel"
             >
-              <span
-                class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
-                [class.translate-x-6]="
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Accessibility Settings -->
+          <div class="space-y-4">
+            <!-- High Contrast -->
+            <div class="flex items-center justify-between">
+              <label
+                for="high-contrast"
+                class="text-sm font-medium text-slate-700 dark:text-slate-300"
+              >
+                High Contrast
+              </label>
+              <button
+                id="high-contrast"
+                (click)="accessibilityService.toggleSetting('highContrast')"
+                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                [class.bg-blue-600]="
                   accessibilityService.currentSettings().highContrast
                 "
-                [class.translate-x-1]="
+                [class.bg-slate-300]="
                   !accessibilityService.currentSettings().highContrast
                 "
-              ></span>
-            </button>
-          </div>
+                role="switch"
+                [attr.aria-checked]="
+                  accessibilityService.currentSettings().highContrast
+                "
+              >
+                <span
+                  class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+                  [class.translate-x-6]="
+                    accessibilityService.currentSettings().highContrast
+                  "
+                  [class.translate-x-1]="
+                    !accessibilityService.currentSettings().highContrast
+                  "
+                ></span>
+              </button>
+            </div>
 
-          <!-- Large Text -->
-          <div class="flex items-center justify-between">
-            <label
-              for="large-text"
-              class="text-sm font-medium text-slate-700 dark:text-slate-300"
-            >
-              Large Text
-            </label>
-            <button
-              id="large-text"
-              (click)="accessibilityService.toggleSetting('largeText')"
-              class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-              [class.bg-blue-600]="
-                accessibilityService.currentSettings().largeText
-              "
-              [class.bg-slate-300]="
-                !accessibilityService.currentSettings().largeText
-              "
-              role="switch"
-              [attr.aria-checked]="
-                accessibilityService.currentSettings().largeText
-              "
-            >
-              <span
-                class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
-                [class.translate-x-6]="
+            <!-- Large Text -->
+            <div class="flex items-center justify-between">
+              <label
+                for="large-text"
+                class="text-sm font-medium text-slate-700 dark:text-slate-300"
+              >
+                Large Text
+              </label>
+              <button
+                id="large-text"
+                (click)="accessibilityService.toggleSetting('largeText')"
+                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                [class.bg-blue-600]="
                   accessibilityService.currentSettings().largeText
                 "
-                [class.translate-x-1]="
+                [class.bg-slate-300]="
                   !accessibilityService.currentSettings().largeText
                 "
-              ></span>
-            </button>
-          </div>
+                role="switch"
+                [attr.aria-checked]="
+                  accessibilityService.currentSettings().largeText
+                "
+              >
+                <span
+                  class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+                  [class.translate-x-6]="
+                    accessibilityService.currentSettings().largeText
+                  "
+                  [class.translate-x-1]="
+                    !accessibilityService.currentSettings().largeText
+                  "
+                ></span>
+              </button>
+            </div>
 
-          <!-- Reduced Motion -->
-          <div class="flex items-center justify-between">
-            <label
-              for="reduced-motion"
-              class="text-sm font-medium text-slate-700 dark:text-slate-300"
-            >
-              Reduced Motion
-            </label>
-            <button
-              id="reduced-motion"
-              (click)="accessibilityService.toggleSetting('reducedMotion')"
-              class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-              [class.bg-blue-600]="
-                accessibilityService.currentSettings().reducedMotion
-              "
-              [class.bg-slate-300]="
-                !accessibilityService.currentSettings().reducedMotion
-              "
-              role="switch"
-              [attr.aria-checked]="
-                accessibilityService.currentSettings().reducedMotion
-              "
-            >
-              <span
-                class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
-                [class.translate-x-6]="
+            <!-- Reduced Motion -->
+            <div class="flex items-center justify-between">
+              <label
+                for="reduced-motion"
+                class="text-sm font-medium text-slate-700 dark:text-slate-300"
+              >
+                Reduced Motion
+              </label>
+              <button
+                id="reduced-motion"
+                (click)="accessibilityService.toggleSetting('reducedMotion')"
+                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                [class.bg-blue-600]="
                   accessibilityService.currentSettings().reducedMotion
                 "
-                [class.translate-x-1]="
+                [class.bg-slate-300]="
                   !accessibilityService.currentSettings().reducedMotion
                 "
-              ></span>
-            </button>
-          </div>
+                role="switch"
+                [attr.aria-checked]="
+                  accessibilityService.currentSettings().reducedMotion
+                "
+              >
+                <span
+                  class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+                  [class.translate-x-6]="
+                    accessibilityService.currentSettings().reducedMotion
+                  "
+                  [class.translate-x-1]="
+                    !accessibilityService.currentSettings().reducedMotion
+                  "
+                ></span>
+              </button>
+            </div>
 
-          <!-- Screen Reader Mode -->
-          <div class="flex items-center justify-between">
-            <label
-              for="screen-reader"
-              class="text-sm font-medium text-slate-700 dark:text-slate-300"
-            >
-              Screen Reader Mode
-            </label>
-            <button
-              id="screen-reader"
-              (click)="accessibilityService.toggleSetting('screenReaderMode')"
-              class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-              [class.bg-blue-600]="
-                accessibilityService.currentSettings().screenReaderMode
-              "
-              [class.bg-slate-300]="
-                !accessibilityService.currentSettings().screenReaderMode
-              "
-              role="switch"
-              [attr.aria-checked]="
-                accessibilityService.currentSettings().screenReaderMode
-              "
-            >
-              <span
-                class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
-                [class.translate-x-6]="
+            <!-- Screen Reader Mode -->
+            <div class="flex items-center justify-between">
+              <label
+                for="screen-reader"
+                class="text-sm font-medium text-slate-700 dark:text-slate-300"
+              >
+                Screen Reader Mode
+              </label>
+              <button
+                id="screen-reader"
+                (click)="accessibilityService.toggleSetting('screenReaderMode')"
+                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                [class.bg-blue-600]="
                   accessibilityService.currentSettings().screenReaderMode
                 "
-                [class.translate-x-1]="
+                [class.bg-slate-300]="
                   !accessibilityService.currentSettings().screenReaderMode
                 "
-              ></span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Accessibility Alerts -->
-        <div
-          *ngIf="accessibilityService.hasAccessibilityAlerts()"
-          class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700"
-        >
-          <h3
-            class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
-          >
-            Accessibility Issues
-          </h3>
-          <div class="space-y-2 max-h-32 overflow-y-auto">
-            <div
-              *ngFor="let alert of accessibilityService.accessibilityAlerts()"
-              class="p-2 rounded text-xs"
-              [ngClass]="{
-                'bg-blue-50 text-blue-800 border border-blue-200':
-                  alert.level === 'info',
-                'bg-yellow-50 text-yellow-800 border border-yellow-200':
-                  alert.level === 'warning',
-                'bg-red-50 text-red-800 border border-red-200':
-                  alert.level === 'error',
-              }"
-            >
-              <div class="flex items-center space-x-2">
-                <span [innerHTML]="getAlertIcon(alert.level)"></span>
-                <span>{{ alert.message }}</span>
-              </div>
+                role="switch"
+                [attr.aria-checked]="
+                  accessibilityService.currentSettings().screenReaderMode
+                "
+              >
+                <span
+                  class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+                  [class.translate-x-6]="
+                    accessibilityService.currentSettings().screenReaderMode
+                  "
+                  [class.translate-x-1]="
+                    !accessibilityService.currentSettings().screenReaderMode
+                  "
+                ></span>
+              </button>
             </div>
           </div>
-          <button
-            (click)="accessibilityService.clearAlerts()"
-            class="mt-2 text-xs text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
-          >
-            Clear all alerts
-          </button>
-        </div>
+          <!-- Accessibility Alerts -->
+          @if (accessibilityService.hasAccessibilityAlerts()) {
+            <div
+              class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700"
+            >
+              <h3
+                class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+              >
+                Accessibility Issues
+              </h3>
+              <div class="space-y-2 max-h-32 overflow-y-auto">
+                @for (
+                  alert of accessibilityService.accessibilityAlerts();
+                  track $index
+                ) {
+                  <div
+                    class="p-2 rounded text-xs"
+                    [ngClass]="{
+                      'bg-blue-50 text-blue-800 border border-blue-200':
+                        alert.level === 'info',
+                      'bg-yellow-50 text-yellow-800 border border-yellow-200':
+                        alert.level === 'warning',
+                      'bg-red-50 text-red-800 border border-red-200':
+                        alert.level === 'error',
+                    }"
+                  >
+                    <div class="flex items-center space-x-2">
+                      <span [innerHTML]="getAlertIcon(alert.level)"></span>
+                      <span>{{ alert.message }}</span>
+                    </div>
+                  </div>
+                }
+              </div>
+              <button
+                (click)="accessibilityService.clearAlerts()"
+                class="mt-2 text-xs text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+              >
+                Clear all alerts
+              </button>
+            </div>
+          }
 
-        <!-- Quick Actions -->
-        <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
-          <h3
-            class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+          <!-- Quick Actions -->
+          <div
+            class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700"
           >
-            Quick Actions
-          </h3>
-          <div class="grid grid-cols-2 gap-2">
-            <button
-              (click)="focusMainContent()"
-              class="text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 p-2 rounded transition-colors"
+            <h3
+              class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
             >
-              Focus Main Content
-            </button>
-            <button
-              (click)="announcePageContent()"
-              class="text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 p-2 rounded transition-colors"
-            >
-              Announce Page
-            </button>
+              Quick Actions
+            </h3>
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                (click)="focusMainContent()"
+                class="text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 p-2 rounded transition-colors"
+              >
+                Focus Main Content
+              </button>
+              <button
+                (click)="announcePageContent()"
+                class="text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 p-2 rounded transition-colors"
+              >
+                Announce Page
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      }
     </div>
   `,
   styles: [
@@ -282,6 +296,7 @@ import { AccessibilityService } from './accessibility.service';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccessibilityPanelComponent {
   readonly accessibilityService = inject(AccessibilityService);

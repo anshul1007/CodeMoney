@@ -1,4 +1,10 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PerformanceService, PerformanceAlert } from './performance.service';
 import { isPlatformBrowser } from '@angular/common';
@@ -9,144 +15,147 @@ import { PLATFORM_ID } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div
-      *ngIf="
-        showMonitor() &&
-        (performanceService.hasPerformanceIssues() || isDevelopment)
-      "
-      class="fixed bottom-4 right-4 z-50 max-w-sm"
-    >
-      <!-- Performance Alerts -->
-      <div
-        *ngFor="
-          let alert of performanceService.performanceAlerts();
-          trackBy: trackByAlert
-        "
-        class="mb-2 p-3 rounded-lg shadow-lg border transition-all duration-300"
-        [ngClass]="{
-          'bg-yellow-50 border-yellow-200 text-yellow-800':
-            alert.severity === 'warning',
-          'bg-red-50 border-red-200 text-red-800':
-            alert.severity === 'critical',
-        }"
-        role="alert"
-        [attr.aria-live]="
-          alert.severity === 'critical' ? 'assertive' : 'polite'
-        "
-      >
-        <div class="flex items-start justify-between">
-          <div class="flex-1">
-            <div class="flex items-center space-x-2">
-              <span [innerHTML]="getAlertIcon(alert.severity)"></span>
-              <span class="text-sm font-medium">
-                Performance
-                {{ alert.severity === 'critical' ? 'Issue' : 'Warning' }}
-              </span>
-            </div>
-            <p class="text-xs mt-1">
-              {{ formatMetricName(alert.metric) }}:
-              {{ formatMetricValue(alert.metric, alert.value) }}
-              <span class="opacity-75">
-                (threshold:
-                {{ formatMetricValue(alert.metric, alert.threshold) }})
-              </span>
-            </p>
-          </div>
-          <button
-            (click)="dismissAlert(alert)"
-            class="text-xs opacity-50 hover:opacity-100 transition-opacity ml-2"
-            aria-label="Dismiss alert"
-          >
-            ✕
-          </button>
-        </div>
-      </div>
-
-      <!-- Performance Dashboard Toggle -->
-      <div
-        class="bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 p-3"
-      >
-        <div class="flex items-center justify-between mb-2">
-          <h3 class="text-sm font-medium text-slate-800 dark:text-slate-200">
-            Performance
-          </h3>
-          <button
-            (click)="toggleExpanded()"
-            class="text-xs text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 transition-colors"
-            [attr.aria-expanded]="isExpanded()"
-            aria-label="Toggle performance details"
-          >
-            {{ isExpanded() ? '▼' : '▶' }}
-          </button>
-        </div>
-
-        <!-- Quick Status -->
-        <div class="flex items-center space-x-2 text-xs">
+    @if (
+      showMonitor() &&
+      (performanceService.hasPerformanceIssues() || isDevelopment)
+    ) {
+      <div class="fixed bottom-4 right-4 z-50 max-w-sm">
+        <!-- Performance Alerts -->
+        @for (
+          alert of performanceService.performanceAlerts();
+          track trackByAlert($index, alert)
+        ) {
           <div
-            class="w-2 h-2 rounded-full"
+            class="mb-2 p-3 rounded-lg shadow-lg border transition-all duration-300"
             [ngClass]="{
-              'bg-green-400': performanceScore() >= 80,
-              'bg-yellow-400':
-                performanceScore() >= 60 && performanceScore() < 80,
-              'bg-red-400': performanceScore() < 60,
+              'bg-yellow-50 border-yellow-200 text-yellow-800':
+                alert.severity === 'warning',
+              'bg-red-50 border-red-200 text-red-800':
+                alert.severity === 'critical',
             }"
-          ></div>
-          <span class="text-slate-600 dark:text-slate-400">
-            Score: {{ performanceScore() }}/100
-          </span>
-        </div>
-
-        <!-- Expanded Details -->
-        <div *ngIf="isExpanded()" class="mt-3 space-y-2 text-xs">
-          <div class="grid grid-cols-2 gap-2">
-            <div class="bg-slate-50 dark:bg-slate-700 p-2 rounded">
-              <div class="text-slate-500 dark:text-slate-400">LCP</div>
-              <div class="font-mono text-slate-800 dark:text-slate-200">
-                {{ formatTime(performanceService.currentMetrics().lcp) }}
+            role="alert"
+            [attr.aria-live]="
+              alert.severity === 'critical' ? 'assertive' : 'polite'
+            "
+          >
+            <div class="flex items-start justify-between">
+              <div class="flex-1">
+                <div class="flex items-center space-x-2">
+                  <span [innerHTML]="getAlertIcon(alert.severity)"></span>
+                  <span class="text-sm font-medium">
+                    Performance
+                    {{ alert.severity === 'critical' ? 'Issue' : 'Warning' }}
+                  </span>
+                </div>
+                <p class="text-xs mt-1">
+                  {{ formatMetricName(alert.metric) }}:
+                  {{ formatMetricValue(alert.metric, alert.value) }}
+                  <span class="opacity-75">
+                    (threshold:
+                    {{ formatMetricValue(alert.metric, alert.threshold) }})
+                  </span>
+                </p>
               </div>
-            </div>
-            <div class="bg-slate-50 dark:bg-slate-700 p-2 rounded">
-              <div class="text-slate-500 dark:text-slate-400">FID</div>
-              <div class="font-mono text-slate-800 dark:text-slate-200">
-                {{ formatTime(performanceService.currentMetrics().fid) }}
-              </div>
-            </div>
-            <div class="bg-slate-50 dark:bg-slate-700 p-2 rounded">
-              <div class="text-slate-500 dark:text-slate-400">CLS</div>
-              <div class="font-mono text-slate-800 dark:text-slate-200">
-                {{ formatCLS(performanceService.currentMetrics().cls) }}
-              </div>
-            </div>
-            <div class="bg-slate-50 dark:bg-slate-700 p-2 rounded">
-              <div class="text-slate-500 dark:text-slate-400">Memory</div>
-              <div class="font-mono text-slate-800 dark:text-slate-200">
-                {{
-                  formatMemory(
-                    performanceService.currentMetrics().usedJSHeapSize
-                  )
-                }}
-              </div>
+              <button
+                (click)="dismissAlert(alert)"
+                class="text-xs opacity-50 hover:opacity-100 transition-opacity ml-2"
+                aria-label="Dismiss alert"
+              >
+                ✕
+              </button>
             </div>
           </div>
+        }
 
-          <div class="flex space-x-2 mt-3">
+        <!-- Performance Dashboard Toggle -->
+        <div
+          class="bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 p-3"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-medium text-slate-800 dark:text-slate-200">
+              Performance
+            </h3>
             <button
-              (click)="showReport()"
-              class="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-2 rounded transition-colors"
+              (click)="toggleExpanded()"
+              class="text-xs text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 transition-colors"
+              [attr.aria-expanded]="isExpanded()"
+              aria-label="Toggle performance details"
             >
-              Report
-            </button>
-            <button
-              (click)="clearAlerts()"
-              class="flex-1 bg-slate-500 hover:bg-slate-600 text-white text-xs py-1 px-2 rounded transition-colors"
-            >
-              Clear
+              {{ isExpanded() ? '▼' : '▶' }}
             </button>
           </div>
+
+          <!-- Quick Status -->
+          <div class="flex items-center space-x-2 text-xs">
+            <div
+              class="w-2 h-2 rounded-full"
+              [ngClass]="{
+                'bg-green-400': performanceScore() >= 80,
+                'bg-yellow-400':
+                  performanceScore() >= 60 && performanceScore() < 80,
+                'bg-red-400': performanceScore() < 60,
+              }"
+            ></div>
+            <span class="text-slate-600 dark:text-slate-400">
+              Score: {{ performanceScore() }}/100
+            </span>
+          </div>
+
+          <!-- Expanded Details -->
+          @if (isExpanded()) {
+            <div class="mt-3 space-y-2 text-xs">
+              <div class="grid grid-cols-2 gap-2">
+                <div class="bg-slate-50 dark:bg-slate-700 p-2 rounded">
+                  <div class="text-slate-500 dark:text-slate-400">LCP</div>
+                  <div class="font-mono text-slate-800 dark:text-slate-200">
+                    {{ formatTime(performanceService.currentMetrics().lcp) }}
+                  </div>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-700 p-2 rounded">
+                  <div class="text-slate-500 dark:text-slate-400">FID</div>
+                  <div class="font-mono text-slate-800 dark:text-slate-200">
+                    {{ formatTime(performanceService.currentMetrics().fid) }}
+                  </div>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-700 p-2 rounded">
+                  <div class="text-slate-500 dark:text-slate-400">CLS</div>
+                  <div class="font-mono text-slate-800 dark:text-slate-200">
+                    {{ formatCLS(performanceService.currentMetrics().cls) }}
+                  </div>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-700 p-2 rounded">
+                  <div class="text-slate-500 dark:text-slate-400">Memory</div>
+                  <div class="font-mono text-slate-800 dark:text-slate-200">
+                    {{
+                      formatMemory(
+                        performanceService.currentMetrics().usedJSHeapSize
+                      )
+                    }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex space-x-2 mt-3">
+                <button
+                  (click)="showReport()"
+                  class="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-2 rounded transition-colors"
+                >
+                  Report
+                </button>
+                <button
+                  (click)="clearAlerts()"
+                  class="flex-1 bg-slate-500 hover:bg-slate-600 text-white text-xs py-1 px-2 rounded transition-colors"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+          }
         </div>
       </div>
-    </div>
+    }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PerformanceMonitorComponent {
   readonly performanceService = inject(PerformanceService);
