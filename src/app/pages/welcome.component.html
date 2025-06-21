@@ -1,7 +1,7 @@
 <div class="min-h-screen text-white educational-gradient font-body">
-  <div class="mx-auto max-w-7xl text-center sm:py-4 sm:px-6">
+  <div class="p-4 mx-auto max-w-7xl text-center sm:p-6 xl:p-8 2xl:p-10">
     <div
-      class="rounded-2xl border sm:p-8 sm:my-10 sm:rounded-3xl md:p-10 shadow-glow animate-fade-in border-white/20 bg-neutral-900/80 backdrop-blur-lg"
+      class="rounded-2xl border sm:p-8 sm:my-10 sm:rounded-3xl md:p-10 xl:p-12 xl:my-12 2xl:p-16 shadow-glow animate-fade-in border-white/20 bg-neutral-900/80 backdrop-blur-lg"
     >
       <!-- Logo -->
       <div class="flex justify-center mb-6 sm:mb-8">
@@ -13,12 +13,12 @@
       </div>
 
       <h1
-        class="mb-4 text-3xl font-bold sm:mb-5 sm:text-4xl md:text-5xl lg:text-6xl font-display animate-slide-up drop-shadow-2xl"
+        class="mb-4 text-3xl font-bold sm:mb-5 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display animate-slide-up drop-shadow-2xl"
       >
         <span class="text-cyan-300">Code</span><span class="text-yellow-300">Money</span>
       </h1>
       <h2
-        class="mb-4 text-lg font-light text-white sm:mb-5 sm:text-xl md:text-2xl lg:text-3xl animate-slide-up drop-shadow-lg"
+        class="mb-4 text-lg font-light text-white sm:mb-5 sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl animate-slide-up drop-shadow-lg"
       >
         Learn Financial Literacy Through Interactive Adventures
       </h2>
@@ -41,15 +41,17 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-6 sm:justify-center md:gap-8">
+      <div
+        class="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-6 sm:justify-center md:gap-8 xl:gap-10"
+      >
         <button
-          class="py-4 px-8 w-full text-lg font-bold text-white rounded-xl transition-all duration-200 sm:py-5 sm:px-10 sm:w-auto sm:text-xl hover:shadow-xl hover:-translate-y-1 animate-scale-up bg-primary-600 sm:min-w-[200px] hover:bg-primary-700"
+          class="py-4 px-8 w-full text-lg font-bold text-white rounded-xl transition-all duration-200 cursor-pointer sm:py-5 sm:px-10 sm:w-auto sm:text-xl xl:py-6 xl:px-12 xl:text-2xl hover:shadow-xl hover:-translate-y-1 hover:cursor-pointer animate-scale-up bg-primary-600 sm:min-w-[200px] xl:min-w-[240px] hover:bg-primary-700"
           routerLink="/courses"
         >
           🚀 Start Learning
         </button>
         <button
-          class="py-4 px-8 w-full text-lg font-bold text-white rounded-xl transition-all duration-200 sm:py-5 sm:px-10 sm:w-auto sm:text-xl hover:shadow-xl hover:-translate-y-1 animate-scale-up bg-secondary-600 sm:min-w-[200px] hover:bg-secondary-700"
+          class="py-4 px-8 w-full text-lg font-bold text-white rounded-xl transition-all duration-200 cursor-pointer sm:py-5 sm:px-10 sm:w-auto sm:text-xl xl:py-6 xl:px-12 xl:text-2xl hover:shadow-xl hover:-translate-y-1 hover:cursor-pointer animate-scale-up bg-secondary-600 sm:min-w-[200px] xl:min-w-[240px] hover:bg-secondary-700"
           (click)="resetProgress()"
         >
           🔄 Reset Progress
@@ -72,7 +74,7 @@
         What You'll Learn
       </h3>
       <div
-        class="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 sm:gap-8 sm:mt-8 md:mt-10 lg:grid-cols-4"
+        class="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 sm:gap-8 sm:mt-8 md:grid-cols-3 md:mt-10 lg:grid-cols-4 xl:gap-10"
       >
         <div
           class="p-4 text-center bg-white rounded-xl border shadow-xl transition-all duration-300 sm:p-6 hover:shadow-2xl hover:-translate-y-1 animate-fade-in border-neutral-200"

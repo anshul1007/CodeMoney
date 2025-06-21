@@ -1,39 +1,42 @@
-<div class="p-4 mb-4 bg-white rounded-2xl shadow-lg sm:p-6 sm:mb-6">
-  <h3 class="mb-4 text-base font-bold text-center text-gray-800 sm:mb-6 sm:text-lg">
+<div class="p-4 mb-4 bg-white rounded-2xl shadow-lg sm:p-6 sm:mb-6 xl:p-8 xl:mb-8 2xl:p-10">
+  <h3
+    class="mb-4 text-base font-bold text-center text-gray-800 sm:mb-6 sm:text-lg xl:mb-8 xl:text-xl 2xl:text-2xl"
+  >
     Estimate how much each item costs:
   </h3>
-  <div class="space-y-3 sm:space-y-4">
+  <div class="space-y-4 sm:space-y-6 xl:space-y-8">
     @for (field of estimationFields(); track trackByFieldId($index, field)) {
       <div
-        class="flex flex-col gap-2 p-3 rounded-lg border border-gray-200 sm:flex-row sm:gap-4 sm:justify-between sm:items-center sm:p-4"
+        class="flex flex-col gap-2 p-4 rounded-lg border border-gray-200 sm:flex-row sm:gap-4 sm:justify-between sm:items-center sm:p-6 xl:gap-6 xl:p-8"
       >
-        <div class="flex items-center space-x-2 sm:space-x-3">
-          <span class="text-2xl sm:text-3xl">{{ field.icon }}</span>
-          <span class="text-sm font-medium text-gray-800 sm:text-base">
+        <div class="flex items-center space-x-2 sm:space-x-4 xl:space-x-6">
+          <span class="text-2xl sm:text-3xl xl:text-4xl">{{ field.icon }}</span>
+          <span class="text-sm font-medium text-gray-800 sm:text-base xl:text-lg">
             {{ field.itemName }}
           </span>
         </div>
 
-        <div class="flex items-center space-x-2 w-full sm:w-auto">
-          <span class="text-base sm:text-lg">{{ field.currency }}</span>
+        <div class="flex items-center space-x-2 w-full sm:w-auto xl:space-x-4">
+          <span class="text-base sm:text-lg xl:text-xl">{{ field.currency }}</span>
           <input
             type="number"
             [(ngModel)]="field.userEstimate"
             placeholder="0"
             min="0"
-            class="py-1 px-2 w-20 text-sm text-center rounded-lg sm:py-2 sm:px-3 sm:w-24 sm:text-base"
+            class="py-1 px-2 w-24 text-sm text-center rounded-lg cursor-text sm:py-2 sm:px-3 sm:w-28 sm:text-base xl:py-3 xl:px-4 xl:w-32 xl:text-lg hover:cursor-text"
             [ngClass]="{
               'border-2 border-green-500':
                 !isSubmitted() && field.userEstimate !== undefined && field.userEstimate > 0,
               'border border-gray-300':
                 isSubmitted() || field.userEstimate === undefined || field.userEstimate <= 0,
               'focus:border-blue-500 focus:ring-2 focus:ring-blue-500': true,
+              'cursor-not-allowed hover:cursor-not-allowed': isSubmitted(),
             }"
             [disabled]="isSubmitted()"
             (input)="onValueChange($event)"
           />
           @if (isSubmitted()) {
-            <div class="ml-2 sm:ml-4"></div>
+            <div class="ml-2 sm:ml-4 xl:ml-6"></div>
           }
         </div>
       </div>
@@ -41,10 +44,10 @@
   </div>
 
   <!-- Total Cost -->
-  <div class="p-3 mt-4 bg-gray-50 rounded-lg sm:p-4 sm:mt-6">
-    <div class="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
-      <span class="text-base font-bold text-gray-800 sm:text-lg">Total Cost:</span>
-      <span class="text-lg font-bold text-blue-600 sm:text-xl">
+  <div class="p-4 mt-4 bg-gray-50 rounded-lg sm:p-6 sm:mt-6 xl:p-8 xl:mt-8">
+    <div class="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center xl:gap-4">
+      <span class="text-base font-bold text-gray-800 sm:text-lg xl:text-xl">Total Cost:</span>
+      <span class="text-lg font-bold text-blue-600 sm:text-xl xl:text-2xl">
         {{ totalCost() > 0 ? '₹' + totalCost() : '₹ ---' }}
       </span>
     </div>

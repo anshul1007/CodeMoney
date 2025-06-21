@@ -6,35 +6,37 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
   standalone: true,
   imports: [CommonModule],
   template: `
-    <header
-      class="sticky top-0 z-10 p-3 border-b-2 border-amber-300 shadow-lg sm:p-4 dark:border-amber-500 bg-white/90 backdrop-blur-sm dark:bg-slate-800/90"
-    >
-      <div class="flex flex-wrap gap-2 justify-between items-center mx-auto max-w-7xl">
-        <div class="flex flex-1 items-center space-x-3 min-w-0 sm:space-x-4">
-          <button
-            (click)="backClick.emit()"
-            class="flex-shrink-0 p-2 text-xl rounded-lg transition-colors sm:text-2xl text-slate-600 dark:text-slate-300 dark:hover:text-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 hover:bg-slate-100"
-            aria-label="Go back to course dashboard"
-          >
-            ← Back
-          </button>
-          <div class="flex-1 min-w-0">
-            <h1 class="text-lg font-bold sm:text-xl text-slate-800 truncate dark:text-slate-100">
-              {{ title() }}
-            </h1>
-            <p class="text-xs sm:text-sm text-slate-600 line-clamp-2 dark:text-slate-400">
-              {{ description() }}
-            </p>
+    <header class="sticky top-0 z-10 bg-white border-b border-gray-100 shadow-sm">
+      <div class="py-4 px-4 mx-auto max-w-7xl sm:py-5 sm:px-6 xl:py-6 xl:px-8 2xl:py-7 2xl:px-10">
+        <div class="flex flex-wrap gap-2 justify-between items-center">
+          <div class="flex flex-1 items-center space-x-4 min-w-0 xl:space-x-6">
+            <button
+              (click)="backClick.emit()"
+              class="flex-shrink-0 p-2 text-base font-medium text-gray-700 rounded-lg transition-colors cursor-pointer sm:text-lg xl:text-xl hover:text-gray-900 hover:bg-gray-100 hover:cursor-pointer"
+              aria-label="Go back to course dashboard"
+            >
+              ← Back
+            </button>
+            <div class="flex-1 min-w-0">
+              <h1
+                class="text-lg font-bold text-gray-800 sm:text-xl lg:text-2xl xl:text-3xl truncate"
+              >
+                {{ title() }}
+              </h1>
+              <p class="text-sm text-gray-600 sm:text-base xl:text-lg line-clamp-2">
+                {{ description() }}
+              </p>
+            </div>
           </div>
-        </div>
-        <div
-          class="flex flex-shrink-0 items-center space-x-1 sm:space-x-2"
-          role="img"
-          [attr.aria-label]="'Stars earned: ' + (stars() || 0)"
-        >
-          @for (star of getStarsArray(stars() || 0); track $index) {
-            <span class="text-lg text-amber-400 animate-pulse sm:text-xl">⭐</span>
-          }
+          <div
+            class="flex flex-shrink-0 items-center space-x-1 sm:space-x-2 xl:space-x-3"
+            role="img"
+            [attr.aria-label]="'Stars earned: ' + (stars() || 0)"
+          >
+            @for (star of getStarsArray(stars() || 0); track $index) {
+              <span class="text-lg text-yellow-400 animate-pulse sm:text-xl xl:text-2xl">⭐</span>
+            }
+          </div>
         </div>
       </div>
     </header>

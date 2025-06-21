@@ -15,13 +15,15 @@ export interface UserProgress {
   imports: [CommonModule],
   template: `
     <div class="bg-gradient-to-r from-blue-50 to-purple-50 border-t border-gray-100">
-      <div class="p-4 mx-auto max-w-7xl md:p-6">
-        <div class="flex justify-between items-center mb-2">
-          <div class="flex items-center space-x-4">
-            <span class="text-sm font-medium text-gray-700">Your Progress</span>
-            <span class="text-xs text-gray-600">Level {{ currentLevel() }}</span>
+      <div class="p-4 mx-auto max-w-7xl sm:p-6 xl:p-8 2xl:p-10">
+        <div class="flex justify-between items-center mb-2 xl:mb-3">
+          <div class="flex items-center space-x-4 xl:space-x-5">
+            <span class="text-sm font-medium text-gray-700 xl:text-base">Your Progress</span>
+            <span class="text-xs text-gray-600 xl:text-sm">Level {{ currentLevel() }}</span>
           </div>
-          <div class="flex items-center space-x-4 text-xs text-gray-600 sm:text-sm">
+          <div
+            class="flex items-center space-x-4 text-xs text-gray-600 sm:text-sm xl:space-x-5 xl:text-base"
+          >
             <span>🌟 {{ progress().totalStars }}</span>
             <span>✅ {{ progress().completedLevels.length }}/{{ totalLevels() }} </span>
             <span class="font-medium text-blue-600"> {{ progressPercentage() }}% </span>
@@ -29,9 +31,9 @@ export interface UserProgress {
         </div>
 
         <!-- Progress Bar -->
-        <div class="w-full h-3 bg-gray-200 rounded-full sm:h-4">
+        <div class="w-full h-3 bg-gray-200 rounded-full sm:h-4 xl:h-5">
           <div
-            class="overflow-hidden relative h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transition-all duration-500 ease-out sm:h-4"
+            class="overflow-hidden relative h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transition-all duration-500 ease-out sm:h-4 xl:h-5"
             [style.width.%]="progressPercentage()"
           >
             <!-- Animated shine effect -->
@@ -42,7 +44,9 @@ export interface UserProgress {
         </div>
 
         <!-- Quick stats -->
-        <div class="flex justify-between items-center mt-2 text-xs text-gray-500">
+        <div
+          class="flex justify-between items-center mt-2 text-xs text-gray-500 xl:mt-3 xl:text-sm"
+        >
           <span>{{ progress().completedLevels.length }} levels completed</span>
           <span>{{ totalLevels() - progress().completedLevels.length }} remaining</span>
         </div>

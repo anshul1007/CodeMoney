@@ -11,21 +11,21 @@ import { LessonCardComponent } from './lesson-card.component';
   standalone: true,
   imports: [CommonModule, RouterModule, LessonCardComponent],
   template: `
-    <div class="overflow-hidden rounded-lg border border-gray-200 sm:rounded-xl">
+    <div class="overflow-hidden rounded-lg border border-gray-200 sm:rounded-xl xl:rounded-2xl">
       <!-- Unit Header -->
-      <div class="p-3 bg-gray-50 border-b border-gray-200 sm:p-4">
+      <div class="p-4 bg-gray-50 border-b border-gray-200 sm:p-6 xl:p-8">
         <div>
-          <h3 class="text-sm font-bold text-gray-800 sm:text-base lg:text-lg truncate">
+          <h3 class="text-sm font-bold text-gray-800 sm:text-base lg:text-lg xl:text-xl truncate">
             {{ unit().title }}
           </h3>
-          <p class="mt-1 text-xs text-gray-600 sm:text-sm line-clamp-2">
+          <p class="mt-1 text-xs text-gray-600 sm:text-sm xl:text-base line-clamp-2">
             {{ unit().description }}
           </p>
         </div>
       </div>
 
       <!-- Lessons -->
-      <div class="p-2 space-y-2 sm:p-3 sm:space-y-3 lg:p-4 lg:space-y-4">
+      <div class="p-4 space-y-4 sm:p-6 sm:space-y-6 xl:p-8 xl:space-y-8">
         @for (lesson of unit().lessons; track lesson.id) {
           <app-lesson-card [lesson]="lesson" [courseId]="courseId()" [unitId]="unit().id">
           </app-lesson-card>

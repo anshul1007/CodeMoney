@@ -1,47 +1,53 @@
 <div class="min-h-screen text-white educational-gradient font-body">
-  <div class="p-4 mx-auto max-w-7xl sm:p-6 lg:p-8">
+  <div class="p-4 mx-auto max-w-7xl sm:p-6 lg:p-8 xl:p-10 2xl:p-12">
     <!-- Header -->
-    <div class="mb-8 text-center sm:mb-12">
+    <div class="mb-8 text-center sm:mb-12 xl:mb-16">
       <div
-        class="p-6 mb-6 rounded-2xl border sm:p-8 sm:mb-8 sm:rounded-3xl lg:p-10 shadow-glow border-white/20 bg-neutral-900/80 backdrop-blur-lg"
+        class="p-6 mb-6 rounded-2xl border sm:p-8 sm:mb-8 sm:rounded-3xl lg:p-10 xl:p-12 xl:mb-10 2xl:p-16 shadow-glow border-white/20 bg-neutral-900/80 backdrop-blur-lg"
       >
         <h1
-          class="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl md:text-4xl lg:text-5xl font-display drop-shadow-2xl"
+          class="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-display drop-shadow-2xl"
         >
           <span class="text-cyan-300">Code</span><span class="text-yellow-300">Money</span> Theme
           Showcase
         </h1>
         <p
-          class="mx-auto max-w-3xl text-sm font-medium text-gray-50 sm:text-base md:text-lg lg:text-xl drop-shadow-lg"
+          class="mx-auto max-w-3xl text-sm font-medium text-gray-50 sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl drop-shadow-lg"
         >
           A comprehensive design system for financial education, featuring modern colors,
           typography, and components designed for learning and engagement.
         </p>
-        <div class="mt-4 sm:mt-6">
-          <a routerLink="/" class="text-sm sm:text-base btn-nav-home">← Back to Home</a>
+        <div class="mt-4 sm:mt-6 xl:mt-8">
+          <a routerLink="/" class="text-sm sm:text-base xl:text-lg 2xl:text-xl btn-nav-home"
+            >← Back to Home</a
+          >
         </div>
       </div>
     </div>
     <!-- Color Palettes -->
-    <section class="mb-12 sm:mb-16">
+    <section class="mb-12 sm:mb-16 xl:mb-20">
       <div class="section-dark">
-        <h2 class="text-xl text-white sm:text-2xl lg:text-3xl section-header">Color Palettes</h2>
-        <div class="space-y-6 sm:space-y-8">
+        <h2
+          class="text-xl text-white sm:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl section-header"
+        >
+          Color Palettes
+        </h2>
+        <div class="space-y-6 sm:space-y-8 xl:space-y-10">
           @for (palette of colorPalettes; track palette.name) {
             <div class="color-palette-card">
-              <h3 class="text-base sm:text-lg color-palette-title">
+              <h3 class="text-base sm:text-lg xl:text-xl 2xl:text-2xl color-palette-title">
                 {{ palette.name }}
               </h3>
               <div
-                class="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-6 color-grid-small"
+                class="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 xl:gap-4 2xl:gap-5 color-grid-small"
               >
                 @for (color of palette.colors; track color.name) {
                   <div
                     [style.background-color]="color.value"
-                    class="flex justify-center items-center rounded-lg color-swatch aspect-square min-h-[60px] sm:min-h-[80px]"
+                    class="flex justify-center items-center rounded-lg color-swatch aspect-square min-h-[60px] sm:min-h-[80px] xl:min-h-[90px] 2xl:min-h-[100px]"
                   >
                     <span
-                      class="px-1 text-xs font-medium text-center sm:text-sm color-swatch-label"
+                      class="px-1 text-xs font-medium text-center sm:text-sm xl:text-base color-swatch-label"
                     >
                       {{ color.name }}
                     </span>

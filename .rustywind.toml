@@ -48,13 +48,13 @@ custom_regex = [
   "^whitespace-",
   "^break-",
   "^truncate$",
-  "^line-clamp-",
-  
-  # 5. Colors & Backgrounds
-  "^bg-",
+  "^line-clamp-",  # 5. Colors & Backgrounds - Gradients first, then other background
+  "^bg-gradient-to-",
+  "^bg-gradient-",
   "^from-",
   "^via-",
   "^to-",
+  "^bg-",
   "^border-",
   "^divide-",
   "^outline-",

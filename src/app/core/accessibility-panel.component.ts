@@ -12,7 +12,7 @@ import { AccessibilityService } from './accessibility.service';
       <!-- Accessibility Toggle Button -->
       <button
         (click)="togglePanel()"
-        class="p-3 text-white bg-blue-600 rounded-full shadow-lg transition-all duration-200 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300"
+        class="p-3 text-white bg-blue-600 rounded-full shadow-lg transition-all duration-200 cursor-pointer hover:bg-blue-700 hover:cursor-pointer focus:ring-4 focus:ring-blue-300"
         [attr.aria-expanded]="isPanelOpen()"
         [attr.aria-label]="isPanelOpen() ? 'Close accessibility panel' : 'Open accessibility panel'"
         title="Accessibility Options"
@@ -38,7 +38,7 @@ import { AccessibilityService } from './accessibility.service';
             </h2>
             <button
               (click)="togglePanel()"
-              class="p-1 rounded transition-colors text-slate-500 dark:text-slate-400 dark:hover:text-slate-300 hover:text-slate-700"
+              class="p-1 rounded transition-colors cursor-pointer text-slate-500 dark:text-slate-400 dark:hover:text-slate-300 hover:text-slate-700 hover:cursor-pointer"
               aria-label="Close panel"
             >
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -64,7 +64,7 @@ import { AccessibilityService } from './accessibility.service';
               <button
                 id="high-contrast"
                 (click)="accessibilityService.toggleSetting('highContrast')"
-                class="inline-flex relative items-center w-11 h-6 rounded-full transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                class="inline-flex relative items-center w-11 h-6 rounded-full transition-colors cursor-pointer focus:ring-2 focus:ring-blue-500 focus:outline-none hover:cursor-pointer"
                 [class.bg-blue-600]="accessibilityService.currentSettings().highContrast"
                 [class.bg-slate-300]="!accessibilityService.currentSettings().highContrast"
                 role="switch"
@@ -89,7 +89,7 @@ import { AccessibilityService } from './accessibility.service';
               <button
                 id="large-text"
                 (click)="accessibilityService.toggleSetting('largeText')"
-                class="inline-flex relative items-center w-11 h-6 rounded-full transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                class="inline-flex relative items-center w-11 h-6 rounded-full transition-colors cursor-pointer focus:ring-2 focus:ring-blue-500 focus:outline-none hover:cursor-pointer"
                 [class.bg-blue-600]="accessibilityService.currentSettings().largeText"
                 [class.bg-slate-300]="!accessibilityService.currentSettings().largeText"
                 role="switch"
@@ -114,7 +114,7 @@ import { AccessibilityService } from './accessibility.service';
               <button
                 id="reduced-motion"
                 (click)="accessibilityService.toggleSetting('reducedMotion')"
-                class="inline-flex relative items-center w-11 h-6 rounded-full transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                class="inline-flex relative items-center w-11 h-6 rounded-full transition-colors cursor-pointer focus:ring-2 focus:ring-blue-500 focus:outline-none hover:cursor-pointer"
                 [class.bg-blue-600]="accessibilityService.currentSettings().reducedMotion"
                 [class.bg-slate-300]="!accessibilityService.currentSettings().reducedMotion"
                 role="switch"
@@ -139,7 +139,7 @@ import { AccessibilityService } from './accessibility.service';
               <button
                 id="screen-reader"
                 (click)="accessibilityService.toggleSetting('screenReaderMode')"
-                class="inline-flex relative items-center w-11 h-6 rounded-full transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                class="inline-flex relative items-center w-11 h-6 rounded-full transition-colors cursor-pointer focus:ring-2 focus:ring-blue-500 focus:outline-none hover:cursor-pointer"
                 [class.bg-blue-600]="accessibilityService.currentSettings().screenReaderMode"
                 [class.bg-slate-300]="!accessibilityService.currentSettings().screenReaderMode"
                 role="switch"
@@ -179,7 +179,7 @@ import { AccessibilityService } from './accessibility.service';
               </div>
               <button
                 (click)="accessibilityService.clearAlerts()"
-                class="mt-2 text-xs text-slate-500 dark:text-slate-400 dark:hover:text-slate-300 hover:text-slate-700"
+                class="mt-2 text-xs cursor-pointer text-slate-500 dark:text-slate-400 dark:hover:text-slate-300 hover:text-slate-700 hover:cursor-pointer"
               >
                 Clear all alerts
               </button>
@@ -194,13 +194,13 @@ import { AccessibilityService } from './accessibility.service';
             <div class="grid grid-cols-2 gap-2">
               <button
                 (click)="focusMainContent()"
-                class="p-2 text-xs rounded transition-colors bg-slate-100 text-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-300 hover:bg-slate-200"
+                class="p-2 text-xs rounded transition-colors cursor-pointer bg-slate-100 text-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-300 hover:bg-slate-200 hover:cursor-pointer"
               >
                 Focus Main Content
               </button>
               <button
                 (click)="announcePageContent()"
-                class="p-2 text-xs rounded transition-colors bg-slate-100 text-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-300 hover:bg-slate-200"
+                class="p-2 text-xs rounded transition-colors cursor-pointer bg-slate-100 text-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-300 hover:bg-slate-200 hover:cursor-pointer"
               >
                 Announce Page
               </button>

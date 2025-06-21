@@ -1,10 +1,12 @@
-<div class="p-4 mb-4 bg-white rounded-2xl shadow-lg sm:p-6 sm:mb-6">
-  <h3 class="mb-2 text-base font-bold text-center text-gray-800 sm:mb-3 sm:text-lg">
+<div class="p-4 mb-4 bg-white rounded-2xl shadow-lg sm:p-6 sm:mb-6 xl:p-8 xl:mb-8 2xl:p-10">
+  <h3
+    class="mb-2 text-base font-bold text-center text-gray-800 sm:mb-3 sm:text-lg xl:mb-4 xl:text-xl 2xl:text-2xl"
+  >
     How will you get the money you need?
   </h3>
   <!-- Display estimated cost -->
-  <div class="p-2 mb-4 text-center bg-blue-50 rounded-lg sm:p-3 sm:mb-6">
-    <p class="text-sm text-blue-800 sm:text-base">
+  <div class="p-2 mb-4 text-center bg-blue-50 rounded-lg sm:p-3 sm:mb-6 xl:p-4 xl:mb-8">
+    <p class="text-sm text-blue-800 sm:text-base xl:text-lg">
       <span class="font-medium">You need:</span>
       <span class="font-bold">₹{{ totalEstimatedCost() }}</span>
       @if (totalEstimatedCost() === 0) {
@@ -15,10 +17,10 @@
     </p>
   </div>
 
-  <div class="grid grid-cols-1 gap-3 mb-4 sm:grid-cols-2 sm:gap-4 sm:mb-6">
+  <div class="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-6 xl:gap-8 xl:mb-8">
     @for (source of fundingSources(); track trackBySourceId($index, source)) {
       <div
-        class="transition-all duration-200 cursor-pointer hover:shadow-md focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none funding-option"
+        class="transition-all duration-200 cursor-pointer hover:shadow-md funding-option xl:hover:shadow-lg hover:cursor-pointer"
         [class.selected]="source.isSelected"
         (click)="onSourceClick(source)"
         (keyup.enter)="onSourceClick(source)"
@@ -31,19 +33,19 @@
         role="button"
       >
         <div
-          class="p-3 rounded-xl border-2 sm:p-4"
+          class="p-4 rounded-xl border-2 sm:p-6 xl:p-8"
           [ngClass]="{
             'border-blue-500 bg-blue-50': source.isSelected,
             'border-gray-200 bg-white hover:border-gray-300': !source.isSelected,
           }"
         >
-          <div class="flex items-start mb-2 space-x-2 sm:mb-3 sm:space-x-3">
-            <span class="text-2xl sm:text-3xl">{{ source.icon }}</span>
+          <div class="flex items-start mb-2 space-x-2 sm:mb-4 sm:space-x-4 xl:mb-6 xl:space-x-6">
+            <span class="text-2xl sm:text-3xl xl:text-4xl">{{ source.icon }}</span>
             <div class="flex-1 min-w-0">
-              <h4 class="text-sm font-bold text-gray-800 sm:text-base">
+              <h4 class="text-sm font-bold text-gray-800 sm:text-base xl:text-lg">
                 {{ source.name }}
               </h4>
-              <p class="text-xs text-gray-600 break-words sm:text-sm">
+              <p class="text-xs text-gray-600 break-words sm:text-sm xl:text-base">
                 {{ source.description }}
               </p>
             </div>
@@ -64,7 +66,7 @@
                 [(ngModel)]="source.amount"
                 [max]="source.maxAmount || 0"
                 placeholder="0"
-                class="py-1.5 px-2 w-full text-sm rounded-lg border border-gray-300 sm:py-2 sm:px-3 sm:text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                class="py-1.5 px-2 w-full text-sm rounded-lg border border-gray-300 cursor-text sm:py-2 sm:px-3 sm:text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-500 hover:cursor-text"
                 (input)="onAmountChange()"
               />
             </div>

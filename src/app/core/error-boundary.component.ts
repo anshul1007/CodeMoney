@@ -95,13 +95,13 @@ export class GlobalErrorHandler implements ErrorHandler, OnDestroy {
             <div class="flex mt-3 space-x-2">
               <button
                 (click)="reloadPage()"
-                class="py-1 px-2 text-xs text-red-800 bg-red-100 rounded transition-colors hover:bg-red-200"
+                class="py-1 px-2 text-xs text-red-800 bg-red-100 rounded transition-colors cursor-pointer hover:bg-red-200 hover:cursor-pointer"
               >
                 Reload
               </button>
               <button
                 (click)="dismissError()"
-                class="py-1 px-2 text-xs text-red-600 transition-colors hover:text-red-800"
+                class="py-1 px-2 text-xs text-red-600 transition-colors cursor-pointer hover:text-red-800 hover:cursor-pointer"
               >
                 Dismiss
               </button>

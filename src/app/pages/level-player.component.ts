@@ -51,36 +51,47 @@ import { GameService } from '../services/game.service';
         />
       }
       <!-- Game Content -->
-      <div class="container p-3 mx-auto space-y-4 max-w-4xl sm:p-4 sm:space-y-6 md:p-6">
+      <div
+        class="px-4 pt-2 pb-3 mx-auto space-y-3 max-w-7xl sm:px-4 sm:pt-2 sm:pb-3 sm:space-y-3 xl:px-6 xl:pt-3 xl:pb-4"
+      >
         <app-scene-description [scene]="gameData()?.scene || ''" />
+      </div>
 
+      <div
+        class="px-4 py-2 mx-auto space-y-3 max-w-7xl sm:px-4 sm:py-2 sm:space-y-3 xl:px-6 xl:py-3"
+      >
         <app-game-prompt
           [prompt]="gameData()?.prompt"
           [hints]="gameData()?.hints"
           [showHints]="showHints()"
         />
+      </div>
 
+      <div
+        class="px-4 py-2 mx-auto space-y-3 max-w-7xl sm:px-4 sm:py-2 sm:space-y-3 xl:px-6 xl:py-3"
+      >
         <app-card-wrapper customClasses="game-content">
           <ng-template #gameContainer></ng-template>
         </app-card-wrapper>
+      </div>
 
-        <!-- Validation Message -->
-        <!-- @if (
+      <!-- Validation Message -->
+      <!-- @if (
             !gameSubmitted() &&
             validationResult() &&
             !validationResult()?.isValid
           ) {
             <div
-              class="p-3 mx-auto mb-4 max-w-md text-center bg-yellow-50 rounded-xl border border-yellow-200 sm:p-4 sm:mb-6"
+              class="p-4 mx-auto mb-4 max-w-md text-center bg-yellow-50 rounded-xl border border-yellow-200 sm:p-6 sm:mb-6 xl:p-8 xl:mb-8"
             >
-              <div class="flex justify-center items-center mb-2">
-                <span class="mr-2 text-yellow-600">⚠️</span>
-                <span class="text-sm font-medium text-yellow-800 sm:text-base">
+              <div class="flex justify-center items-center mb-2 xl:mb-3">
+                <span class="mr-2 text-yellow-600 xl:mr-3">⚠️</span>
+                <span class="text-sm font-medium text-yellow-800 sm:text-base xl:text-lg">
                   {{ validationResult()?.message }}
                 </span>
               </div>
               @if (validationResult()?.requiredActions?.length) {
-                <div class="mt-2 text-xs text-yellow-700">
+                <div class="mt-2 text-xs text-yellow-700 xl:mt-3 xl:text-sm">
                   @for (
                     action of validationResult()?.requiredActions;
                     track $index
@@ -91,58 +102,62 @@ import { GameService } from '../services/game.service';
               }
             </div>
           } -->
+      <div
+        class="px-4 pt-2 pb-1 mx-auto space-y-3 max-w-7xl sm:px-4 sm:pt-2 sm:pb-1 sm:space-y-3 xl:px-6 xl:pt-3 xl:pb-2"
+      >
         <!-- Celebration Message -->
         @if (gameSubmitted()) {
-          <app-card-wrapper variant="success" customClasses="mb-4 sm:mb-6 text-center">
-            <div class="flex gap-2 justify-center items-center mb-1">
-              <div class="text-2xl sm:text-3xl">🎉</div>
-              <h3 class="text-lg font-bold text-green-800">Amazing Work!</h3>
+          <app-card-wrapper variant="success" customClasses="mb-4 sm:mb-6 xl:mb-8 text-center">
+            <div class="flex gap-2 justify-center items-center mb-2 xl:gap-3 xl:mb-3">
+              <div class="text-2xl sm:text-3xl xl:text-4xl">🎉</div>
+              <h3 class="text-lg font-bold text-green-800 sm:text-xl xl:text-2xl">Amazing Work!</h3>
             </div>
-            <p class="text-sm text-green-700">You earned 3 stars!</p>
-            <div class="flex justify-center my-1 space-x-1">
+            <p class="text-sm text-green-700 sm:text-base xl:text-lg">You earned 3 stars!</p>
+            <div class="flex justify-center my-2 space-x-1 xl:my-3 xl:space-x-2">
               @for (star of [1, 2, 3]; track $index) {
-                <span class="text-lg text-yellow-400 sm:text-xl">⭐</span>
+                <span class="text-lg text-yellow-400 sm:text-xl xl:text-2xl">⭐</span>
               }
             </div>
           </app-card-wrapper>
         }
+      </div>
+      <!-- Action Buttons -->
+      <div
+        class="flex flex-col justify-center pt-2 pb-6 space-y-4 text-center sm:flex-row sm:space-y-0 sm:space-x-6 xl:space-x-8"
+      >
+        @if (!gameSubmitted()) {
+          <button
+            (click)="handleSubmit()"
+            [disabled]="!canSubmitGame()"
+            class="py-4 px-8 w-full text-base font-bold rounded-xl transition-all duration-200 cursor-pointer sm:py-5 sm:px-10 sm:w-auto sm:text-lg xl:py-6 xl:px-12 xl:text-xl hover:cursor-pointer"
+            [ngClass]="{
+              'bg-blue-500 hover:bg-blue-600 text-white hover:shadow-lg hover:-translate-y-1':
+                canSubmitGame(),
+              'bg-gray-300 text-gray-500 cursor-not-allowed hover:cursor-not-allowed':
+                !canSubmitGame(),
+            }"
+          >
+            Submit
+          </button>
+        }
 
-        <!-- Action Buttons -->
-        <div
-          class="flex flex-col justify-center space-y-3 text-center sm:flex-row sm:space-y-0 sm:space-x-4"
-        >
-          @if (!gameSubmitted()) {
-            <button
-              (click)="handleSubmit()"
-              [disabled]="!canSubmitGame()"
-              class="py-2.5 px-6 w-full text-base font-bold rounded-xl transition-all duration-200 sm:py-3 sm:px-8 sm:w-auto sm:text-lg"
-              [ngClass]="{
-                'bg-blue-500 hover:bg-blue-600 text-white hover:shadow-lg': canSubmitGame(),
-                'bg-gray-300 text-gray-500 cursor-not-allowed': !canSubmitGame(),
-              }"
-            >
-              Submit
-            </button>
-          }
+        @if (shouldShowHintsButton()) {
+          <button
+            (click)="showHints.set(true)"
+            class="py-4 px-8 w-full text-base font-bold text-white bg-yellow-500 rounded-xl transition-all duration-200 cursor-pointer sm:py-5 sm:px-10 sm:w-auto sm:text-lg xl:py-6 xl:px-12 xl:text-xl hover:bg-yellow-600 hover:shadow-lg hover:-translate-y-1 hover:cursor-pointer"
+          >
+            💡 Show Hints
+          </button>
+        }
 
-          @if (shouldShowHintsButton()) {
-            <button
-              (click)="showHints.set(true)"
-              class="py-2.5 px-6 w-full text-base font-bold text-white bg-yellow-500 rounded-xl transition-all duration-200 sm:py-3 sm:px-8 sm:w-auto sm:text-lg hover:bg-yellow-600 hover:shadow-lg"
-            >
-              💡 Show Hints
-            </button>
-          }
-
-          @if (gameSubmitted()) {
-            <button
-              (click)="nextLevel()"
-              class="py-2.5 px-6 w-full text-base font-bold text-white bg-green-500 rounded-xl transition-all duration-200 animate-bounce sm:py-3 sm:px-8 sm:w-auto sm:text-lg hover:bg-green-600 hover:shadow-lg"
-            >
-              🎉 Continue Learning
-            </button>
-          }
-        </div>
+        @if (gameSubmitted()) {
+          <button
+            (click)="nextLevel()"
+            class="py-4 px-8 w-full text-base font-bold text-white bg-green-500 rounded-xl transition-all duration-200 animate-bounce cursor-pointer sm:py-5 sm:px-10 sm:w-auto sm:text-lg xl:py-6 xl:px-12 xl:text-xl hover:bg-green-600 hover:shadow-lg hover:-translate-y-1 hover:cursor-pointer"
+          >
+            🎉 Continue Learning
+          </button>
+        }
       </div>
     </div>
   `,

@@ -14,15 +14,15 @@ import { RouterModule } from '@angular/router';
           <!-- Left - Back button with logo -->
           <button
             routerLink="/"
-            class="flex items-center space-x-2 text-gray-700 transition-colors hover:text-gray-900"
+            class="flex items-center space-x-2 text-gray-700 transition-colors cursor-pointer hover:text-gray-900 hover:cursor-pointer"
           >
             <img
               src="/assets/logo-code-money.svg"
               alt="CodeMoney"
-              class="flex-shrink-0 w-auto h-8 sm:h-10 lg:h-12"
+              class="flex-shrink-0 w-auto h-8 sm:h-10 lg:h-12 xl:h-14 2xl:h-16"
             />
             <span
-              class="text-sm font-medium leading-8 sm:text-base sm:leading-10 lg:text-lg lg:leading-12"
+              class="text-sm font-medium leading-8 sm:text-base sm:leading-10 lg:text-lg xl:text-xl 2xl:text-2xl lg:leading-12 xl:leading-14 2xl:leading-16"
               >{{ homeButtonText() }}</span
             >
           </button>

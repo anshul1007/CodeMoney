@@ -3,19 +3,13 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { RouterModule } from '@angular/router';
 
 import { CourseCardComponent, HeaderComponent } from '../components';
-import { ProgressOverviewComponent, UserProgress } from '../components/progress-overview.component';
+import { UserProgress } from '../components/progress-overview.component';
 import { CourseService } from '../services/course.service';
 
 @Component({
   selector: 'app-courses-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    HeaderComponent,
-    ProgressOverviewComponent,
-    CourseCardComponent,
-  ],
+  imports: [CommonModule, RouterModule, HeaderComponent, CourseCardComponent],
   template: `
     <div
       class="min-h-screen bg-gradient-to-br via-indigo-50 to-violet-50 from-sky-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
@@ -30,8 +24,14 @@ import { CourseService } from '../services/course.service';
       ></app-progress-overview> -->
 
       <!-- Main Content: Courses Grid -->
-      <div class="py-8 px-4 mx-auto max-w-7xl text-center sm:px-6 md:py-12">
-        <div class="grid gap-4 sm:gap-6" role="main" aria-label="Available courses">
+      <div
+        class="py-8 px-4 mx-auto max-w-7xl text-center sm:px-6 md:py-12 xl:py-16 xl:px-8 2xl:py-20 2xl:px-10"
+      >
+        <div
+          class="grid gap-4 sm:gap-6 xl:gap-8 2xl:gap-10"
+          role="main"
+          aria-label="Available courses"
+        >
           @for (course of courses(); track course.id) {
             <app-course-card [course]="course"></app-course-card>
           }
