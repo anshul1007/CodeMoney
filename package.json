@@ -12,7 +12,9 @@
     "test": "ng test",
     "test:coverage": "ng test --code-coverage",
     "pretty-quick": "pretty-quick --staged",
-    "lint": "ng lint --fix",
+    "lint": "ng lint --fix && npm run format:tailwind",
+    "format": "prettier --write \"src/**/*.{html,ts,js,json}\"",
+    "format:tailwind": "rustywind src --write",
     "perf:audit": "lighthouse http://localhost:4200 --output=html --output-path=./lighthouse-report.html --chrome-flags=\"--headless\"",
     "size-check": "npm run build:prod && ls -la dist/code-money/",
     "preview": "npm run build:prod && npx http-server dist/code-money -p 8080",
@@ -59,6 +61,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.12",
     "pretty-quick": "^4.2.2",
+    "rustywind": "^0.24.0",
     "typescript": "~5.8.2",
     "typescript-eslint": "8.33.1",
     "webpack-bundle-analyzer": "^4.10.2"

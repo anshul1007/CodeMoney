@@ -79,29 +79,29 @@ export class GlobalErrorHandler implements ErrorHandler, OnDestroy {
   template: `
     @if (errorHandler.hasErrors()) {
       <div
-        class="fixed top-4 right-4 z-50 max-w-sm bg-red-50 border border-red-200 rounded-lg shadow-lg p-4 animate-slide-in"
+        class="fixed top-4 right-4 z-50 p-4 max-w-sm bg-red-50 rounded-lg border border-red-200 shadow-lg animate-slide-in"
         role="alert"
         aria-live="assertive"
       >
         <div class="flex items-start space-x-3">
           <div class="flex-shrink-0">
-            <span class="text-red-500 text-xl">⚠️</span>
+            <span class="text-xl text-red-500">⚠️</span>
           </div>
           <div class="flex-1 min-w-0">
             <h3 class="text-sm font-medium text-red-800">Something went wrong</h3>
-            <p class="text-xs text-red-700 mt-1 line-clamp-2">
+            <p class="mt-1 text-xs text-red-700 line-clamp-2">
               {{ errorHandler.latestError()?.message }}
             </p>
-            <div class="mt-3 flex space-x-2">
+            <div class="flex mt-3 space-x-2">
               <button
                 (click)="reloadPage()"
-                class="text-xs bg-red-100 hover:bg-red-200 text-red-800 px-2 py-1 rounded transition-colors"
+                class="py-1 px-2 text-xs text-red-800 bg-red-100 rounded transition-colors hover:bg-red-200"
               >
                 Reload
               </button>
               <button
                 (click)="dismissError()"
-                class="text-xs text-red-600 hover:text-red-800 px-2 py-1 transition-colors"
+                class="py-1 px-2 text-xs text-red-600 transition-colors hover:text-red-800"
               >
                 Dismiss
               </button>

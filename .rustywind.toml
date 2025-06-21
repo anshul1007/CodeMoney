@@ -1,0 +1,128 @@
+# Tailwind CSS Class Ordering Configuration
+# This file defines the standard order for Tailwind classes across all projects
+
+# Custom class ordering that follows the standard pattern:
+# 1. Layout (flex, grid, block)
+# 2. Position (absolute, relative)
+# 3. Box Model (m-*, p-*, w-*, h-*)
+# 4. Typography (text-*, font-*)
+# 5. Background & Borders (bg-*, border-*)
+# 6. Effects (shadow-*, opacity-*)
+# 7. Transforms & Animations (transform, animate-*)
+# 8. Interactive States (hover:*, focus:*)
+# 9. Responsive Variants (sm:*, md:*, lg:*)
+
+custom_regex = [
+  # 1. Layout Classes
+  "^(flex|grid|block|inline|hidden|table)$",
+  "^(flex-row|flex-col|flex-wrap|flex-nowrap)$",
+  "^(items-|justify-|content-|self-)",
+  "^(grid-cols-|grid-rows-|col-|row-)",
+  "^(float-|clear-)",
+  "^(object-)",
+  "^(overflow-)",
+  
+  # 2. Position Classes
+  "^(static|fixed|absolute|relative|sticky)$",
+  "^(inset-|top-|right-|bottom-|left-)",
+  "^z-",
+  
+  # 3. Box Model Classes
+  # Spacing (margin, padding)
+  "^-?m[trblxy]?-",
+  "^-?p[trblxy]?-",
+  "^space-[xy]-",
+  # Sizing
+  "^w-",
+  "^min-w-",
+  "^max-w-",
+  "^h-",
+  "^min-h-",
+  "^max-h-",
+  
+  # 4. Typography Classes
+  "^font-",
+  "^text-",
+  "^leading-",
+  "^tracking-",
+  "^whitespace-",
+  "^break-",
+  "^truncate$",
+  "^line-clamp-",
+  
+  # 5. Colors & Backgrounds
+  "^bg-",
+  "^from-",
+  "^via-",
+  "^to-",
+  "^border-",
+  "^divide-",
+  "^outline-",
+  "^ring-",
+  "^decoration-",
+  
+  # 6. Border & Radius
+  "^rounded-",
+  "^border$",
+  "^border-[trblxy]",
+  "^border-[0-9]",
+  
+  # 7. Effects
+  "^shadow-",
+  "^opacity-",
+  "^mix-blend-",
+  "^filter$",
+  "^blur-",
+  "^brightness-",
+  "^contrast-",
+  "^drop-shadow-",
+  "^grayscale",
+  "^hue-rotate-",
+  "^invert",
+  "^saturate-",
+  "^sepia",
+  "^backdrop-",
+  
+  # 8. Transforms & Animations
+  "^transform$",
+  "^transform-",
+  "^origin-",
+  "^scale-",
+  "^rotate-",
+  "^translate-",
+  "^skew-",
+  "^transition-",
+  "^duration-",
+  "^ease-",
+  "^delay-",
+  "^animate-",
+  
+  # 9. Interactive States
+  "^cursor-",
+  "^pointer-events-",
+  "^resize",
+  "^select-",
+  "^user-select-",
+  
+  # 10. Responsive and State Variants (always last)
+  "^hover:",
+  "^focus:",
+  "^focus-within:",
+  "^focus-visible:",
+  "^active:",
+  "^visited:",
+  "^target:",
+  "^first:",
+  "^last:",
+  "^odd:",
+  "^even:",
+  "^disabled:",
+  "^checked:",
+  "^group-hover:",
+  "^group-focus:",
+  "^sm:",
+  "^md:",
+  "^lg:",
+  "^xl:",
+  "^2xl:",
+]

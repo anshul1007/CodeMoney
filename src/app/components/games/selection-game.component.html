@@ -1,24 +1,24 @@
-<div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
-  <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4 text-center">
+<div class="p-4 mb-4 bg-white rounded-2xl shadow-lg sm:p-6 sm:mb-6">
+  <h3 class="mb-3 text-base font-bold text-center text-gray-800 sm:mb-4 sm:text-lg">
     Guess which items you need for your lemonade stand:
   </h3>
   <!-- Progress indicator -->
-  <div class="text-center mb-4 p-2 bg-blue-50 rounded-lg">
+  <div class="p-2 mb-4 text-center bg-blue-50 rounded-lg">
     <p class="text-sm text-blue-800">
       Selected: <span class="font-bold">{{ selectedItemsCount() }}</span> items
       @if (selectedItemsCount() < minSelectionsRequired()) {
-        <span class="text-xs text-gray-600 block">
+        <span class="block text-xs text-gray-600">
           (Select at least {{ minSelectionsRequired() }} items to continue)
         </span>
       }
     </p>
   </div>
   <div
-    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4"
+    class="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 md:gap-4 lg:grid-cols-5"
   >
     @for (item of gameItems(); track trackByItemId($index, item)) {
       <div
-        class="item-card cursor-pointer transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        class="transition-all duration-200 cursor-pointer hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none item-card"
         [class.selected]="item.isSelected"
         [class.correct]="item.isSelected && item.isCorrect && isSubmitted()"
         [class.incorrect]="item.isSelected && !item.isCorrect && isSubmitted()"
@@ -31,7 +31,7 @@
         role="button"
       >
         <div
-          class="border-2 rounded-xl p-2 sm:p-3 md:p-4 text-center"
+          class="p-2 text-center rounded-xl border-2 sm:p-3 md:p-4"
           [ngClass]="{
             'border-blue-500 bg-blue-50': item.isSelected && !isSubmitted(),
             'border-green-500 bg-green-50': isSubmitted() && item.isCorrect && item.isSelected,
@@ -40,15 +40,15 @@
             'border-gray-200 bg-white hover:border-gray-300': !item.isSelected && !isSubmitted(),
           }"
         >
-          <div class="text-2xl sm:text-3xl md:text-4xl mb-1 sm:mb-2">
+          <div class="mb-1 text-2xl sm:mb-2 sm:text-3xl md:text-4xl">
             {{ item.icon }}
           </div>
-          <div class="font-medium text-xs sm:text-sm text-gray-800">
+          <div class="text-xs font-medium text-gray-800 sm:text-sm">
             {{ item.name }}
           </div>
           <!-- Feedback -->
           @if (isSubmitted()) {
-            <div class="mt-1 sm:mt-2 text-xs">
+            <div class="mt-1 text-xs sm:mt-2">
               @if (item.isCorrect && item.isSelected) {
                 <span class="text-green-600"> ✅ Needed for lemonade! </span>
               }

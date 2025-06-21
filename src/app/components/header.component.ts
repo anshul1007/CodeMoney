@@ -7,29 +7,29 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="bg-white shadow-sm border-b border-gray-100">
-      <div class="max-w-7xl mx-auto px-4 py-3 sm:py-4">
+    <div class="bg-white border-b border-gray-100 shadow-sm">
+      <div class="py-3 px-4 mx-auto max-w-7xl sm:py-4">
         <!-- Single row header -->
-        <div class="flex items-center justify-between">
+        <div class="flex justify-between items-center">
           <!-- Left - Back button with logo -->
           <button
             routerLink="/"
-            class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition-colors"
+            class="flex items-center space-x-2 text-gray-700 transition-colors hover:text-gray-900"
           >
             <img
               src="/assets/logo-code-money.svg"
               alt="CodeMoney"
-              class="h-8 sm:h-10 lg:h-12 w-auto flex-shrink-0"
+              class="flex-shrink-0 w-auto h-8 sm:h-10 lg:h-12"
             />
             <span
-              class="font-medium text-sm sm:text-base lg:text-lg leading-8 sm:leading-10 lg:leading-12"
+              class="text-sm font-medium leading-8 sm:text-base sm:leading-10 lg:text-lg lg:leading-12"
               >{{ homeButtonText() }}</span
             >
           </button>
           <!-- Center - Title -->
-          <div class="flex-1 text-center mx-4">
+          <div class="flex-1 mx-4 text-center">
             @if (title()) {
-              <h1 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
+              <h1 class="text-lg font-bold text-gray-800 sm:text-xl lg:text-2xl">
                 {{ title() }}
               </h1>
             }

@@ -8,6 +8,9 @@ const importPlugin = require('eslint-plugin-import');
 
 module.exports = tseslint.config(
   {
+    ignores: ['src/index.html', 'src/app/app.html'], // Ignore non-Angular HTML files
+  },
+  {
     files: ['**/*.ts'],
     languageOptions: {
       parser: tseslint.parser,
@@ -140,8 +143,13 @@ module.exports = tseslint.config(
     },
   },
   {
-    files: ['**/*.html'],
+    files: ['**/*.component.html', '**/pages/*.html'], // Angular component templates and page templates
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
-    rules: {},
+    plugins: {
+      prettier: prettierPlugin,
+    },
+    rules: {
+      'prettier/prettier': 'error', // Enable Prettier formatting for Angular HTML templates
+    },
   },
 );

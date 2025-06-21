@@ -51,7 +51,7 @@ import { GameService } from '../services/game.service';
         />
       }
       <!-- Game Content -->
-      <div class="container mx-auto max-w-4xl p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6">
+      <div class="container p-3 mx-auto space-y-4 max-w-4xl sm:p-4 sm:space-y-6 md:p-6">
         <app-scene-description [scene]="gameData()?.scene || ''" />
 
         <app-game-prompt
@@ -71,16 +71,16 @@ import { GameService } from '../services/game.service';
             !validationResult()?.isValid
           ) {
             <div
-              class="mb-4 sm:mb-6 p-3 sm:p-4 bg-yellow-50 border border-yellow-200 rounded-xl text-center max-w-md mx-auto"
+              class="p-3 mx-auto mb-4 max-w-md text-center bg-yellow-50 rounded-xl border border-yellow-200 sm:p-4 sm:mb-6"
             >
-              <div class="flex items-center justify-center mb-2">
-                <span class="text-yellow-600 mr-2">⚠️</span>
-                <span class="font-medium text-yellow-800 text-sm sm:text-base">
+              <div class="flex justify-center items-center mb-2">
+                <span class="mr-2 text-yellow-600">⚠️</span>
+                <span class="text-sm font-medium text-yellow-800 sm:text-base">
                   {{ validationResult()?.message }}
                 </span>
               </div>
               @if (validationResult()?.requiredActions?.length) {
-                <div class="text-xs text-yellow-700 mt-2">
+                <div class="mt-2 text-xs text-yellow-700">
                   @for (
                     action of validationResult()?.requiredActions;
                     track $index
@@ -94,14 +94,14 @@ import { GameService } from '../services/game.service';
         <!-- Celebration Message -->
         @if (gameSubmitted()) {
           <app-card-wrapper variant="success" customClasses="mb-4 sm:mb-6 text-center">
-            <div class="flex justify-center items-center gap-2 mb-1">
+            <div class="flex gap-2 justify-center items-center mb-1">
               <div class="text-2xl sm:text-3xl">🎉</div>
               <h3 class="text-lg font-bold text-green-800">Amazing Work!</h3>
             </div>
             <p class="text-sm text-green-700">You earned 3 stars!</p>
-            <div class="flex justify-center space-x-1 my-1">
+            <div class="flex justify-center my-1 space-x-1">
               @for (star of [1, 2, 3]; track $index) {
-                <span class="text-yellow-400 text-lg sm:text-xl">⭐</span>
+                <span class="text-lg text-yellow-400 sm:text-xl">⭐</span>
               }
             </div>
           </app-card-wrapper>
@@ -109,13 +109,13 @@ import { GameService } from '../services/game.service';
 
         <!-- Action Buttons -->
         <div
-          class="text-center space-y-3 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row justify-center"
+          class="flex flex-col justify-center space-y-3 text-center sm:flex-row sm:space-y-0 sm:space-x-4"
         >
           @if (!gameSubmitted()) {
             <button
               (click)="handleSubmit()"
               [disabled]="!canSubmitGame()"
-              class="font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl transition-all duration-200 text-base sm:text-lg w-full sm:w-auto"
+              class="py-2.5 px-6 w-full text-base font-bold rounded-xl transition-all duration-200 sm:py-3 sm:px-8 sm:w-auto sm:text-lg"
               [ngClass]="{
                 'bg-blue-500 hover:bg-blue-600 text-white hover:shadow-lg': canSubmitGame(),
                 'bg-gray-300 text-gray-500 cursor-not-allowed': !canSubmitGame(),
@@ -128,7 +128,7 @@ import { GameService } from '../services/game.service';
           @if (shouldShowHintsButton()) {
             <button
               (click)="showHints.set(true)"
-              class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl transition-all duration-200 hover:shadow-lg text-base sm:text-lg w-full sm:w-auto"
+              class="py-2.5 px-6 w-full text-base font-bold text-white bg-yellow-500 rounded-xl transition-all duration-200 sm:py-3 sm:px-8 sm:w-auto sm:text-lg hover:bg-yellow-600 hover:shadow-lg"
             >
               💡 Show Hints
             </button>
@@ -137,7 +137,7 @@ import { GameService } from '../services/game.service';
           @if (gameSubmitted()) {
             <button
               (click)="nextLevel()"
-              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl transition-all duration-200 hover:shadow-lg text-base sm:text-lg w-full sm:w-auto animate-bounce"
+              class="py-2.5 px-6 w-full text-base font-bold text-white bg-green-500 rounded-xl transition-all duration-200 animate-bounce sm:py-3 sm:px-8 sm:w-auto sm:text-lg hover:bg-green-600 hover:shadow-lg"
             >
               🎉 Continue Learning
             </button>

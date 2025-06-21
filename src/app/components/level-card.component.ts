@@ -10,33 +10,33 @@ import { Level } from '../models';
   imports: [CommonModule, RouterModule],
   template: `
     <div
-      class="level-card h-full"
+      class="h-full level-card"
       [class.completed]="level().isCompleted"
       [class.unlocked]="level().isUnlocked"
       [class.locked]="!level().isUnlocked"
       [routerLink]="level().isUnlocked ? levelRoute() : null"
     >
       <div
-        class="border rounded-lg p-2 sm:p-3 lg:p-4 relative min-h-[80px] sm:min-h-[100px] flex flex-col cursor-pointer transition-all duration-200 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:scale-95 h-full"
+        class="flex relative flex-col p-2 h-full rounded-lg border shadow-md transition-all duration-200 cursor-pointer sm:p-3 lg:p-4 hover:shadow-xl hover:-translate-y-0.5 active:scale-95 min-h-[80px] sm:min-h-[100px]"
         [ngClass]="levelCardClasses()"
       >
         <!-- Level Icon/Status -->
-        <div class="text-center mb-1 sm:mb-2">
+        <div class="mb-1 text-center sm:mb-2">
           <div class="text-lg sm:text-xl lg:text-2xl" [ngClass]="iconClasses()">
             {{ levelIcon() }}
           </div>
         </div>
 
         <!-- Level Info -->
-        <div class="flex-1 flex flex-col justify-between">
+        <div class="flex flex-col flex-1 justify-between">
           <h5
-            class="font-medium text-xs sm:text-sm text-center mb-1 line-clamp-2"
+            class="mb-1 text-xs font-medium text-center sm:text-sm line-clamp-2"
             [ngClass]="titleClasses()"
           >
             {{ level().title }}
           </h5>
 
-          <p class="text-xs text-center text-gray-500 mb-1 sm:mb-2 line-clamp-2 flex-1">
+          <p class="flex-1 mb-1 text-xs text-center text-gray-500 sm:mb-2 line-clamp-2">
             {{ level().description }}
           </p>
 
@@ -44,7 +44,7 @@ import { Level } from '../models';
           @if (level().isCompleted) {
             <div class="flex justify-center space-x-1">
               @for (star of getStarsArray(level().stars); track $index) {
-                <span class="text-yellow-400 text-sm sm:text-base">⭐</span>
+                <span class="text-sm text-yellow-400 sm:text-base">⭐</span>
               }
             </div>
           }
@@ -53,7 +53,7 @@ import { Level } from '../models';
         <!-- Play Button -->
         @if (level().isUnlocked && !level().isCompleted) {
           <div
-            class="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-blue-500 text-white rounded-full w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center text-xs sm:text-sm font-bold"
+            class="flex absolute -top-1 -right-1 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-blue-500 rounded-full sm:-top-2 sm:-right-2 sm:w-8 sm:h-8 sm:text-sm"
           >
             ▶
           </div>

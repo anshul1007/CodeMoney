@@ -12,7 +12,7 @@ import { AccessibilityService } from './accessibility.service';
       <!-- Accessibility Toggle Button -->
       <button
         (click)="togglePanel()"
-        class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all duration-200 focus:ring-4 focus:ring-blue-300"
+        class="p-3 text-white bg-blue-600 rounded-full shadow-lg transition-all duration-200 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300"
         [attr.aria-expanded]="isPanelOpen()"
         [attr.aria-label]="isPanelOpen() ? 'Close accessibility panel' : 'Open accessibility panel'"
         title="Accessibility Options"
@@ -27,18 +27,18 @@ import { AccessibilityService } from './accessibility.service';
       <!-- Accessibility Panel -->
       @if (isPanelOpen()) {
         <div
-          class="mt-2 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 p-4 w-80 animate-fade-in"
+          class="p-4 mt-2 w-80 bg-white rounded-lg border shadow-xl border-slate-200 animate-fade-in dark:bg-slate-800 dark:border-slate-700"
           role="dialog"
           aria-label="Accessibility settings"
           [attr.aria-hidden]="!isPanelOpen()"
         >
-          <div class="flex items-center justify-between mb-4">
+          <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-200">
               Accessibility Options
             </h2>
             <button
               (click)="togglePanel()"
-              class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 p-1 rounded transition-colors"
+              class="p-1 rounded transition-colors text-slate-500 dark:text-slate-400 dark:hover:text-slate-300 hover:text-slate-700"
               aria-label="Close panel"
             >
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -54,7 +54,7 @@ import { AccessibilityService } from './accessibility.service';
           <!-- Accessibility Settings -->
           <div class="space-y-4">
             <!-- High Contrast -->
-            <div class="flex items-center justify-between">
+            <div class="flex justify-between items-center">
               <label
                 for="high-contrast"
                 class="text-sm font-medium text-slate-700 dark:text-slate-300"
@@ -64,14 +64,14 @@ import { AccessibilityService } from './accessibility.service';
               <button
                 id="high-contrast"
                 (click)="accessibilityService.toggleSetting('highContrast')"
-                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="inline-flex relative items-center w-11 h-6 rounded-full transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 [class.bg-blue-600]="accessibilityService.currentSettings().highContrast"
                 [class.bg-slate-300]="!accessibilityService.currentSettings().highContrast"
                 role="switch"
                 [attr.aria-checked]="accessibilityService.currentSettings().highContrast"
               >
                 <span
-                  class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+                  class="inline-block w-4 h-4 bg-white rounded-full transition-transform transform"
                   [class.translate-x-6]="accessibilityService.currentSettings().highContrast"
                   [class.translate-x-1]="!accessibilityService.currentSettings().highContrast"
                 ></span>
@@ -79,7 +79,7 @@ import { AccessibilityService } from './accessibility.service';
             </div>
 
             <!-- Large Text -->
-            <div class="flex items-center justify-between">
+            <div class="flex justify-between items-center">
               <label
                 for="large-text"
                 class="text-sm font-medium text-slate-700 dark:text-slate-300"
@@ -89,14 +89,14 @@ import { AccessibilityService } from './accessibility.service';
               <button
                 id="large-text"
                 (click)="accessibilityService.toggleSetting('largeText')"
-                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="inline-flex relative items-center w-11 h-6 rounded-full transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 [class.bg-blue-600]="accessibilityService.currentSettings().largeText"
                 [class.bg-slate-300]="!accessibilityService.currentSettings().largeText"
                 role="switch"
                 [attr.aria-checked]="accessibilityService.currentSettings().largeText"
               >
                 <span
-                  class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+                  class="inline-block w-4 h-4 bg-white rounded-full transition-transform transform"
                   [class.translate-x-6]="accessibilityService.currentSettings().largeText"
                   [class.translate-x-1]="!accessibilityService.currentSettings().largeText"
                 ></span>
@@ -104,7 +104,7 @@ import { AccessibilityService } from './accessibility.service';
             </div>
 
             <!-- Reduced Motion -->
-            <div class="flex items-center justify-between">
+            <div class="flex justify-between items-center">
               <label
                 for="reduced-motion"
                 class="text-sm font-medium text-slate-700 dark:text-slate-300"
@@ -114,14 +114,14 @@ import { AccessibilityService } from './accessibility.service';
               <button
                 id="reduced-motion"
                 (click)="accessibilityService.toggleSetting('reducedMotion')"
-                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="inline-flex relative items-center w-11 h-6 rounded-full transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 [class.bg-blue-600]="accessibilityService.currentSettings().reducedMotion"
                 [class.bg-slate-300]="!accessibilityService.currentSettings().reducedMotion"
                 role="switch"
                 [attr.aria-checked]="accessibilityService.currentSettings().reducedMotion"
               >
                 <span
-                  class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+                  class="inline-block w-4 h-4 bg-white rounded-full transition-transform transform"
                   [class.translate-x-6]="accessibilityService.currentSettings().reducedMotion"
                   [class.translate-x-1]="!accessibilityService.currentSettings().reducedMotion"
                 ></span>
@@ -129,7 +129,7 @@ import { AccessibilityService } from './accessibility.service';
             </div>
 
             <!-- Screen Reader Mode -->
-            <div class="flex items-center justify-between">
+            <div class="flex justify-between items-center">
               <label
                 for="screen-reader"
                 class="text-sm font-medium text-slate-700 dark:text-slate-300"
@@ -139,14 +139,14 @@ import { AccessibilityService } from './accessibility.service';
               <button
                 id="screen-reader"
                 (click)="accessibilityService.toggleSetting('screenReaderMode')"
-                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="inline-flex relative items-center w-11 h-6 rounded-full transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 [class.bg-blue-600]="accessibilityService.currentSettings().screenReaderMode"
                 [class.bg-slate-300]="!accessibilityService.currentSettings().screenReaderMode"
                 role="switch"
                 [attr.aria-checked]="accessibilityService.currentSettings().screenReaderMode"
               >
                 <span
-                  class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+                  class="inline-block w-4 h-4 bg-white rounded-full transition-transform transform"
                   [class.translate-x-6]="accessibilityService.currentSettings().screenReaderMode"
                   [class.translate-x-1]="!accessibilityService.currentSettings().screenReaderMode"
                 ></span>
@@ -155,14 +155,14 @@ import { AccessibilityService } from './accessibility.service';
           </div>
           <!-- Accessibility Alerts -->
           @if (accessibilityService.hasAccessibilityAlerts()) {
-            <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
-              <h3 class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+            <div class="pt-4 mt-4 border-t border-slate-200 dark:border-slate-700">
+              <h3 class="mb-2 text-sm font-medium text-slate-700 dark:text-slate-300">
                 Accessibility Issues
               </h3>
-              <div class="space-y-2 max-h-32 overflow-y-auto">
+              <div class="overflow-y-auto space-y-2 max-h-32">
                 @for (alert of accessibilityService.accessibilityAlerts(); track $index) {
                   <div
-                    class="p-2 rounded text-xs"
+                    class="p-2 text-xs rounded"
                     [ngClass]="{
                       'bg-blue-50 text-blue-800 border border-blue-200': alert.level === 'info',
                       'bg-yellow-50 text-yellow-800 border border-yellow-200':
@@ -179,7 +179,7 @@ import { AccessibilityService } from './accessibility.service';
               </div>
               <button
                 (click)="accessibilityService.clearAlerts()"
-                class="mt-2 text-xs text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                class="mt-2 text-xs text-slate-500 dark:text-slate-400 dark:hover:text-slate-300 hover:text-slate-700"
               >
                 Clear all alerts
               </button>
@@ -187,20 +187,20 @@ import { AccessibilityService } from './accessibility.service';
           }
 
           <!-- Quick Actions -->
-          <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
-            <h3 class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+          <div class="pt-4 mt-4 border-t border-slate-200 dark:border-slate-700">
+            <h3 class="mb-2 text-sm font-medium text-slate-700 dark:text-slate-300">
               Quick Actions
             </h3>
             <div class="grid grid-cols-2 gap-2">
               <button
                 (click)="focusMainContent()"
-                class="text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 p-2 rounded transition-colors"
+                class="p-2 text-xs rounded transition-colors bg-slate-100 text-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-300 hover:bg-slate-200"
               >
                 Focus Main Content
               </button>
               <button
                 (click)="announcePageContent()"
-                class="text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 p-2 rounded transition-colors"
+                class="p-2 text-xs rounded transition-colors bg-slate-100 text-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-300 hover:bg-slate-200"
               >
                 Announce Page
               </button>

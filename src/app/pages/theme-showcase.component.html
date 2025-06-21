@@ -1,52 +1,47 @@
-<div class="min-h-screen educational-gradient text-white font-body">
-  <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+<div class="min-h-screen text-white educational-gradient font-body">
+  <div class="p-4 mx-auto max-w-7xl sm:p-6 lg:p-8">
     <!-- Header -->
-    <div class="text-center mb-8 sm:mb-12">
+    <div class="mb-8 text-center sm:mb-12">
       <div
-        class="bg-neutral-900/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-glow border border-white/20 mb-6 sm:mb-8"
+        class="p-6 mb-6 rounded-2xl border sm:p-8 sm:mb-8 sm:rounded-3xl lg:p-10 shadow-glow border-white/20 bg-neutral-900/80 backdrop-blur-lg"
       >
         <h1
-          class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 sm:mb-4 drop-shadow-2xl"
+          class="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl md:text-4xl lg:text-5xl font-display drop-shadow-2xl"
         >
-          <span class="text-cyan-300">Code</span
-          ><span class="text-yellow-300">Money</span> Theme Showcase
+          <span class="text-cyan-300">Code</span><span class="text-yellow-300">Money</span> Theme
+          Showcase
         </h1>
         <p
-          class="text-sm sm:text-base md:text-lg lg:text-xl text-gray-50 max-w-3xl mx-auto drop-shadow-lg font-medium"
+          class="mx-auto max-w-3xl text-sm font-medium text-gray-50 sm:text-base md:text-lg lg:text-xl drop-shadow-lg"
         >
-          A comprehensive design system for financial education, featuring
-          modern colors, typography, and components designed for learning and
-          engagement.
+          A comprehensive design system for financial education, featuring modern colors,
+          typography, and components designed for learning and engagement.
         </p>
         <div class="mt-4 sm:mt-6">
-          <a routerLink="/" class="btn-nav-home text-sm sm:text-base"
-            >← Back to Home</a
-          >
+          <a routerLink="/" class="text-sm sm:text-base btn-nav-home">← Back to Home</a>
         </div>
       </div>
     </div>
     <!-- Color Palettes -->
     <section class="mb-12 sm:mb-16">
       <div class="section-dark">
-        <h2 class="section-header text-white text-xl sm:text-2xl lg:text-3xl">
-          Color Palettes
-        </h2>
+        <h2 class="text-xl text-white sm:text-2xl lg:text-3xl section-header">Color Palettes</h2>
         <div class="space-y-6 sm:space-y-8">
           @for (palette of colorPalettes; track palette.name) {
             <div class="color-palette-card">
-              <h3 class="color-palette-title text-base sm:text-lg">
+              <h3 class="text-base sm:text-lg color-palette-title">
                 {{ palette.name }}
               </h3>
               <div
-                class="color-grid-small grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3"
+                class="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-6 color-grid-small"
               >
                 @for (color of palette.colors; track color.name) {
                   <div
                     [style.background-color]="color.value"
-                    class="color-swatch aspect-square rounded-lg min-h-[60px] sm:min-h-[80px] flex items-center justify-center"
+                    class="flex justify-center items-center rounded-lg color-swatch aspect-square min-h-[60px] sm:min-h-[80px]"
                   >
                     <span
-                      class="color-swatch-label text-xs sm:text-sm font-medium text-center px-1"
+                      class="px-1 text-xs font-medium text-center sm:text-sm color-swatch-label"
                     >
                       {{ color.name }}
                     </span>
@@ -61,16 +56,16 @@
     <!-- Educational Colors -->
     <section class="mb-12 sm:mb-16">
       <div class="section-dark">
-        <h2 class="section-header text-white text-xl sm:text-2xl lg:text-3xl">
+        <h2 class="text-xl text-white sm:text-2xl lg:text-3xl section-header">
           Educational Colors
         </h2>
         <div
-          class="color-grid-large grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"
+          class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 color-grid-large"
         >
           @for (color of educationColors; track color.name) {
             <div
               [style.background-color]="color.value"
-              class="color-demo-box aspect-square rounded-xl min-h-[80px] sm:min-h-[100px] flex items-center justify-center text-xs sm:text-sm md:text-base font-medium text-center p-2"
+              class="flex justify-center items-center p-2 text-xs font-medium text-center rounded-xl sm:text-sm md:text-base color-demo-box aspect-square min-h-[80px] sm:min-h-[100px]"
             >
               {{ color.name }}
             </div>
@@ -81,16 +76,14 @@
     <!-- Financial Colors -->
     <section class="mb-12 sm:mb-16">
       <div class="section-dark">
-        <h2 class="section-header text-white text-xl sm:text-2xl lg:text-3xl">
-          Financial Colors
-        </h2>
+        <h2 class="text-xl text-white sm:text-2xl lg:text-3xl section-header">Financial Colors</h2>
         <div
-          class="color-grid-large grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"
+          class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 color-grid-large"
         >
           @for (color of financeColors; track color.name) {
             <div
               [style.background-color]="color.value"
-              class="color-demo-box aspect-square rounded-xl min-h-[80px] sm:min-h-[100px] flex items-center justify-center text-xs sm:text-sm md:text-base font-medium text-center p-2"
+              class="flex justify-center items-center p-2 text-xs font-medium text-center rounded-xl sm:text-sm md:text-base color-demo-box aspect-square min-h-[80px] sm:min-h-[100px]"
             >
               {{ color.name }}
             </div>
@@ -101,52 +94,40 @@
     <!-- Typography -->
     <section class="mb-12 sm:mb-16">
       <div class="section-content">
-        <h2 class="section-title text-xl sm:text-2xl lg:text-3xl">
-          Typography
-        </h2>
+        <h2 class="text-xl sm:text-2xl lg:text-3xl section-title">Typography</h2>
         <div class="space-y-4 sm:space-y-6">
           <div>
-            <h1
-              class="display-font-showcase text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
-            >
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl display-font-showcase">
               Display Font
             </h1>
-            <p class="font-description text-sm sm:text-base">
+            <p class="text-sm sm:text-base font-description">
               Poppins - Used for headings and display text
             </p>
           </div>
           <div>
-            <h2
-              class="body-font-showcase text-lg sm:text-xl md:text-2xl lg:text-3xl"
-            >
-              Body Font
-            </h2>
-            <p class="font-description text-sm sm:text-base">
+            <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl body-font-showcase">Body Font</h2>
+            <p class="text-sm sm:text-base font-description">
               Inter - Used for body text and UI elements
             </p>
           </div>
           <div>
-            <code class="mono-font-showcase text-sm sm:text-base md:text-lg"
-              >Monospace Font</code
-            >
-            <p class="font-description text-sm sm:text-base">
+            <code class="text-sm sm:text-base md:text-lg mono-font-showcase">Monospace Font</code>
+            <p class="text-sm sm:text-base font-description">
               Used for code, numbers, and technical content
             </p>
           </div>
 
           <!-- Font Size Examples -->
           <div>
-            <h3 class="font-scale-title text-base sm:text-lg">
-              Font Size Scale
-            </h3>
-            <div class="font-examples space-y-2">
-              <p class="font-example-xs text-xs">Extra Small - 12px</p>
-              <p class="font-example-sm text-sm">Small - 14px</p>
-              <p class="font-example-base text-base">Base - 16px</p>
-              <p class="font-example-lg text-lg">Large - 18px</p>
-              <p class="font-example-xl text-xl">Extra Large - 20px</p>
-              <p class="font-example-2xl text-2xl">2XL - 24px</p>
-              <p class="font-example-3xl text-3xl">3XL - 30px</p>
+            <h3 class="text-base sm:text-lg font-scale-title">Font Size Scale</h3>
+            <div class="space-y-2 font-examples">
+              <p class="text-xs font-example-xs">Extra Small - 12px</p>
+              <p class="text-sm font-example-sm">Small - 14px</p>
+              <p class="text-base font-example-base">Base - 16px</p>
+              <p class="text-lg font-example-lg">Large - 18px</p>
+              <p class="text-xl font-example-xl">Extra Large - 20px</p>
+              <p class="text-2xl font-example-2xl">2XL - 24px</p>
+              <p class="text-3xl font-example-3xl">3XL - 30px</p>
             </div>
           </div>
         </div>
@@ -155,137 +136,92 @@
     <!-- Button Components -->
     <section class="mb-12 sm:mb-16">
       <div class="section-content">
-        <h2 class="section-title text-xl sm:text-2xl lg:text-3xl">
-          Button Components
-        </h2>
+        <h2 class="text-xl sm:text-2xl lg:text-3xl section-title">Button Components</h2>
         <!-- Primary Button Styles -->
         <div class="mb-6 sm:mb-8">
-          <h3
-            class="text-lg sm:text-xl font-semibold text-neutral-800 mb-3 sm:mb-4"
-          >
+          <h3 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl text-neutral-800">
             Primary Button Styles
           </h3>
           <div class="flex flex-wrap gap-2 sm:gap-3 md:gap-4">
-            <button class="btn-primary text-sm sm:text-base px-3 sm:px-4 py-2">
+            <button class="py-2 px-3 text-sm sm:px-4 sm:text-base btn-primary">
               Primary Button
             </button>
-            <button
-              class="btn-secondary text-sm sm:text-base px-3 sm:px-4 py-2"
-            >
+            <button class="py-2 px-3 text-sm sm:px-4 sm:text-base btn-secondary">
               Secondary Button
             </button>
-            <button class="btn-success text-sm sm:text-base px-3 sm:px-4 py-2">
+            <button class="py-2 px-3 text-sm sm:px-4 sm:text-base btn-success">
               Success Button
             </button>
-            <button class="btn-warning text-sm sm:text-base px-3 sm:px-4 py-2">
+            <button class="py-2 px-3 text-sm sm:px-4 sm:text-base btn-warning">
               Warning Button
             </button>
-            <button class="btn-error text-sm sm:text-base px-3 sm:px-4 py-2">
-              Error Button
-            </button>
+            <button class="py-2 px-3 text-sm sm:px-4 sm:text-base btn-error">Error Button</button>
           </div>
         </div>
 
         <!-- Financial Theme Buttons -->
         <div class="mb-6 sm:mb-8">
-          <h3
-            class="text-lg sm:text-xl font-semibold text-neutral-800 mb-3 sm:mb-4"
-          >
+          <h3 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl text-neutral-800">
             Financial Theme Buttons
           </h3>
           <div class="flex flex-wrap gap-2 sm:gap-3 md:gap-4">
-            <button class="btn-profit text-sm sm:text-base px-3 sm:px-4 py-2">
-              💰 Profit
-            </button>
-            <button class="btn-loss text-sm sm:text-base px-3 sm:px-4 py-2">
-              📉 Loss
-            </button>
-            <button
-              class="btn-investment text-sm sm:text-base px-3 sm:px-4 py-2"
-            >
+            <button class="py-2 px-3 text-sm sm:px-4 sm:text-base btn-profit">💰 Profit</button>
+            <button class="py-2 px-3 text-sm sm:px-4 sm:text-base btn-loss">📉 Loss</button>
+            <button class="py-2 px-3 text-sm sm:px-4 sm:text-base btn-investment">
               💼 Investment
             </button>
-            <button class="btn-savings text-sm sm:text-base px-3 sm:px-4 py-2">
-              🏦 Savings
-            </button>
+            <button class="py-2 px-3 text-sm sm:px-4 sm:text-base btn-savings">🏦 Savings</button>
           </div>
         </div>
 
         <!-- Button Variants -->
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8"
-        >
-          <div
-            class="p-4 sm:p-6 border border-neutral-300 rounded-lg bg-neutral-50"
-          >
-            <h4
-              class="font-bold text-neutral-800 mb-3 sm:mb-4 text-sm sm:text-base"
-            >
+        <div class="grid grid-cols-1 gap-4 mt-6 sm:grid-cols-2 sm:gap-6 sm:mt-8 lg:grid-cols-3">
+          <div class="p-4 rounded-lg border sm:p-6 border-neutral-300 bg-neutral-50">
+            <h4 class="mb-3 text-sm font-bold sm:mb-4 sm:text-base text-neutral-800">
               Button Sizes
             </h4>
             <div class="space-y-2 sm:space-y-3">
-              <button class="btn-primary btn-sm w-full text-sm px-3 py-1.5">
-                Small Button
-              </button>
-              <button class="btn-primary w-full text-sm sm:text-base px-4 py-2">
+              <button class="py-1.5 px-3 w-full text-sm btn-primary btn-sm">Small Button</button>
+              <button class="py-2 px-4 w-full text-sm sm:text-base btn-primary">
                 Medium Button
               </button>
-              <button
-                class="btn-primary btn-lg w-full text-base sm:text-lg px-5 py-3"
-              >
+              <button class="py-3 px-5 w-full text-base sm:text-lg btn-primary btn-lg">
                 Large Button
               </button>
             </div>
           </div>
 
-          <div
-            class="p-4 sm:p-6 border border-neutral-300 rounded-lg bg-neutral-50"
-          >
-            <h4
-              class="font-bold text-neutral-800 mb-3 sm:mb-4 text-sm sm:text-base"
-            >
+          <div class="p-4 rounded-lg border sm:p-6 border-neutral-300 bg-neutral-50">
+            <h4 class="mb-3 text-sm font-bold sm:mb-4 sm:text-base text-neutral-800">
               Button States
             </h4>
             <div class="space-y-2 sm:space-y-3">
-              <button class="btn-primary w-full text-sm sm:text-base px-4 py-2">
+              <button class="py-2 px-4 w-full text-sm sm:text-base btn-primary">
                 Normal State
               </button>
-              <button
-                class="btn-disabled w-full text-sm sm:text-base px-4 py-2"
-                disabled
-              >
+              <button class="py-2 px-4 w-full text-sm sm:text-base btn-disabled" disabled>
                 Disabled State
               </button>
               <button
-                class="btn-primary w-full ring-4 ring-blue-200 text-sm sm:text-base px-4 py-2"
+                class="py-2 px-4 w-full text-sm ring-4 ring-blue-200 sm:text-base btn-primary"
               >
                 Focused State
               </button>
             </div>
           </div>
 
-          <div
-            class="p-4 sm:p-6 border border-neutral-300 rounded-lg bg-neutral-50"
-          >
-            <h4
-              class="font-bold text-neutral-800 mb-3 sm:mb-4 text-sm sm:text-base"
-            >
+          <div class="p-4 rounded-lg border sm:p-6 border-neutral-300 bg-neutral-50">
+            <h4 class="mb-3 text-sm font-bold sm:mb-4 sm:text-base text-neutral-800">
               Outline Buttons
             </h4>
             <div class="space-y-2 sm:space-y-3">
-              <button
-                class="btn-outline-primary w-full text-sm sm:text-base px-4 py-2"
-              >
+              <button class="py-2 px-4 w-full text-sm sm:text-base btn-outline-primary">
                 Primary Outline
               </button>
-              <button
-                class="btn-outline-secondary w-full text-sm sm:text-base px-4 py-2"
-              >
+              <button class="py-2 px-4 w-full text-sm sm:text-base btn-outline-secondary">
                 Secondary Outline
               </button>
-              <button
-                class="btn-outline-success w-full text-sm sm:text-base px-4 py-2"
-              >
+              <button class="py-2 px-4 w-full text-sm sm:text-base btn-outline-success">
                 Success Outline
               </button>
             </div>
@@ -296,44 +232,31 @@
     <!-- Card Components -->
     <section class="mb-12 sm:mb-16">
       <div
-        class="bg-neutral-800/95 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/30 shadow-2xl"
+        class="p-4 rounded-2xl border shadow-2xl sm:p-6 sm:rounded-3xl lg:p-8 border-white/30 bg-neutral-800/95 backdrop-blur-lg"
       >
         <h2
-          class="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-white mb-6 sm:mb-8 drop-shadow-lg"
+          class="mb-6 text-xl font-bold text-white sm:mb-8 sm:text-2xl lg:text-3xl font-display drop-shadow-lg"
         >
           Card Components
         </h2>
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
-        >
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           <div class="card-basic">
-            <h3
-              class="text-lg sm:text-xl font-bold text-neutral-800 mb-2 sm:mb-3"
-            >
-              Basic Card
-            </h3>
-            <p
-              class="text-sm sm:text-base text-neutral-600 mb-3 sm:mb-4 font-medium"
-            >
-              This is a standard card component with hover effects and clean
-              styling.
+            <h3 class="mb-2 text-lg font-bold sm:mb-3 sm:text-xl text-neutral-800">Basic Card</h3>
+            <p class="mb-3 text-sm font-medium sm:mb-4 sm:text-base text-neutral-600">
+              This is a standard card component with hover effects and clean styling.
             </p>
             <button class="btn-card-primary">Learn More</button>
           </div>
 
           <div class="card-educational">
             <h3>Educational Card</h3>
-            <p>
-              A themed card for educational content with gradient background.
-            </p>
+            <p>A themed card for educational content with gradient background.</p>
             <button class="btn-card-transparent">Explore</button>
           </div>
 
           <div class="card-financial">
             <h3>Financial Card</h3>
-            <p>
-              A themed card for financial content with professional styling.
-            </p>
+            <p>A themed card for financial content with professional styling.</p>
             <button class="btn-card-transparent">Calculate</button>
           </div>
         </div>
@@ -342,20 +265,14 @@
     <!-- Gradients & Backgrounds -->
     <section class="mb-16">
       <div
-        class="bg-neutral-800/95 backdrop-blur-lg rounded-3xl p-8 border border-white/30 shadow-2xl"
+        class="p-8 rounded-3xl border shadow-2xl border-white/30 bg-neutral-800/95 backdrop-blur-lg"
       >
-        <h2
-          class="text-3xl font-display font-bold text-white mb-8 drop-shadow-lg"
-        >
+        <h2 class="mb-8 text-3xl font-bold text-white font-display drop-shadow-lg">
           Gradients & Backgrounds
         </h2>
-        <div class="grid md:grid-cols-3 gap-6">
-          <div class="gradient-showcase gradient-educational">
-            Educational Gradient
-          </div>
-          <div class="gradient-showcase financial-gradient">
-            Financial Gradient
-          </div>
+        <div class="grid gap-6 md:grid-cols-3">
+          <div class="gradient-showcase gradient-educational">Educational Gradient</div>
+          <div class="gradient-showcase financial-gradient">Financial Gradient</div>
           <div class="gradient-showcase gradient-brand">Brand Gradient</div>
         </div>
       </div>
@@ -365,51 +282,37 @@
       <div class="section-content">
         <h2 class="section-title">Animations</h2>
 
-        <div class="grid md:grid-cols-4 gap-6 mb-8">
-          <div
-            class="anim-card anim-card-primary animate-fade-in animate-delay-100"
-          >
+        <div class="grid gap-6 mb-8 md:grid-cols-4">
+          <div class="anim-card anim-card-primary animate-fade-in animate-delay-100">
             <div class="icon-circle icon-circle-primary"></div>
             <p class="text-sm font-bold text-primary">Fade In</p>
           </div>
-          <div
-            class="anim-card anim-card-secondary animate-slide-up animate-delay-200"
-          >
+          <div class="anim-card anim-card-secondary animate-slide-up animate-delay-200">
             <div class="icon-circle icon-circle-secondary"></div>
             <p class="text-sm font-bold text-secondary">Slide Up</p>
           </div>
-          <div
-            class="anim-card anim-card-success animate-scale-up animate-delay-300"
-          >
+          <div class="anim-card anim-card-success animate-scale-up animate-delay-300">
             <div class="icon-circle icon-circle-success"></div>
             <p class="text-sm font-bold text-success">Scale Up</p>
           </div>
-          <div
-            class="anim-card anim-card-warning animate-bounce-gentle animate-delay-400"
-          >
+          <div class="anim-card anim-card-warning animate-bounce-gentle animate-delay-400">
             <div class="icon-circle icon-circle-warning"></div>
             <p class="text-sm font-bold text-warning">Bounce</p>
           </div>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-6">
-          <div class="p-6 border border-neutral-300 rounded-lg">
-            <h4 class="font-bold text-neutral-800 mb-4">Hover Animations</h4>
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="p-6 rounded-lg border border-neutral-300">
+            <h4 class="mb-4 font-bold text-neutral-800">Hover Animations</h4>
             <div class="space-y-4">
-              <div class="hover-card hover-card-blue hover-card-scale">
-                Hover to Scale
-              </div>
-              <div class="hover-card hover-card-green hover-card-float">
-                Hover to Float
-              </div>
-              <div class="hover-card hover-card-orange hover-card-rotate">
-                Hover to Rotate
-              </div>
+              <div class="hover-card hover-card-blue hover-card-scale">Hover to Scale</div>
+              <div class="hover-card hover-card-green hover-card-float">Hover to Float</div>
+              <div class="hover-card hover-card-orange hover-card-rotate">Hover to Rotate</div>
             </div>
           </div>
 
-          <div class="p-6 border border-neutral-300 rounded-lg">
-            <h4 class="font-bold text-neutral-800 mb-4">Loading Animations</h4>
+          <div class="p-6 rounded-lg border border-neutral-300">
+            <h4 class="mb-4 font-bold text-neutral-800">Loading Animations</h4>
             <div class="space-y-4">
               <div class="loading-item">
                 <div class="loading-dot loading-dot-pulse"></div>
@@ -440,9 +343,9 @@
     <section class="mb-16">
       <div class="section-content">
         <h2 class="section-title">Financial Data Display</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <div class="finance-card finance-card-profit">
-            <div class="flex items-center justify-between">
+            <div class="flex justify-between items-center">
               <div>
                 <p class="text-sm font-bold text-neutral-600">Total Profit</p>
                 <p class="text-2xl font-bold text-finance-profit">$1,234.56</p>
@@ -454,7 +357,7 @@
           </div>
 
           <div class="finance-card finance-card-savings">
-            <div class="flex items-center justify-between">
+            <div class="flex justify-between items-center">
               <div>
                 <p class="text-sm font-bold text-neutral-600">Savings</p>
                 <p class="text-2xl font-bold text-finance-savings">$987.65</p>
@@ -466,12 +369,10 @@
           </div>
 
           <div class="finance-card finance-card-investment">
-            <div class="flex items-center justify-between">
+            <div class="flex justify-between items-center">
               <div>
                 <p class="text-sm font-bold text-neutral-600">Investments</p>
-                <p class="text-2xl font-bold text-finance-investment">
-                  $2,468.13
-                </p>
+                <p class="text-2xl font-bold text-finance-investment">$2,468.13</p>
               </div>
               <div class="icon-container icon-container-blue">
                 <span class="text-2xl">💼</span>
@@ -480,7 +381,7 @@
           </div>
 
           <div class="finance-card finance-card-loss">
-            <div class="flex items-center justify-between">
+            <div class="flex justify-between items-center">
               <div>
                 <p class="text-sm font-bold text-neutral-600">Expenses</p>
                 <p class="text-2xl font-bold text-finance-loss">$543.21</p>

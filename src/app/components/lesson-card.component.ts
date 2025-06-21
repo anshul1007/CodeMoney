@@ -11,21 +11,21 @@ import { LevelCardComponent } from './level-card.component';
   standalone: true,
   imports: [CommonModule, RouterModule, LevelCardComponent],
   template: `
-    <div class="border border-gray-100 rounded-lg overflow-hidden">
+    <div class="overflow-hidden rounded-lg border border-gray-100">
       <!-- Lesson Header -->
-      <div class="bg-gray-25 p-2 sm:p-3 border-b border-gray-100">
+      <div class="p-2 border-b border-gray-100 sm:p-3 bg-gray-25">
         <div>
-          <h4 class="font-semibold text-gray-800 text-xs sm:text-sm lg:text-base truncate">
+          <h4 class="text-xs font-semibold text-gray-800 sm:text-sm lg:text-base truncate">
             {{ lesson().title }}
           </h4>
-          <p class="text-xs text-gray-500 mt-1 line-clamp-1 sm:line-clamp-2">
+          <p class="mt-1 text-xs text-gray-500 line-clamp-1 sm:line-clamp-2">
             {{ lesson().description }}
           </p>
         </div>
       </div>
       <!-- Levels Grid -->
       <div class="p-2 sm:p-3">
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 auto-rows-fr">
+        <div class="grid grid-cols-2 auto-rows-fr gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4">
           @for (level of lesson().levels; track level.id) {
             <app-level-card
               [level]="level"

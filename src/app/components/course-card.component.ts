@@ -11,18 +11,18 @@ import { UnitCardComponent } from './unit-card.component';
   standalone: true,
   imports: [CommonModule, RouterModule, UnitCardComponent],
   template: `
-    <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden">
+    <div class="overflow-hidden bg-white rounded-xl shadow-lg sm:rounded-2xl">
       <!-- Course Header - Mobile optimized -->
-      <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 sm:p-6">
+      <div class="p-4 text-white bg-gradient-to-r from-blue-500 to-purple-600 sm:p-6">
         <div class="flex items-center space-x-3">
-          <span class="text-2xl sm:text-3xl lg:text-4xl flex-shrink-0">
+          <span class="flex-shrink-0 text-2xl sm:text-3xl lg:text-4xl">
             {{ course().icon }}
           </span>
-          <div class="min-w-0 flex-1">
-            <h2 class="text-lg sm:text-xl lg:text-2xl font-bold truncate">
+          <div class="flex-1 min-w-0">
+            <h2 class="text-lg font-bold sm:text-xl lg:text-2xl truncate">
               {{ course().title }}
             </h2>
-            <p class="text-blue-100 text-sm sm:text-base mt-1 line-clamp-2">
+            <p class="mt-1 text-sm text-blue-100 sm:text-base line-clamp-2">
               {{ course().description }}
             </p>
           </div>
@@ -30,7 +30,7 @@ import { UnitCardComponent } from './unit-card.component';
       </div>
 
       <!-- Units - Mobile first spacing -->
-      <div class="p-3 sm:p-4 lg:p-6 space-y-3 sm:space-y-4 lg:space-y-6">
+      <div class="p-3 space-y-3 sm:p-4 sm:space-y-4 lg:p-6 lg:space-y-6">
         @for (unit of course().units; track unit.id) {
           <app-unit-card [unit]="unit" [courseId]="course().id"> </app-unit-card>
         }

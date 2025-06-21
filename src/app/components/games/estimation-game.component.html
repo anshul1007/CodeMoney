@@ -1,17 +1,15 @@
-<div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
-  <h3
-    class="text-base sm:text-lg font-bold text-gray-800 mb-4 sm:mb-6 text-center"
-  >
+<div class="p-4 mb-4 bg-white rounded-2xl shadow-lg sm:p-6 sm:mb-6">
+  <h3 class="mb-4 text-base font-bold text-center text-gray-800 sm:mb-6 sm:text-lg">
     Estimate how much each item costs:
   </h3>
   <div class="space-y-3 sm:space-y-4">
     @for (field of estimationFields(); track trackByFieldId($index, field)) {
       <div
-        class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 rounded-lg gap-2 sm:gap-4"
+        class="flex flex-col gap-2 p-3 rounded-lg border border-gray-200 sm:flex-row sm:gap-4 sm:justify-between sm:items-center sm:p-4"
       >
         <div class="flex items-center space-x-2 sm:space-x-3">
           <span class="text-2xl sm:text-3xl">{{ field.icon }}</span>
-          <span class="font-medium text-gray-800 text-sm sm:text-base">
+          <span class="text-sm font-medium text-gray-800 sm:text-base">
             {{ field.itemName }}
           </span>
         </div>
@@ -23,17 +21,13 @@
             [(ngModel)]="field.userEstimate"
             placeholder="0"
             min="0"
-            class="w-20 sm:w-24 px-2 sm:px-3 py-1 sm:py-2 rounded-lg text-center text-sm sm:text-base"
+            class="py-1 px-2 w-20 text-sm text-center rounded-lg sm:py-2 sm:px-3 sm:w-24 sm:text-base"
             [ngClass]="{
               'border-2 border-green-500':
-                !isSubmitted() &&
-                field.userEstimate !== undefined &&
-                field.userEstimate > 0,
+                !isSubmitted() && field.userEstimate !== undefined && field.userEstimate > 0,
               'border border-gray-300':
-                isSubmitted() ||
-                field.userEstimate === undefined ||
-                field.userEstimate <= 0,
-              'focus:ring-2 focus:ring-blue-500 focus:border-blue-500': true,
+                isSubmitted() || field.userEstimate === undefined || field.userEstimate <= 0,
+              'focus:border-blue-500 focus:ring-2 focus:ring-blue-500': true,
             }"
             [disabled]="isSubmitted()"
             (input)="onValueChange($event)"
@@ -47,15 +41,11 @@
   </div>
 
   <!-- Total Cost -->
-  <div class="mt-4 sm:mt-6 p-3 sm:p-4 bg-gray-50 rounded-lg">
-    <div
-      class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2"
-    >
-      <span class="font-bold text-base sm:text-lg text-gray-800"
-        >Total Cost:</span
-      >
-      <span class="font-bold text-lg sm:text-xl text-blue-600">
-        {{ totalCost() > 0 ? "₹" + totalCost() : "₹ ---" }}
+  <div class="p-3 mt-4 bg-gray-50 rounded-lg sm:p-4 sm:mt-6">
+    <div class="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
+      <span class="text-base font-bold text-gray-800 sm:text-lg">Total Cost:</span>
+      <span class="text-lg font-bold text-blue-600 sm:text-xl">
+        {{ totalCost() > 0 ? '₹' + totalCost() : '₹ ---' }}
       </span>
     </div>
   </div>

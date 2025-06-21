@@ -17,7 +17,6 @@
   "requirePragma": false,
   "vueIndentScriptAndStyle": false,
   "embeddedLanguageFormatting": "auto",
-  "plugins": ["prettier-plugin-tailwindcss"],
   "overrides": [
     {
       "files": "*.html",

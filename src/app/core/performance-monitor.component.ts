@@ -10,11 +10,11 @@
 //   imports: [CommonModule],
 //   template: `
 //     @if (showMonitor() && (performanceService.hasPerformanceIssues() || isDevelopment)) {
-//       <div class="fixed bottom-4 right-4 z-50 max-w-sm">
+//       <div class="fixed right-4 bottom-4 z-50 max-w-sm">
 //         <!-- Performance Alerts -->
 //         @for (alert of performanceService.performanceAlerts(); track trackByAlert($index, alert)) {
 //           <div
-//             class="mb-2 p-3 rounded-lg shadow-lg border transition-all duration-300"
+//             class="p-3 mb-2 rounded-lg border shadow-lg transition-all duration-300"
 //             [ngClass]="{
 //               'bg-yellow-50 border-yellow-200 text-yellow-800': alert.severity === 'warning',
 //               'bg-red-50 border-red-200 text-red-800': alert.severity === 'critical',
@@ -22,7 +22,7 @@
 //             role="alert"
 //             [attr.aria-live]="alert.severity === 'critical' ? 'assertive' : 'polite'"
 //           >
-//             <div class="flex items-start justify-between">
+//             <div class="flex justify-between items-start">
 //               <div class="flex-1">
 //                 <div class="flex items-center space-x-2">
 //                   <span [innerHTML]="getAlertIcon(alert.severity)"></span>
@@ -31,7 +31,7 @@
 //                     {{ alert.severity === 'critical' ? 'Issue' : 'Warning' }}
 //                   </span>
 //                 </div>
-//                 <p class="text-xs mt-1">
+//                 <p class="mt-1 text-xs">
 //                   {{ formatMetricName(alert.metric) }}:
 //                   {{ formatMetricValue(alert.metric, alert.value) }}
 //                   <span class="opacity-75">
@@ -42,7 +42,7 @@
 //               </div>
 //               <button
 //                 (click)="dismissAlert(alert)"
-//                 class="text-xs opacity-50 hover:opacity-100 transition-opacity ml-2"
+//                 class="ml-2 text-xs opacity-50 transition-opacity hover:opacity-100"
 //                 aria-label="Dismiss alert"
 //               >
 //                 ✕
@@ -53,13 +53,13 @@
 
 //         <!-- Performance Dashboard Toggle -->
 //         <div
-//           class="bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 p-3"
+//           class="p-3 bg-white rounded-lg border shadow-lg border-slate-200 dark:bg-slate-800 dark:border-slate-700"
 //         >
-//           <div class="flex items-center justify-between mb-2">
+//           <div class="flex justify-between items-center mb-2">
 //             <h3 class="text-sm font-medium text-slate-800 dark:text-slate-200">Performance</h3>
 //             <button
 //               (click)="toggleExpanded()"
-//               class="text-xs text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 transition-colors"
+//               class="text-xs transition-colors text-slate-500 dark:text-slate-400 dark:hover:text-slate-300 hover:text-slate-700"
 //               [attr.aria-expanded]="isExpanded()"
 //               aria-label="Toggle performance details"
 //             >
@@ -86,25 +86,25 @@
 //           @if (isExpanded()) {
 //             <div class="mt-3 space-y-2 text-xs">
 //               <div class="grid grid-cols-2 gap-2">
-//                 <div class="bg-slate-50 dark:bg-slate-700 p-2 rounded">
+//                 <div class="p-2 rounded bg-slate-50 dark:bg-slate-700">
 //                   <div class="text-slate-500 dark:text-slate-400">LCP</div>
 //                   <div class="font-mono text-slate-800 dark:text-slate-200">
 //                     {{ formatTime(performanceService.currentMetrics().lcp) }}
 //                   </div>
 //                 </div>
-//                 <div class="bg-slate-50 dark:bg-slate-700 p-2 rounded">
+//                 <div class="p-2 rounded bg-slate-50 dark:bg-slate-700">
 //                   <div class="text-slate-500 dark:text-slate-400">FID</div>
 //                   <div class="font-mono text-slate-800 dark:text-slate-200">
 //                     {{ formatTime(performanceService.currentMetrics().fid) }}
 //                   </div>
 //                 </div>
-//                 <div class="bg-slate-50 dark:bg-slate-700 p-2 rounded">
+//                 <div class="p-2 rounded bg-slate-50 dark:bg-slate-700">
 //                   <div class="text-slate-500 dark:text-slate-400">CLS</div>
 //                   <div class="font-mono text-slate-800 dark:text-slate-200">
 //                     {{ formatCLS(performanceService.currentMetrics().cls) }}
 //                   </div>
 //                 </div>
-//                 <div class="bg-slate-50 dark:bg-slate-700 p-2 rounded">
+//                 <div class="p-2 rounded bg-slate-50 dark:bg-slate-700">
 //                   <div class="text-slate-500 dark:text-slate-400">Memory</div>
 //                   <div class="font-mono text-slate-800 dark:text-slate-200">
 //                     {{ formatMemory(performanceService.currentMetrics().usedJSHeapSize) }}
@@ -112,16 +112,16 @@
 //                 </div>
 //               </div>
 
-//               <div class="flex space-x-2 mt-3">
+//               <div class="flex mt-3 space-x-2">
 //                 <button
 //                   (click)="showReport()"
-//                   class="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-2 rounded transition-colors"
+//                   class="flex-1 py-1 px-2 text-xs text-white bg-blue-500 rounded transition-colors hover:bg-blue-600"
 //                 >
 //                   Report
 //                 </button>
 //                 <button
 //                   (click)="clearAlerts()"
-//                   class="flex-1 bg-slate-500 hover:bg-slate-600 text-white text-xs py-1 px-2 rounded transition-colors"
+//                   class="flex-1 py-1 px-2 text-xs text-white rounded transition-colors bg-slate-500 hover:bg-slate-600"
 //                 >
 //                   Clear
 //                 </button>

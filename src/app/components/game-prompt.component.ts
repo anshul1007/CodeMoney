@@ -11,7 +11,7 @@ import { CardWrapperComponent } from './wrapper/card-wrapper.component';
     @if (prompt()) {
       <app-card-wrapper>
         <h2
-          class="text-xl sm:text-2xl font-bold text-center text-slate-800 dark:text-slate-100 mb-3 sm:mb-4 leading-tight"
+          class="mb-3 text-xl font-bold leading-tight text-center sm:mb-4 sm:text-2xl text-slate-800 dark:text-slate-100"
         >
           {{ prompt() }}
         </h2>
@@ -19,17 +19,17 @@ import { CardWrapperComponent } from './wrapper/card-wrapper.component';
         <!-- Hints -->
         @if (showHints() && hints() && hints()!.length > 0) {
           <div
-            class="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-400 dark:border-blue-500 p-3 sm:p-4 mb-3 sm:mb-4 rounded-r-lg"
+            class="p-3 mb-3 bg-blue-50 rounded-r-lg border-l-4 border-blue-400 sm:p-4 sm:mb-4 dark:border-blue-500 dark:bg-blue-900/30"
             role="region"
             aria-label="Game hints"
           >
             <div class="flex items-center mb-2">
-              <span class="text-blue-600 dark:text-blue-400 mr-2 text-lg">💡</span>
-              <span class="font-medium text-blue-800 dark:text-blue-300 text-sm sm:text-base"
+              <span class="mr-2 text-lg text-blue-600 dark:text-blue-400">💡</span>
+              <span class="text-sm font-medium text-blue-800 sm:text-base dark:text-blue-300"
                 >Hints:</span
               >
             </div>
-            <ul class="text-blue-700 dark:text-blue-300 text-xs sm:text-sm space-y-1 ml-4">
+            <ul class="ml-4 space-y-1 text-xs text-blue-700 sm:text-sm dark:text-blue-300">
               @for (hint of hints()!; track $index) {
                 <li class="list-disc">
                   {{ hint }}

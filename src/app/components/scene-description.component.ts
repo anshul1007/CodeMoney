@@ -10,10 +10,10 @@ import { CardWrapperComponent } from './wrapper/card-wrapper.component';
   template: `
     @if (scene()) {
       <app-card-wrapper customClasses="text-center">
-        <div class="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4 animate-bounce-subtle">
+        <div class="mb-3 text-4xl sm:mb-4 sm:text-5xl md:text-6xl animate-bounce-subtle">
           {{ emoji() }}
         </div>
-        <p class="text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+        <p class="text-base leading-relaxed sm:text-lg text-slate-700 dark:text-slate-300">
           {{ scene() }}
         </p>
       </app-card-wrapper>

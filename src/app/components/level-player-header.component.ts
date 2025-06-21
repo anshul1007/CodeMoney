@@ -7,33 +7,33 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
   imports: [CommonModule],
   template: `
     <header
-      class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm shadow-lg border-b-2 border-amber-300 dark:border-amber-500 p-3 sm:p-4 sticky top-0 z-10"
+      class="sticky top-0 z-10 p-3 border-b-2 border-amber-300 shadow-lg sm:p-4 dark:border-amber-500 bg-white/90 backdrop-blur-sm dark:bg-slate-800/90"
     >
-      <div class="container mx-auto max-w-4xl flex items-center justify-between flex-wrap gap-2">
-        <div class="flex items-center space-x-3 sm:space-x-4 flex-1 min-w-0">
+      <div class="flex flex-wrap gap-2 justify-between items-center mx-auto max-w-7xl">
+        <div class="flex flex-1 items-center space-x-3 min-w-0 sm:space-x-4">
           <button
             (click)="backClick.emit()"
-            class="text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-slate-100 text-xl sm:text-2xl flex-shrink-0 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+            class="flex-shrink-0 p-2 text-xl rounded-lg transition-colors sm:text-2xl text-slate-600 dark:text-slate-300 dark:hover:text-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 hover:bg-slate-100"
             aria-label="Go back to course dashboard"
           >
             ← Back
           </button>
-          <div class="min-w-0 flex-1">
-            <h1 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 truncate">
+          <div class="flex-1 min-w-0">
+            <h1 class="text-lg font-bold sm:text-xl text-slate-800 truncate dark:text-slate-100">
               {{ title() }}
             </h1>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
+            <p class="text-xs sm:text-sm text-slate-600 line-clamp-2 dark:text-slate-400">
               {{ description() }}
             </p>
           </div>
         </div>
         <div
-          class="flex items-center space-x-1 sm:space-x-2 flex-shrink-0"
+          class="flex flex-shrink-0 items-center space-x-1 sm:space-x-2"
           role="img"
           [attr.aria-label]="'Stars earned: ' + (stars() || 0)"
         >
           @for (star of getStarsArray(stars() || 0); track $index) {
-            <span class="text-amber-400 text-lg sm:text-xl animate-pulse">⭐</span>
+            <span class="text-lg text-amber-400 animate-pulse sm:text-xl">⭐</span>
           }
         </div>
       </div>

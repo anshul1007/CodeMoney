@@ -15,13 +15,13 @@ export interface UserProgress {
   imports: [CommonModule],
   template: `
     <div class="bg-gradient-to-r from-blue-50 to-purple-50 border-t border-gray-100">
-      <div class="max-w-7xl mx-auto p-4 md:p-6">
-        <div class="flex items-center justify-between mb-2">
+      <div class="p-4 mx-auto max-w-7xl md:p-6">
+        <div class="flex justify-between items-center mb-2">
           <div class="flex items-center space-x-4">
             <span class="text-sm font-medium text-gray-700">Your Progress</span>
             <span class="text-xs text-gray-600">Level {{ currentLevel() }}</span>
           </div>
-          <div class="flex items-center space-x-4 text-xs sm:text-sm text-gray-600">
+          <div class="flex items-center space-x-4 text-xs text-gray-600 sm:text-sm">
             <span>🌟 {{ progress().totalStars }}</span>
             <span>✅ {{ progress().completedLevels.length }}/{{ totalLevels() }} </span>
             <span class="font-medium text-blue-600"> {{ progressPercentage() }}% </span>
@@ -29,9 +29,9 @@ export interface UserProgress {
         </div>
 
         <!-- Progress Bar -->
-        <div class="w-full bg-gray-200 rounded-full h-3 sm:h-4">
+        <div class="w-full h-3 bg-gray-200 rounded-full sm:h-4">
           <div
-            class="bg-gradient-to-r from-blue-500 to-purple-600 h-3 sm:h-4 rounded-full transition-all duration-500 ease-out relative overflow-hidden"
+            class="overflow-hidden relative h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transition-all duration-500 ease-out sm:h-4"
             [style.width.%]="progressPercentage()"
           >
             <!-- Animated shine effect -->

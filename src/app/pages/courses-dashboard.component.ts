@@ -18,7 +18,7 @@ import { CourseService } from '../services/course.service';
   ],
   template: `
     <div
-      class="min-h-screen bg-gradient-to-br from-sky-50 via-indigo-50 to-violet-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
+      class="min-h-screen bg-gradient-to-br via-indigo-50 to-violet-50 from-sky-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
     >
       <!-- Navigation Header -->
       <app-header title="💰 Course Dashboard"></app-header>
@@ -30,7 +30,7 @@ import { CourseService } from '../services/course.service';
       ></app-progress-overview> -->
 
       <!-- Main Content: Courses Grid -->
-      <div class="container mx-auto max-w-7xl px-4 md:px-6">
+      <div class="py-8 px-4 mx-auto max-w-7xl text-center sm:px-6 md:py-12">
         <div class="grid gap-4 sm:gap-6" role="main" aria-label="Available courses">
           @for (course of courses(); track course.id) {
             <app-course-card [course]="course"></app-course-card>
