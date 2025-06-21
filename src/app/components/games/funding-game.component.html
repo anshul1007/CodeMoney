@@ -81,7 +81,7 @@
       }
       <div class="border-t pt-2 mt-2 flex justify-between font-bold">
         <span>Total Available:</span>
-        <span class="text-green-600">₹{{ totalFunding }}</span>
+        <span class="text-green-600">₹{{ totalFunding() }}</span>
       </div>
 
       @if (totalEstimatedCost() > 0) {
@@ -98,12 +98,15 @@
               }"
               class="text-xs font-medium"
             >
-              @if (!isFundingSufficient) {
+              @if (!isFundingSufficient()) {
                 <span>
-                  <span class="mr-1">⚠️</span> You need ₹{{ fundingGap }} more!
+                  <span class="mr-1">⚠️</span> You need ₹{{
+                    fundingGap()
+                  }}
+                  more!
                 </span>
               }
-              @if (isFundingSufficient) {
+              @if (isFundingSufficient()) {
                 <span>
                   <span class="mr-1">✅</span> You have enough funding!
                 </span>

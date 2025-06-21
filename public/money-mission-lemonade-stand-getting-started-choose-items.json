@@ -1,0 +1,60 @@
+{
+  "gameData": {
+    "scene": "A colorful cartoon street where the child wants to open a lemonade stand.",
+    "prompt": "You want to start a lemonade stand! What do you think you need?",
+    "items": [
+      {
+        "id": "lemons",
+        "name": "Lemons",
+        "icon": "🍋",
+        "isCorrect": true
+      },
+      {
+        "id": "sugar",
+        "name": "Sugar",
+        "icon": "🧂",
+        "isCorrect": true
+      },
+      { "id": "ice", "name": "Ice", "icon": "🧊", "isCorrect": true },
+      {
+        "id": "stand",
+        "name": "Stand",
+        "icon": "🏕️",
+        "isCorrect": true
+      },
+      { "id": "cups", "name": "Cups", "icon": "🥤", "isCorrect": true },
+      {
+        "id": "napkins",
+        "name": "Napkins",
+        "icon": "🧼",
+        "isCorrect": true
+      },
+      {
+        "id": "sofa",
+        "name": "Sofa",
+        "icon": "🛋️",
+        "isCorrect": false
+      },
+      {
+        "id": "skateboard",
+        "name": "Skateboard",
+        "icon": "🛹",
+        "isCorrect": false
+      },
+      { "id": "tv", "name": "TV", "icon": "📺", "isCorrect": false },
+      {
+        "id": "bicycle",
+        "name": "Bicycle",
+        "icon": "🚲",
+        "isCorrect": false
+      }
+    ],
+    "hints": ["Think about what customers need to buy and enjoy lemonade!"],
+    "gameType": "selection"
+  },
+  "level": {
+    "title": "Choose Items for Your Lemonade Stand",
+    "description": "Select all the items you need to set up your lemonade stand. Some items are essential, while others are not needed.",
+    "stars": 3
+  }
+}

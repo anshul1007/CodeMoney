@@ -1,9 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  output,
-} from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Unit } from '../models/course.models';
@@ -38,7 +33,6 @@ import { LessonCardComponent } from './lesson-card.component';
             [lesson]="lesson"
             [courseId]="courseId()"
             [unitId]="unit().id"
-            (levelClick)="onLevelClick($event)"
           >
           </app-lesson-card>
         }
@@ -50,19 +44,4 @@ import { LessonCardComponent } from './lesson-card.component';
 export class UnitCardComponent {
   readonly unit = input.required<Unit>();
   readonly courseId = input.required<string>();
-  readonly levelClick = output<{
-    courseId: string;
-    unitId: string;
-    lessonId: string;
-    levelId: string;
-  }>();
-
-  onLevelClick(event: {
-    courseId: string;
-    unitId: string;
-    lessonId: string;
-    levelId: string;
-  }): void {
-    this.levelClick.emit(event);
-  }
 }

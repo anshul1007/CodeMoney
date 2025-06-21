@@ -2,12 +2,11 @@ import {
   Component,
   computed,
   input,
-  output,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Level } from '../models/game.models';
+import { Level } from '../models';
 
 @Component({
   selector: 'app-level-card',
@@ -15,15 +14,14 @@ import { Level } from '../models/game.models';
   imports: [CommonModule, RouterModule],
   template: `
     <div
-      class="level-card cursor-pointer transition-all duration-200 hover:shadow-md active:scale-95"
+      class="level-card h-full"
       [class.completed]="level().isCompleted"
       [class.unlocked]="level().isUnlocked"
       [class.locked]="!level().isUnlocked"
-      (click)="onLevelClick()"
       [routerLink]="level().isUnlocked ? levelRoute() : null"
     >
       <div
-        class="border rounded-lg p-2 sm:p-3 lg:p-4 relative min-h-[80px] sm:min-h-[100px] flex flex-col"
+        class="border rounded-lg p-2 sm:p-3 lg:p-4 relative min-h-[80px] sm:min-h-[100px] flex flex-col cursor-pointer transition-all duration-200 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:scale-95 h-full"
         [ngClass]="levelCardClasses()"
       >
         <!-- Level Icon/Status -->
@@ -76,14 +74,7 @@ export class LevelCardComponent {
   readonly courseId = input.required<string>();
   readonly unitId = input.required<string>();
   readonly lessonId = input.required<string>();
-  readonly levelClick = output<{
-    courseId: string;
-    unitId: string;
-    lessonId: string;
-    levelId: string;
-  }>();
 
-  // Computed properties for cleaner template
   readonly levelRoute = computed(() => [
     '/level',
     this.courseId(),
@@ -117,6 +108,7 @@ export class LevelCardComponent {
       'text-gray-400': !currentLevel.isUnlocked,
     };
   });
+
   readonly titleClasses = computed(() => {
     const currentLevel = this.level();
     return {
@@ -125,14 +117,6 @@ export class LevelCardComponent {
       'text-gray-500': !currentLevel.isUnlocked,
     };
   });
-  onLevelClick(): void {
-    this.levelClick.emit({
-      courseId: this.courseId(),
-      unitId: this.unitId(),
-      lessonId: this.lessonId(),
-      levelId: this.level().id,
-    });
-  }
 
   getStarsArray(stars: number): number[] {
     return Array(stars).fill(0);

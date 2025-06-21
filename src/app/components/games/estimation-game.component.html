@@ -55,7 +55,7 @@
         >Total Cost:</span
       >
       <span class="font-bold text-lg sm:text-xl text-blue-600">
-        {{ totalCost > 0 ? "₹" + totalCost : "₹ ---" }}
+        {{ totalCost() > 0 ? "₹" + totalCost() : "₹ ---" }}
       </span>
     </div>
   </div>

@@ -1,0 +1,58 @@
+{
+  "courses": [
+    {
+      "id": "money-mission",
+      "title": "Money Mission: Build Your Own Business!",
+      "description": "Learn about money, business, and finance through fun games and activities.",
+      "icon": "💰",
+      "isUnlocked": true,
+      "units": [
+        {
+          "id": "lemonade-stand",
+          "title": "📦 Unit 1: Start Your Lemonade Stand!",
+          "description": "Learn the basics of starting a business with a lemonade stand.",
+          "icon": "🍋",
+          "isUnlocked": true,
+          "lessons": [
+            {
+              "id": "getting-started",
+              "title": "🎯 Lesson 1: What Do You Need to Start?",
+              "description": "Discover what items you need to start your lemonade business.",
+              "icon": "🎯",
+              "isUnlocked": true,
+              "levels": [
+                {
+                  "id": "choose-items",
+                  "title": "🧩 Level 1: Choose What You Need",
+                  "description": "Select the right items to start your lemonade stand.",
+                  "objective": "Choose the correct items needed for a lemonade stand business.",
+                  "isCompleted": false,
+                  "isUnlocked": true,
+                  "stars": 0
+                },
+                {
+                  "id": "estimate-costs",
+                  "title": "💰 Level 2: How Much Does It Cost?",
+                  "description": "Estimate the costs of your lemonade stand items.",
+                  "objective": "Make cost estimates for your business items.",
+                  "isCompleted": false,
+                  "isUnlocked": false,
+                  "stars": 0
+                },
+                {
+                  "id": "funding-sources",
+                  "title": "💸 Level 3: Where Will the Money Come From?",
+                  "description": "Learn about different ways to fund your business.",
+                  "objective": "Choose how you will get money to start your business.",
+                  "isCompleted": false,
+                  "isUnlocked": false,
+                  "stars": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

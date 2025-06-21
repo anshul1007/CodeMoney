@@ -5,8 +5,7 @@ export { LessonCardComponent } from './lesson-card.component';
 export { LevelCardComponent } from './level-card.component';
 export { HeaderComponent } from './header.component';
 export { ProgressOverviewComponent } from './progress-overview.component';
-
-// Game components
-export { SelectionGameComponent } from './games/selection-game.component';
-export { EstimationGameComponent } from './games/estimation-game.component';
-export { FundingGameComponent } from './games/funding-game.component';
+export { SceneDescriptionComponent } from './scene-description.component';
+export { GamePromptComponent } from './game-prompt.component';
+export { CardWrapperComponent } from './wrapper/card-wrapper.component';
+export { LevelPlayerHeaderComponent } from './level-player-header.component';

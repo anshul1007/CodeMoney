@@ -1,9 +1,4 @@
-import {
-  Component,
-  input,
-  output,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Lesson } from '../models/course.models';
@@ -28,11 +23,10 @@ import { LevelCardComponent } from './level-card.component';
           </p>
         </div>
       </div>
-
       <!-- Levels Grid -->
       <div class="p-2 sm:p-3">
         <div
-          class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3"
+          class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 auto-rows-fr"
         >
           @for (level of lesson().levels; track level.id) {
             <app-level-card
@@ -40,7 +34,6 @@ import { LevelCardComponent } from './level-card.component';
               [courseId]="courseId()"
               [unitId]="unitId()"
               [lessonId]="lesson().id"
-              (levelClick)="onLevelClick($event)"
             >
             </app-level-card>
           }
@@ -54,19 +47,4 @@ export class LessonCardComponent {
   readonly lesson = input.required<Lesson>();
   readonly courseId = input.required<string>();
   readonly unitId = input.required<string>();
-  readonly levelClick = output<{
-    courseId: string;
-    unitId: string;
-    lessonId: string;
-    levelId: string;
-  }>();
-
-  onLevelClick(event: {
-    courseId: string;
-    unitId: string;
-    lessonId: string;
-    levelId: string;
-  }): void {
-    this.levelClick.emit(event);
-  }
 }

@@ -36,7 +36,6 @@ import { RouterModule } from '@angular/router';
               </h1>
             }
           </div>
-
           <!-- Right - Empty space for balance -->
           <div class="w-16 sm:w-20 lg:w-24"></div>
         </div>

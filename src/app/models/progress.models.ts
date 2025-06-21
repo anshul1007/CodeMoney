@@ -7,7 +7,4 @@ export interface GameProgress {
   unlockedLevels: string[];
   score: number;
   totalStars: number;
-
-  // Legacy property for backward compatibility
-  currentChapter?: string;
 }

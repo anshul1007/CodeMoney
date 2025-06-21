@@ -1,53 +1,73 @@
-import type { BalanceSheetData, FundingSource } from './financial.models';
+import { BaseGameData } from './base-game.models';
 
-export interface Choice {
-  id: string;
-  text: string;
-  isCorrect: boolean;
-  feedback: string;
+export type GameType = 'selection' | 'estimation' | 'funding' | 'balance-sheet';
+
+export interface SelectionGameData extends BaseGameData {
+  options: Array<{
+    id: string;
+    label: string;
+    value: any;
+    isCorrect?: boolean;
+    description?: string;
+  }>;
+  multiSelect?: boolean;
+  minSelections?: number;
+  maxSelections?: number;
 }
 
-export interface GameItem {
-  id: string;
-  name: string;
-  icon: string;
-  isCorrect: boolean;
-  isSelected?: boolean;
-  description?: string;
+export interface EstimationGameData extends BaseGameData {
+  targetValue: number;
+  unit: string;
+  acceptableRange: {
+    min: number;
+    max: number;
+  };
+  hints?: {
+    rangeHint?: string;
+    contextHint?: string;
+  };
 }
 
-export interface EstimationField {
-  id: string;
-  itemName: string;
-  icon: string;
-  userEstimate?: number;
-  actualCost?: number;
-  currency: string;
+export interface FundingGameData extends BaseGameData {
+  totalBudget: number;
+  categories: Array<{
+    id: string;
+    name: string;
+    description: string;
+    minAmount?: number;
+    maxAmount?: number;
+    suggestedAmount?: number;
+  }>;
+  constraints?: {
+    mustAllocateAll?: boolean;
+    allowDeficit?: boolean;
+  };
 }
 
-export interface LevelGameData {
+export interface BalanceSheetGameData extends BaseGameData {
+  accounts: Array<{
+    id: string;
+    name: string;
+    type: 'asset' | 'liability' | 'equity';
+    category: string;
+    initialBalance?: number;
+  }>;
+  transactions: Array<{
+    id: string;
+    description: string;
+    amount: number;
+    affectedAccounts: string[];
+  }>;
+}
+
+// Generic GameData interface
+export interface GameData<T extends BaseGameData = BaseGameData> {
+  levelId: string;
   scene?: string;
   prompt: string;
-  items?: GameItem[];
-  choices?: Choice[];
-  estimationFields?: EstimationField[];
-  fundingSources?: FundingSource[];
-  balanceSheetData?: BalanceSheetData;
   hints?: string[];
-  correctAnswers?: string[];
-}
-
-export interface Level {
-  id: string;
-  title: string;
-  description: string;
-  objective: string;
-  type: 'selection' | 'estimation' | 'funding' | 'balance-sheet';
-  gameData: LevelGameData;
-  isCompleted: boolean;
-  isUnlocked: boolean;
-  stars: number; // 0-3 stars based on performance
-
-  // Legacy properties for backward compatibility with old balance sheet game
-  balanceSheetData?: BalanceSheetData;
+  gameType: GameType;
+  isCompleted?: boolean;
+  // Generic game-specific data
+  gameSpecificData: T;
 }

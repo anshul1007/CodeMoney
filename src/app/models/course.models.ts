@@ -1,22 +1,9 @@
-import type { Level } from './game.models';
-
 export interface Course {
   id: string;
   title: string;
   description: string;
   icon: string;
   units: Unit[];
-  isUnlocked: boolean;
-
-  // Legacy property for backward compatibility
-  chapters?: Chapter[];
-}
-
-export interface Chapter {
-  id: string;
-  title: string;
-  description: string;
-  levels: Level[];
   isUnlocked: boolean;
 }
 
@@ -36,4 +23,14 @@ export interface Lesson {
   icon: string;
   levels: Level[];
   isUnlocked: boolean;
+}
+
+export interface Level {
+  id: string;
+  title: string;
+  description: string;
+  objective: string;
+  isUnlocked: boolean;
+  isCompleted: boolean;
+  stars: number; // 0-3 stars based on performance
 }
