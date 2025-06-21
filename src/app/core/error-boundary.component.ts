@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -33,8 +34,6 @@ export class GlobalErrorHandler implements ErrorHandler, OnDestroy {
   });
 
   handleError(error: Error | unknown): void {
-    console.error('Global error caught:', error);
-
     const appError: AppError = {
       message:
         (error instanceof Error ? error.message : String(error)) || 'An unexpected error occurred',

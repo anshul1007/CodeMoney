@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
 
 import {
-  WelcomeComponent,
-  ThemeShowcaseComponent,
   CoursesDashboardComponent,
   LevelPlayerComponent,
+  ThemeShowcaseComponent,
+  WelcomeComponent,
 } from './pages';
 
 export const routes: Routes = [

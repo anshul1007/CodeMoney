@@ -15,4 +15,5 @@ export interface BaseGameComponent<T extends BaseGameData = BaseGameData> {
   isSubmitted: () => boolean;
   canSubmit: () => boolean;
   resetGame(): void;
+  hasHints?: () => boolean;
 }

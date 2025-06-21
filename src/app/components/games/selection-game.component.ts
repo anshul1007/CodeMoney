@@ -1,16 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 
-import { GameData, SelectionGameData } from '../../models';
+import { GAME_CONFIG, GameData, SelectionGameData, SelectionItem } from '../../models';
 import { BaseGameComponent } from '../../models/base-game.models';
-
-interface SelectionItem {
-  id: string;
-  name: string;
-  icon?: string;
-  isCorrect?: boolean;
-  isSelected?: boolean;
-}
 
 @Component({
   selector: 'app-selection-game',
@@ -24,28 +16,68 @@ export class SelectionGameComponent implements BaseGameComponent<SelectionGameDa
   readonly isSubmitted = input<boolean>(false);
   readonly selectionChange = output<SelectionItem>();
 
+  private selectedItems = signal<Set<string>>(new Set());
+
   // BaseGameComponent interface implementation
   readonly onInteraction = this.selectionChange;
   readonly validationChange = output<boolean>();
 
   // Modern computed property for better performance
-  readonly selectedItemsCount = computed(
-    () => this.gameItems().filter((item) => item.isSelected).length || 0,
+  readonly selectedItemsCount = computed(() => this.selectedItems().size);
+  readonly minSelectionsRequired = computed(
+    () => GAME_CONFIG.SELECTION_GAME.MIN_REQUIRED_SELECTIONS,
   );
 
-  readonly gameItems = computed(() => this.gameData()?.data?.items || []);
+  readonly gameItems = computed(() => {
+    const items = this.gameData()?.data?.items || [];
+    const selectedIds = this.selectedItems();
 
-  readonly canSubmit = computed(() => (this.selectedItemsCount() || 0) >= 2);
+    return items.map((item) => ({
+      ...item,
+      isSelected: selectedIds.has(item.id),
+    }));
+  });
+
+  readonly canSubmit = computed(
+    () => (this.selectedItemsCount() || 0) >= GAME_CONFIG.SELECTION_GAME.MIN_REQUIRED_SELECTIONS,
+  );
+
+  readonly hasHints = computed(() => {
+    const hints = this.gameData()?.hints;
+    return Boolean(hints && hints.length > 0);
+  });
 
   onItemClick(item: SelectionItem): void {
     if (!this.isSubmitted()) {
-      this.selectionChange.emit(item);
+      // Update internal selection state
+      const currentSelections = new Set(this.selectedItems());
+
+      if (currentSelections.has(item.id)) {
+        currentSelections.delete(item.id);
+      } else {
+        currentSelections.add(item.id);
+      }
+
+      this.selectedItems.set(currentSelections);
+
+      // Emit the updated item for parent component if needed
+      const updatedItem = { ...item, isSelected: currentSelections.has(item.id) };
+      this.selectionChange.emit(updatedItem);
     }
   }
 
   resetGame(): void {
-    throw new Error('Method not implemented.');
+    this.selectedItems.set(new Set());
   }
+
+  // // Additional utility methods for external access
+  // getSelectedItems(): SelectionItem[] {
+  //   return this.gameItems().filter((item) => item.isSelected);
+  // }
+
+  // getSelectedItemIds(): string[] {
+  //   return Array.from(this.selectedItems());
+  // }
 
   trackByItemId = (index: number, item: SelectionItem): string => item.id || index.toString();
 }

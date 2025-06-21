@@ -102,6 +102,18 @@ module.exports = tseslint.config(
         },
       ],
 
+      // Sort imports within import statements (named imports in curly braces)
+      'sort-imports': [
+        'error',
+        {
+          ignoreCase: true,
+          ignoreDeclarationSort: true, // Let import/order handle file ordering
+          ignoreMemberSort: false, // This enforces member sorting within {}
+          memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+          allowSeparatedGroups: false,
+        },
+      ],
+
       // Additional import rules
       'import/no-unresolved': 'error',
       'import/no-duplicates': 'error',

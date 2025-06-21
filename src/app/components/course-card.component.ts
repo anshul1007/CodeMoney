@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { Course } from '../models/course.models';

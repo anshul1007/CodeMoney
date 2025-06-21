@@ -144,6 +144,7 @@ export class AccessibilityService {
         const settings = JSON.parse(saved);
         this.settings.set({ ...this.settings(), ...settings });
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.warn('Failed to load accessibility settings:', error);
       }
     }

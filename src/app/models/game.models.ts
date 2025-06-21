@@ -5,15 +5,16 @@ export type GameType = 'selection' | 'estimation' | 'funding' | 'balance-sheet';
 
 export type CurrentLevel = Pick<Level, 'id' | 'title' | 'description' | 'stars'>;
 
+export interface SelectionItem {
+  id: string;
+  name: string;
+  icon?: string;
+  isCorrect?: boolean;
+  isSelected?: boolean;
+}
+
 export interface SelectionGameData extends BaseGameData {
-  items: {
-    id: string;
-    name: string;
-    icon?: string;
-    isCorrect?: boolean; // Indicates if the item is correct (for validation)
-    isSelected?: boolean; // Indicates if the item is selected by the user
-    // Additional properties can be added as needed
-  }[];
+  items: SelectionItem[];
   // options: Array<{
   //   id: string;
   //   label: string;

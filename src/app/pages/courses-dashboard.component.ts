@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, inject, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { HeaderComponent, CourseCardComponent } from '../components';
+import { CourseCardComponent, HeaderComponent } from '../components';
 import { ProgressOverviewComponent, UserProgress } from '../components/progress-overview.component';
 import { CourseService } from '../services/course.service';
 

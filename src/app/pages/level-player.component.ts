@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
+  ComponentRef,
+  computed,
+  DestroyRef,
+  inject,
+  inputBinding,
   OnInit,
   signal,
-  inject,
-  ChangeDetectionStrategy,
-  DestroyRef,
-  ViewContainerRef,
   ViewChild,
-  inputBinding,
-  computed,
+  ViewContainerRef,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,12 +18,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
 import {
-  SceneDescriptionComponent,
-  GamePromptComponent,
   CardWrapperComponent,
+  GamePromptComponent,
   LevelPlayerHeaderComponent,
+  SceneDescriptionComponent,
 } from '../components';
 import { CurrentLevel, GameData } from '../models';
+import { BaseGameComponent } from '../models/base-game.models';
 import { GameService } from '../services/game.service';
 
 @Component({
@@ -109,23 +111,21 @@ import { GameService } from '../services/game.service';
         <div
           class="text-center space-y-3 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row justify-center"
         >
-          <!-- @if (!gameSubmitted()) {
-              <button
-                (click)="handleSubmit()"
-                [disabled]="!canSubmitGame()"
-                class="font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl transition-all duration-200 text-base sm:text-lg w-full sm:w-auto"
-                [ngClass]="{
-                  'bg-blue-500 hover:bg-blue-600 text-white hover:shadow-lg':
-                    canSubmitGame(),
-                  'bg-gray-300 text-gray-500 cursor-not-allowed':
-                    !canSubmitGame(),
-                }"
-              >
-                {{ submitButtonText() }}
-              </button>
-            } -->
+          @if (!gameSubmitted()) {
+            <button
+              (click)="handleSubmit()"
+              [disabled]="!canSubmitGame()"
+              class="font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl transition-all duration-200 text-base sm:text-lg w-full sm:w-auto"
+              [ngClass]="{
+                'bg-blue-500 hover:bg-blue-600 text-white hover:shadow-lg': canSubmitGame(),
+                'bg-gray-300 text-gray-500 cursor-not-allowed': !canSubmitGame(),
+              }"
+            >
+              Submit
+            </button>
+          }
 
-          @if (!gameSubmitted() && !showHints() && gameData()?.hints?.length) {
+          @if (shouldShowHintsButton()) {
             <button
               (click)="showHints.set(true)"
               class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl transition-all duration-200 hover:shadow-lg text-base sm:text-lg w-full sm:w-auto"
@@ -134,14 +134,14 @@ import { GameService } from '../services/game.service';
             </button>
           }
 
-          <!-- @if (gameSubmitted()) {
-              <button
-                (click)="nextLevel()"
-                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl transition-all duration-200 hover:shadow-lg text-base sm:text-lg w-full sm:w-auto animate-bounce"
-              >
-                {{ isLastLevel() ? 'Complete Lesson' : 'Next Level' }} →
-              </button>
-            } -->
+          @if (gameSubmitted()) {
+            <button
+              (click)="nextLevel()"
+              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl transition-all duration-200 hover:shadow-lg text-base sm:text-lg w-full sm:w-auto animate-bounce"
+            >
+              🎉 Continue Learning
+            </button>
+          }
         </div>
       </div>
     </div>
@@ -178,8 +178,22 @@ export class LevelPlayerComponent implements OnInit {
   //   readonly gameConfig = signal<DynamicGameConfig | null>(null);
   //   readonly validationResult = signal<GameValidationResult | null>(null);
 
-  // Dynamic game component reference
-  //   private currentGameComponent: ComponentRef<any> | null = null;
+  private currentGameComponent = signal<ComponentRef<BaseGameComponent> | null>(null);
+
+  // Computed properties
+  readonly shouldShowHintsButton = computed(() => {
+    const component = this.currentGameComponent();
+    if (!component?.instance?.hasHints) return false;
+
+    return !this.gameSubmitted() && !this.showHints() && component.instance.hasHints();
+  });
+
+  readonly canSubmitGame = computed(() => {
+    const component = this.currentGameComponent();
+    if (!component?.instance) return false;
+
+    return component.instance.canSubmit();
+  });
 
   // Computed properties
   //   readonly isLastLevel = computed(() => {
@@ -252,52 +266,51 @@ export class LevelPlayerComponent implements OnInit {
 
       if (componentType) {
         this.gameContainer.clear();
-        this.gameContainer.createComponent(componentType, {
-          bindings: [inputBinding('gameData', () => gameData)],
+        const componentRef = this.gameContainer.createComponent(componentType, {
+          bindings: [
+            inputBinding('gameData', () => gameData),
+            inputBinding('isSubmitted', () => this.gameSubmitted()),
+          ],
         });
+        this.currentGameComponent.set(componentRef as ComponentRef<BaseGameComponent>);
       } else {
+        this.currentGameComponent.set(null);
         // this.error = `Component type '${config.componentType}' not found`;
       }
     } catch (err) {
+      this.currentGameComponent.set(null);
       // this.error = 'Failed to load component';
+      // eslint-disable-next-line no-console
       console.error(err);
     }
   }
 
-  //   handleSubmit(): void {
-  //     const validation = this.validationResult();
-  //     if (!validation?.isValid || this.gameSubmitted()) return;
+  handleSubmit(): void {
+    const component = this.currentGameComponent();
+    if (!component?.instance || !this.canSubmitGame() || this.gameSubmitted()) return;
 
-  //     this.gameSubmitted.set(true);
+    // Set the game as submitted
+    this.gameSubmitted.set(true);
 
-  //     // Update component submitted state
-  //     if (this.currentGameComponent?.instance?.isSubmitted) {
-  //       this.currentGameComponent.instance.isSubmitted.set(true);
-  //     }
+    // Calculate a simple score (could be enhanced later)
+    const score = 3; // Default score for completion
+    this.lastScore.set(score);
 
-  //     // Calculate score using validation
-  //     const score = this.calculateGameScore(validation);
-  //     this.lastScore.set(score);
-
-  //     // // Save data for next level if needed
-  //     // this.saveGameDataForNextLevel();
-
-  //     // Complete the level
-  //     this.courseService.completeLevel(
-  //       this.courseId(),
-  //       this.unitId(),
-  //       this.lessonId(),
-  //       this.levelId(),
-  //       score,
-  //     );
-  //   }
-
-  //   private calculateGameScore(validation: GameValidationResult): number {
-  //     // Generic scoring - could be enhanced with more sophisticated logic
-  //     return validation.isValid ? 3 : 0;
-  //   }
+    // Log success for now (could be enhanced with actual validation)
+    // eslint-disable-next-line no-console
+    console.log('Game submitted successfully!', {
+      gameType: this.gameData()?.gameType,
+      score: score,
+    });
+  }
 
   //   nextLevel(): void {}
+  nextLevel(): void {
+    // For now, navigate back to courses dashboard
+    // This could be enhanced to navigate to the actual next level
+    this.router.navigate(['/courses']);
+  }
+
   goBack(): void {
     this.router.navigate(['/courses']);
   }
