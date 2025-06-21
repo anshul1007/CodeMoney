@@ -1,13 +1,16 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  computed,
-  input,
-  output,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BaseGameComponent } from '../../models/base-game.models';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+
 import { GameData, SelectionGameData } from '../../models';
+import { BaseGameComponent } from '../../models/base-game.models';
+
+interface SelectionItem {
+  id: string;
+  name: string;
+  icon?: string;
+  isCorrect?: boolean;
+  isSelected?: boolean;
+}
 
 @Component({
   selector: 'app-selection-game',
@@ -16,30 +19,27 @@ import { GameData, SelectionGameData } from '../../models';
   templateUrl: './selection-game.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SelectionGameComponent
-  implements BaseGameComponent<SelectionGameData>
-{
+export class SelectionGameComponent implements BaseGameComponent<SelectionGameData> {
   readonly gameData = input<GameData<SelectionGameData>>();
   readonly isSubmitted = input<boolean>(false);
-  readonly itemClick = output<any>();
+  readonly selectionChange = output<SelectionItem>();
+
   // BaseGameComponent interface implementation
-  readonly onInteraction = this.itemClick;
-  readonly onValidationChange = output<any>();
+  readonly onInteraction = this.selectionChange;
+  readonly validationChange = output<boolean>();
 
   // Modern computed property for better performance
   readonly selectedItemsCount = computed(
-    () =>
-      this.gameData()?.data?.items?.filter((item) => item.isSelected).length ||
-      0,
+    () => this.gameItems().filter((item) => item.isSelected).length || 0,
   );
 
   readonly gameItems = computed(() => this.gameData()?.data?.items || []);
 
   readonly canSubmit = computed(() => (this.selectedItemsCount() || 0) >= 2);
 
-  onItemClick(item: any): void {
+  onItemClick(item: SelectionItem): void {
     if (!this.isSubmitted()) {
-      this.itemClick.emit(item);
+      this.selectionChange.emit(item);
     }
   }
 
@@ -47,6 +47,5 @@ export class SelectionGameComponent
     throw new Error('Method not implemented.');
   }
 
-  trackByItemId = (index: number, item: any): string =>
-    item.id || index.toString();
+  trackByItemId = (index: number, item: SelectionItem): string => item.id || index.toString();
 }

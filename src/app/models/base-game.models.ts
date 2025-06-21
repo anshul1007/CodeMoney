@@ -1,4 +1,5 @@
 import { InputSignal } from '@angular/core';
+
 import { GameData } from './game.models';
 
 export interface BaseGameData {

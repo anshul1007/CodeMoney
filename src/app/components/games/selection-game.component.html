@@ -1,17 +1,13 @@
 <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
-  <h3
-    class="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4 text-center"
-  >
-    Guess which items you need for your lemonade stand: {{gameData()?.data?.items?.length || 0}}
+  <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4 text-center">
+    Guess which items you need for your lemonade stand: {{ gameData()?.data?.items?.length || 0 }}
   </h3>
   <!-- Progress indicator -->
   <div class="text-center mb-4 p-2 bg-blue-50 rounded-lg">
     <p class="text-sm text-blue-800">
       Selected: <span class="font-bold">{{ selectedItemsCount() }}</span> items
       @if (selectedItemsCount() < 2) {
-        <span class="text-xs text-gray-600 block">
-          (Select at least 2 items to continue)
-        </span>
+        <span class="text-xs text-gray-600 block"> (Select at least 2 items to continue) </span>
       }
     </p>
   </div>
@@ -20,23 +16,26 @@
   >
     @for (item of gameItems(); track trackByItemId($index, item)) {
       <div
-        class="item-card cursor-pointer transition-all duration-200 hover:scale-105"
+        class="item-card cursor-pointer transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         [class.selected]="item.isSelected"
         [class.correct]="item.isSelected && item.isCorrect && isSubmitted"
         [class.incorrect]="item.isSelected && !item.isCorrect && isSubmitted"
         (click)="onItemClick(item)"
+        (keyup.enter)="onItemClick(item)"
+        (keyup.space)="onItemClick(item)"
+        [attr.tabindex]="isSubmitted() ? -1 : 0"
+        [attr.aria-pressed]="item.isSelected"
+        [attr.aria-label]="item.name + (item.isSelected ? ' (selected)' : ' (not selected)')"
+        role="button"
       >
         <div
           class="border-2 rounded-xl p-2 sm:p-3 md:p-4 text-center"
           [ngClass]="{
             'border-blue-500 bg-blue-50': item.isSelected && !isSubmitted,
             'border-green-500 bg-green-50':
-              (item.isSelected && item.isCorrect) ||
-              (item.isCorrect && isSubmitted),
-            'border-red-500 bg-red-50':
-              item.isSelected && !item.isCorrect && isSubmitted,
-            'border-gray-200 bg-white hover:border-gray-300':
-              !item.isSelected && !isSubmitted,
+              (item.isSelected && item.isCorrect) || (item.isCorrect && isSubmitted),
+            'border-red-500 bg-red-50': item.isSelected && !item.isCorrect && isSubmitted,
+            'border-gray-200 bg-white hover:border-gray-300': !item.isSelected && !isSubmitted,
           }"
         >
           <div class="text-2xl sm:text-3xl md:text-4xl mb-1 sm:mb-2">
@@ -52,9 +51,7 @@
                 <span class="text-green-600"> ✅ Needed for lemonade! </span>
               }
               @if (item.isCorrect && !item.isSelected) {
-                <span class="text-orange-600">
-                  ⚠️ You may need this for lemonade!
-                </span>
+                <span class="text-orange-600"> ⚠️ You may need this for lemonade! </span>
               }
               @if (!item.isCorrect && item.isSelected) {
                 <span class="text-red-600"> ❌ Not needed for lemonade! </span>

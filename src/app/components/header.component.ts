@@ -1,5 +1,5 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -29,9 +29,7 @@ import { RouterModule } from '@angular/router';
           <!-- Center - Title -->
           <div class="flex-1 text-center mx-4">
             @if (title()) {
-              <h1
-                class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800"
-              >
+              <h1 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
                 {{ title() }}
               </h1>
             }

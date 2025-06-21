@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 
 @Component({
   selector: 'app-card-wrapper',
@@ -21,12 +21,9 @@ export class CardWrapperComponent {
     const baseClasses = 'backdrop-blur-sm rounded-2xl shadow-xl border';
 
     const variantClasses = {
-      default:
-        'bg-white/80 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700',
-      success:
-        'bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-700',
-      warning:
-        'bg-yellow-50 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-700',
+      default: 'bg-white/80 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700',
+      success: 'bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-700',
+      warning: 'bg-yellow-50 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-700',
       info: 'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-700',
     };
 

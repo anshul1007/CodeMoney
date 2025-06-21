@@ -1,14 +1,14 @@
-import {
-  Component,
-  ErrorHandler,
-  Injectable,
-  signal,
-  computed,
-  inject,
-  OnDestroy,
-  ChangeDetectionStrategy,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ErrorHandler,
+  inject,
+  Injectable,
+  OnDestroy,
+  signal,
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 export interface AppError {
@@ -32,12 +32,13 @@ export class GlobalErrorHandler implements ErrorHandler, OnDestroy {
     return errorList.length > 0 ? errorList[errorList.length - 1] : null;
   });
 
-  handleError(error: any): void {
+  handleError(error: Error | unknown): void {
     console.error('Global error caught:', error);
 
     const appError: AppError = {
-      message: error?.message || 'An unexpected error occurred',
-      stack: error?.stack,
+      message:
+        (error instanceof Error ? error.message : String(error)) || 'An unexpected error occurred',
+      stack: error instanceof Error ? error.stack : undefined,
       timestamp: new Date(),
       url: window.location.href,
       userAgent: navigator.userAgent,
@@ -88,9 +89,7 @@ export class GlobalErrorHandler implements ErrorHandler, OnDestroy {
             <span class="text-red-500 text-xl">⚠️</span>
           </div>
           <div class="flex-1 min-w-0">
-            <h3 class="text-sm font-medium text-red-800">
-              Something went wrong
-            </h3>
+            <h3 class="text-sm font-medium text-red-800">Something went wrong</h3>
             <p class="text-xs text-red-700 mt-1 line-clamp-2">
               {{ errorHandler.latestError()?.message }}
             </p>

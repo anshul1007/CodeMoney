@@ -1,7 +1,9 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import { Unit } from '../models/course.models';
+
 import { LessonCardComponent } from './lesson-card.component';
 
 @Component({
@@ -9,15 +11,11 @@ import { LessonCardComponent } from './lesson-card.component';
   standalone: true,
   imports: [CommonModule, RouterModule, LessonCardComponent],
   template: `
-    <div
-      class="border border-gray-200 rounded-lg sm:rounded-xl overflow-hidden"
-    >
+    <div class="border border-gray-200 rounded-lg sm:rounded-xl overflow-hidden">
       <!-- Unit Header -->
       <div class="bg-gray-50 p-3 sm:p-4 border-b border-gray-200">
         <div>
-          <h3
-            class="text-sm sm:text-base lg:text-lg font-bold text-gray-800 truncate"
-          >
+          <h3 class="text-sm sm:text-base lg:text-lg font-bold text-gray-800 truncate">
             {{ unit().title }}
           </h3>
           <p class="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
@@ -29,11 +27,7 @@ import { LessonCardComponent } from './lesson-card.component';
       <!-- Lessons -->
       <div class="p-2 sm:p-3 lg:p-4 space-y-2 sm:space-y-3 lg:space-y-4">
         @for (lesson of unit().lessons; track lesson.id) {
-          <app-lesson-card
-            [lesson]="lesson"
-            [courseId]="courseId()"
-            [unitId]="unit().id"
-          >
+          <app-lesson-card [lesson]="lesson" [courseId]="courseId()" [unitId]="unit().id">
           </app-lesson-card>
         }
       </div>

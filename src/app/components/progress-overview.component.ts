@@ -1,11 +1,6 @@
-import {
-  Component,
-  computed,
-  input,
-  output,
-  ChangeDetectionStrategy,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core';
+
 import { Course } from '../models/course.models';
 
 export interface UserProgress {
@@ -19,27 +14,17 @@ export interface UserProgress {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div
-      class="bg-gradient-to-r from-blue-50 to-purple-50 border-t border-gray-100"
-    >
+    <div class="bg-gradient-to-r from-blue-50 to-purple-50 border-t border-gray-100">
       <div class="max-w-7xl mx-auto p-4 md:p-6">
         <div class="flex items-center justify-between mb-2">
           <div class="flex items-center space-x-4">
             <span class="text-sm font-medium text-gray-700">Your Progress</span>
-            <span class="text-xs text-gray-600"
-              >Level {{ currentLevel() }}</span
-            >
+            <span class="text-xs text-gray-600">Level {{ currentLevel() }}</span>
           </div>
-          <div
-            class="flex items-center space-x-4 text-xs sm:text-sm text-gray-600"
-          >
+          <div class="flex items-center space-x-4 text-xs sm:text-sm text-gray-600">
             <span>🌟 {{ progress().totalStars }}</span>
-            <span
-              >✅ {{ progress().completedLevels.length }}/{{ totalLevels() }}
-            </span>
-            <span class="font-medium text-blue-600">
-              {{ progressPercentage() }}%
-            </span>
+            <span>✅ {{ progress().completedLevels.length }}/{{ totalLevels() }} </span>
+            <span class="font-medium text-blue-600"> {{ progressPercentage() }}% </span>
           </div>
         </div>
 
@@ -57,16 +42,9 @@ export interface UserProgress {
         </div>
 
         <!-- Quick stats -->
-        <div
-          class="flex justify-between items-center mt-2 text-xs text-gray-500"
-        >
+        <div class="flex justify-between items-center mt-2 text-xs text-gray-500">
           <span>{{ progress().completedLevels.length }} levels completed</span>
-          <span
-            >{{
-              totalLevels() - progress().completedLevels.length
-            }}
-            remaining</span
-          >
+          <span>{{ totalLevels() - progress().completedLevels.length }} remaining</span>
         </div>
       </div>
     </div>

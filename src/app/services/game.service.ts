@@ -1,8 +1,10 @@
-import { inject, Injectable, Type } from '@angular/core';
-import { BaseGameComponent } from '../models/base-game.models';
-import { GameData, GameType, Level } from '../models';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable, Type } from '@angular/core';
+
 import { map, Observable } from 'rxjs';
+
+import { GameData, GameType } from '../models';
+import { BaseGameComponent } from '../models/base-game.models';
 
 @Injectable({
   providedIn: 'root',
@@ -10,10 +12,7 @@ import { map, Observable } from 'rxjs';
 export class GameService {
   #http = inject(HttpClient);
 
-  private componentRegistry = new Map<
-    GameType,
-    () => Promise<Type<BaseGameComponent>>
-  >();
+  private componentRegistry = new Map<GameType, () => Promise<Type<BaseGameComponent>>>();
 
   constructor() {
     this.registerComponents();
@@ -49,9 +48,7 @@ export class GameService {
       );
   }
 
-  async getComponent(
-    componentType: GameType,
-  ): Promise<Type<BaseGameComponent> | null> {
+  async getComponent(componentType: GameType): Promise<Type<BaseGameComponent> | null> {
     const componentLoader = this.componentRegistry.get(componentType);
     if (componentLoader) {
       return await componentLoader();

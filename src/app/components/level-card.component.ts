@@ -1,11 +1,7 @@
-import {
-  Component,
-  computed,
-  input,
-  ChangeDetectionStrategy,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import { Level } from '../models';
 
 @Component({
@@ -40,9 +36,7 @@ import { Level } from '../models';
             {{ level().title }}
           </h5>
 
-          <p
-            class="text-xs text-center text-gray-500 mb-1 sm:mb-2 line-clamp-2 flex-1"
-          >
+          <p class="text-xs text-center text-gray-500 mb-1 sm:mb-2 line-clamp-2 flex-1">
             {{ level().description }}
           </p>
 
@@ -94,8 +88,7 @@ export class LevelCardComponent {
     const currentLevel = this.level();
     return {
       'border-green-300 bg-green-50': currentLevel.isCompleted,
-      'border-blue-300 bg-blue-50':
-        currentLevel.isUnlocked && !currentLevel.isCompleted,
+      'border-blue-300 bg-blue-50': currentLevel.isUnlocked && !currentLevel.isCompleted,
       'border-gray-200 bg-gray-50 opacity-50': !currentLevel.isUnlocked,
     };
   });

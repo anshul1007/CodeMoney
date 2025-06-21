@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, input } from '@angular/core';
+
 import { CardWrapperComponent } from './wrapper/card-wrapper.component';
 
 @Component({
@@ -23,17 +24,12 @@ import { CardWrapperComponent } from './wrapper/card-wrapper.component';
             aria-label="Game hints"
           >
             <div class="flex items-center mb-2">
-              <span class="text-blue-600 dark:text-blue-400 mr-2 text-lg"
-                >💡</span
-              >
-              <span
-                class="font-medium text-blue-800 dark:text-blue-300 text-sm sm:text-base"
+              <span class="text-blue-600 dark:text-blue-400 mr-2 text-lg">💡</span>
+              <span class="font-medium text-blue-800 dark:text-blue-300 text-sm sm:text-base"
                 >Hints:</span
               >
             </div>
-            <ul
-              class="text-blue-700 dark:text-blue-300 text-xs sm:text-sm space-y-1 ml-4"
-            >
+            <ul class="text-blue-700 dark:text-blue-300 text-xs sm:text-sm space-y-1 ml-4">
               @for (hint of hints()!; track $index) {
                 <li class="list-disc">
                   {{ hint }}

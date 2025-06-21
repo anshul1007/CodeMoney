@@ -1,12 +1,5 @@
-import {
-  Injectable,
-  signal,
-  computed,
-  inject,
-  PLATFORM_ID,
-  DestroyRef,
-} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { computed, DestroyRef, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 
 export interface AccessibilitySettings {
   highContrast: boolean;
@@ -41,12 +34,12 @@ export class AccessibilityService {
   private readonly alerts = signal<AccessibilityAlert[]>([]);
 
   // Store references for comprehensive memory leak prevention
-  private eventListeners: Array<{
+  private eventListeners: {
     element: Element | Document | MediaQueryList;
     event: string;
     handler: EventListener;
-  }> = [];
-  private auditTimeouts: number[] = [];
+  }[] = [];
+  private auditTimeouts: ReturnType<typeof setTimeout>[] = [];
   private mutationObserver?: MutationObserver;
 
   readonly currentSettings = this.settings.asReadonly();
@@ -54,9 +47,7 @@ export class AccessibilityService {
   readonly hasAccessibilityAlerts = computed(() => this.alerts().length > 0);
   readonly isAccessibilityOptimized = computed(() => {
     const settings = this.settings();
-    return (
-      settings.highContrast || settings.largeText || settings.screenReaderMode
-    );
+    return settings.highContrast || settings.largeText || settings.screenReaderMode;
   });
 
   constructor() {
@@ -159,10 +150,7 @@ export class AccessibilityService {
   }
 
   private saveAccessibilitySettings(): void {
-    localStorage.setItem(
-      'accessibility-settings',
-      JSON.stringify(this.settings()),
-    );
+    localStorage.setItem('accessibility-settings', JSON.stringify(this.settings()));
   }
 
   private applyAccessibilitySettings(): void {
@@ -189,9 +177,7 @@ export class AccessibilityService {
     const settings = this.settings();
 
     // Add viewport meta for better mobile accessibility
-    let viewport = document.querySelector(
-      'meta[name="viewport"]',
-    ) as HTMLMetaElement;
+    let viewport = document.querySelector('meta[name="viewport"]') as HTMLMetaElement;
     if (!viewport) {
       viewport = document.createElement('meta');
       viewport.name = 'viewport';
@@ -267,19 +253,13 @@ export class AccessibilityService {
 
   private monitorAccessibility(): void {
     // Initial accessibility check
-    const auditTimeout1 = setTimeout(
-      () => this.performAccessibilityAudit(),
-      2000,
-    );
-    this.auditTimeouts.push(auditTimeout1 as any);
+    const auditTimeout1 = setTimeout(() => this.performAccessibilityAudit(), 2000);
+    this.auditTimeouts.push(auditTimeout1);
 
     // Re-audit on route changes with MutationObserver
     this.mutationObserver = new MutationObserver(() => {
-      const auditTimeout2 = setTimeout(
-        () => this.performAccessibilityAudit(),
-        500,
-      );
-      this.auditTimeouts.push(auditTimeout2 as any);
+      const auditTimeout2 = setTimeout(() => this.performAccessibilityAudit(), 500);
+      this.auditTimeouts.push(auditTimeout2);
     });
 
     this.mutationObserver.observe(document.body, {
@@ -300,9 +280,7 @@ export class AccessibilityService {
     }
 
     // Check for missing form labels
-    const inputs = document.querySelectorAll(
-      'input:not([aria-label]):not([aria-labelledby])',
-    );
+    const inputs = document.querySelectorAll('input:not([aria-label]):not([aria-labelledby])');
     const unlabeledInputs = Array.from(inputs).filter((input) => {
       const labels = document.querySelectorAll(`label[for="${input.id}"]`);
       return labels.length === 0;
@@ -415,7 +393,7 @@ export class AccessibilityService {
         document.body.removeChild(announcement);
       }
     }, 1000);
-    this.auditTimeouts.push(cleanupTimeout as any);
+    this.auditTimeouts.push(cleanupTimeout);
   }
 
   focusElement(selector: string): void {
@@ -427,8 +405,7 @@ export class AccessibilityService {
 
       // Announce focus change to screen readers
       if (element.getAttribute('aria-label') || element.textContent) {
-        const label =
-          element.getAttribute('aria-label') || element.textContent?.trim();
+        const label = element.getAttribute('aria-label') || element.textContent?.trim();
         this.announceToScreenReader(`Focused on ${label}`);
       }
     }

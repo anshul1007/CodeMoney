@@ -1,8 +1,5 @@
 // Infrastructure components index
-export {
-  ErrorBoundaryComponent,
-  GlobalErrorHandler,
-} from './error-boundary.component';
+export { ErrorBoundaryComponent, GlobalErrorHandler } from './error-boundary.component';
 export { PerformanceMonitorComponent } from './performance-monitor.component';
 export { AccessibilityPanelComponent } from './accessibility-panel.component';
 

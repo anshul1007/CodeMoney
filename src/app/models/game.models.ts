@@ -3,20 +3,17 @@ import { Level } from './course.models';
 
 export type GameType = 'selection' | 'estimation' | 'funding' | 'balance-sheet';
 
-export type CurrentLevel = Pick<
-  Level,
-  'id' | 'title' | 'description' | 'stars'
->;
+export type CurrentLevel = Pick<Level, 'id' | 'title' | 'description' | 'stars'>;
 
 export interface SelectionGameData extends BaseGameData {
-  items: Array<{
+  items: {
     id: string;
     name: string;
     icon?: string;
     isCorrect?: boolean; // Indicates if the item is correct (for validation)
     isSelected?: boolean; // Indicates if the item is selected by the user
     // Additional properties can be added as needed
-  }>;
+  }[];
   // options: Array<{
   //   id: string;
   //   label: string;
@@ -44,14 +41,14 @@ export interface EstimationGameData extends BaseGameData {
 
 export interface FundingGameData extends BaseGameData {
   totalBudget: number;
-  categories: Array<{
+  categories: {
     id: string;
     name: string;
     description: string;
     minAmount?: number;
     maxAmount?: number;
     suggestedAmount?: number;
-  }>;
+  }[];
   constraints?: {
     mustAllocateAll?: boolean;
     allowDeficit?: boolean;
@@ -59,19 +56,19 @@ export interface FundingGameData extends BaseGameData {
 }
 
 export interface BalanceSheetGameData extends BaseGameData {
-  accounts: Array<{
+  accounts: {
     id: string;
     name: string;
     type: 'asset' | 'liability' | 'equity';
     category: string;
     initialBalance?: number;
-  }>;
-  transactions: Array<{
+  }[];
+  transactions: {
     id: string;
     description: string;
     amount: number;
     affectedAccounts: string[];
-  }>;
+  }[];
 }
 
 // Generic GameData interface

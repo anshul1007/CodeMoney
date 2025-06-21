@@ -1,8 +1,10 @@
-import { Injectable, computed, inject } from '@angular/core';
-import { Course, Lesson, Level, Unit } from '../models/course.models';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { Injectable, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+
+import { map, Observable } from 'rxjs';
+
+import { Course, Lesson, Level, Unit } from '../models/course.models';
 
 @Injectable({
   providedIn: 'root',
@@ -22,28 +24,18 @@ export class CourseService {
       .pipe(map((response) => response.courses));
   }
 
-  readonly getCourse = computed(
-    () =>
-      (courseId: string): Course | undefined => {
-        return this.courses()?.find((course) => course.id === courseId);
-      },
-  );
+  readonly getCourse = computed(() => (courseId: string): Course | undefined => {
+    return this.courses()?.find((course) => course.id === courseId);
+  });
 
-  readonly getUnit = computed(
-    () =>
-      (courseId: string, unitId: string): Unit | undefined => {
-        const course = this.getCourse()(courseId);
-        return course?.units.find((unit) => unit.id === unitId);
-      },
-  );
+  readonly getUnit = computed(() => (courseId: string, unitId: string): Unit | undefined => {
+    const course = this.getCourse()(courseId);
+    return course?.units.find((unit) => unit.id === unitId);
+  });
 
   readonly getLesson = computed(
     () =>
-      (
-        courseId: string,
-        unitId: string,
-        lessonId: string,
-      ): Lesson | undefined => {
+      (courseId: string, unitId: string, lessonId: string): Lesson | undefined => {
         const unit = this.getUnit()(courseId, unitId);
         return unit?.lessons.find((lesson) => lesson.id === lessonId);
       },
@@ -51,12 +43,7 @@ export class CourseService {
 
   readonly getLevel = computed(
     () =>
-      (
-        courseId: string,
-        unitId: string,
-        lessonId: string,
-        levelId: string,
-      ): Level | undefined => {
+      (courseId: string, unitId: string, lessonId: string, levelId: string): Level | undefined => {
         const lesson = this.getLesson()(courseId, unitId, lessonId);
         return lesson?.levels.find((level) => level.id === levelId);
       },

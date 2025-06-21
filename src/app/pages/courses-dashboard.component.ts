@@ -1,17 +1,10 @@
-import {
-  Component,
-  signal,
-  inject,
-  ChangeDetectionStrategy,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CourseService } from '../services/course.service';
-import {
-  ProgressOverviewComponent,
-  UserProgress,
-} from '../components/progress-overview.component';
+
 import { HeaderComponent, CourseCardComponent } from '../components';
+import { ProgressOverviewComponent, UserProgress } from '../components/progress-overview.component';
+import { CourseService } from '../services/course.service';
 
 @Component({
   selector: 'app-courses-dashboard',
@@ -38,11 +31,7 @@ import { HeaderComponent, CourseCardComponent } from '../components';
 
       <!-- Main Content: Courses Grid -->
       <div class="container mx-auto max-w-7xl px-4 md:px-6">
-        <div
-          class="grid gap-4 sm:gap-6"
-          role="main"
-          aria-label="Available courses"
-        >
+        <div class="grid gap-4 sm:gap-6" role="main" aria-label="Available courses">
           @for (course of courses(); track course.id) {
             <app-course-card [course]="course"></app-course-card>
           }

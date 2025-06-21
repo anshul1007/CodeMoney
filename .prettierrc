@@ -1,3 +1,10 @@
 {
-  "tailwindStylesheet": "./src/styles.css"
+  "tailwindStylesheet": "./src/styles.css",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "tabs": false,
+  "singleQuote": true,
+  "semicolon": true,
+  "quoteProps": "preserve",
+  "bracketSpacing": true
 }

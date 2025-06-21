@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   OnInit,
@@ -10,19 +11,19 @@ import {
   inputBinding,
   computed,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { firstValueFrom } from 'rxjs';
-import { GameService } from '../services/game.service';
+
 import {
   SceneDescriptionComponent,
   GamePromptComponent,
   CardWrapperComponent,
   LevelPlayerHeaderComponent,
 } from '../components';
-
 import { CurrentLevel, GameData } from '../models';
+import { GameService } from '../services/game.service';
 
 @Component({
   selector: 'app-level-player-dynamic',
@@ -48,9 +49,7 @@ import { CurrentLevel, GameData } from '../models';
         />
       }
       <!-- Game Content -->
-      <div
-        class="container mx-auto max-w-4xl p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6"
-      >
+      <div class="container mx-auto max-w-4xl p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6">
         <app-scene-description [scene]="gameData()?.scene || ''" />
 
         <app-game-prompt
@@ -92,10 +91,7 @@ import { CurrentLevel, GameData } from '../models';
           } -->
         <!-- Celebration Message -->
         @if (gameSubmitted()) {
-          <app-card-wrapper
-            variant="success"
-            customClasses="mb-4 sm:mb-6 text-center"
-          >
+          <app-card-wrapper variant="success" customClasses="mb-4 sm:mb-6 text-center">
             <div class="flex justify-center items-center gap-2 mb-1">
               <div class="text-2xl sm:text-3xl">🎉</div>
               <h3 class="text-lg font-bold text-green-800">Amazing Work!</h3>
@@ -222,26 +218,19 @@ export class LevelPlayerComponent implements OnInit {
   //   });
 
   ngOnInit(): void {
-    this.route.params
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params) => {
-        this.courseId.set(params['courseId']);
-        this.unitId.set(params['unitId']);
-        this.lessonId.set(params['lessonId']);
-        this.levelId.set(params['levelId']);
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      this.courseId.set(params['courseId']);
+      this.unitId.set(params['unitId']);
+      this.lessonId.set(params['lessonId']);
+      this.levelId.set(params['levelId']);
 
-        this.checkLevelAccess();
-      });
+      this.checkLevelAccess();
+    });
   }
 
   private async checkLevelAccess(): Promise<void> {
     const result = await firstValueFrom(
-      this.gameService.getGameData(
-        this.courseId(),
-        this.unitId(),
-        this.lessonId(),
-        this.levelId(),
-      ),
+      this.gameService.getGameData(this.courseId(), this.unitId(), this.lessonId(), this.levelId()),
     );
     if (!result) {
       this.router.navigate(['/courses']);
@@ -259,9 +248,7 @@ export class LevelPlayerComponent implements OnInit {
 
   private async loadComponent(gameData: GameData) {
     try {
-      const componentType = await this.gameService.getComponent(
-        gameData.gameType,
-      );
+      const componentType = await this.gameService.getComponent(gameData.gameType);
 
       if (componentType) {
         this.gameContainer.clear();
