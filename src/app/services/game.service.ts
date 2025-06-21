@@ -34,18 +34,15 @@ export class GameService {
     lessonId: string,
     levelId: string,
   ): Observable<{
-    level: Pick<Level, 'id' | 'title' | 'description' | 'stars'>;
     gameData: GameData;
   }> {
     return this.#http
       .get<{
-        level: Pick<Level, 'id' | 'title' | 'description' | 'stars'>;
         gameData: GameData;
       }>(`/${courseId}-${unitId}-${lessonId}-${levelId}.json`)
       .pipe(
         map((response) => {
           return {
-            level: response.level,
             gameData: response.gameData,
           };
         }),

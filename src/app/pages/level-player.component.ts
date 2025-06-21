@@ -8,19 +8,21 @@ import {
   ViewContainerRef,
   ViewChild,
   inputBinding,
+  computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { GameService } from '../services/game.service';
-import { SceneDescriptionComponent } from '../components/scene-description.component';
-import { GamePromptComponent } from '../components/game-prompt.component';
-import { CardWrapperComponent } from '../components/wrapper/card-wrapper.component';
-import { LevelPlayerHeaderComponent } from '../components/level-player-header.component';
+import {
+  SceneDescriptionComponent,
+  GamePromptComponent,
+  CardWrapperComponent,
+  LevelPlayerHeaderComponent,
+} from '../components';
 
-import { Level } from '../models/course.models';
-import { GameData } from '../models';
+import { CurrentLevel, GameData } from '../models';
 
 @Component({
   selector: 'app-level-player-dynamic',
@@ -33,37 +35,36 @@ import { GameData } from '../models';
     LevelPlayerHeaderComponent,
   ],
   template: `
-    @if (currentLevel()) {
-      <div
-        class="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
-        role="main"
-        [attr.aria-label]="'Playing level: ' + currentLevel()?.level?.title"
-      >
+    <div
+      class="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
+      role="main"
+    >
+      @if (currentLevel()) {
         <app-level-player-header
-          [title]="currentLevel()?.level?.title || ''"
-          [description]="currentLevel()?.level?.description || ''"
-          [stars]="currentLevel()?.level?.stars || 0"
+          [title]="currentLevel()?.title || ''"
+          [description]="currentLevel()?.description || ''"
+          [stars]="currentLevel()?.stars || 0"
           (backClick)="goBack()"
         />
+      }
+      <!-- Game Content -->
+      <div
+        class="container mx-auto max-w-4xl p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6"
+      >
+        <app-scene-description [scene]="gameData()?.scene || ''" />
 
-        <!-- Game Content -->
-        <div
-          class="container mx-auto max-w-4xl p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6"
-        >
-          <app-scene-description [scene]="currentLevel()?.gameData?.scene" />
+        <app-game-prompt
+          [prompt]="gameData()?.prompt"
+          [hints]="gameData()?.hints"
+          [showHints]="showHints()"
+        />
 
-          <app-game-prompt
-            [prompt]="currentLevel()?.gameData?.prompt"
-            [hints]="currentLevel()?.gameData?.hints"
-            [showHints]="showHints()"
-          />
+        <app-card-wrapper customClasses="game-content">
+          <ng-template #gameContainer></ng-template>
+        </app-card-wrapper>
 
-          <app-card-wrapper customClasses="game-content">
-            <ng-template #gameContainer></ng-template>
-          </app-card-wrapper>
-
-          <!-- Validation Message -->
-          <!-- @if (
+        <!-- Validation Message -->
+        <!-- @if (
             !gameSubmitted() &&
             validationResult() &&
             !validationResult()?.isValid
@@ -89,30 +90,30 @@ import { GameData } from '../models';
               }
             </div>
           } -->
-          <!-- Celebration Message -->
-          @if (gameSubmitted()) {
-            <app-card-wrapper
-              variant="success"
-              customClasses="mb-4 sm:mb-6 text-center"
-            >
-              <div class="flex justify-center items-center gap-2 mb-1">
-                <div class="text-2xl sm:text-3xl">🎉</div>
-                <h3 class="text-lg font-bold text-green-800">Amazing Work!</h3>
-              </div>
-              <p class="text-sm text-green-700">You earned 3 stars!</p>
-              <div class="flex justify-center space-x-1 my-1">
-                @for (star of [1, 2, 3]; track $index) {
-                  <span class="text-yellow-400 text-lg sm:text-xl">⭐</span>
-                }
-              </div>
-            </app-card-wrapper>
-          }
-
-          <!-- Action Buttons -->
-          <div
-            class="text-center space-y-3 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row justify-center"
+        <!-- Celebration Message -->
+        @if (gameSubmitted()) {
+          <app-card-wrapper
+            variant="success"
+            customClasses="mb-4 sm:mb-6 text-center"
           >
-            <!-- @if (!gameSubmitted()) {
+            <div class="flex justify-center items-center gap-2 mb-1">
+              <div class="text-2xl sm:text-3xl">🎉</div>
+              <h3 class="text-lg font-bold text-green-800">Amazing Work!</h3>
+            </div>
+            <p class="text-sm text-green-700">You earned 3 stars!</p>
+            <div class="flex justify-center space-x-1 my-1">
+              @for (star of [1, 2, 3]; track $index) {
+                <span class="text-yellow-400 text-lg sm:text-xl">⭐</span>
+              }
+            </div>
+          </app-card-wrapper>
+        }
+
+        <!-- Action Buttons -->
+        <div
+          class="text-center space-y-3 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row justify-center"
+        >
+          <!-- @if (!gameSubmitted()) {
               <button
                 (click)="handleSubmit()"
                 [disabled]="!canSubmitGame()"
@@ -128,20 +129,16 @@ import { GameData } from '../models';
               </button>
             } -->
 
-            @if (
-              !gameSubmitted() &&
-              !showHints() &&
-              currentLevel()?.gameData?.hints?.length
-            ) {
-              <button
-                (click)="showHints.set(true)"
-                class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl transition-all duration-200 hover:shadow-lg text-base sm:text-lg w-full sm:w-auto"
-              >
-                💡 Show Hints
-              </button>
-            }
+          @if (!gameSubmitted() && !showHints() && gameData()?.hints?.length) {
+            <button
+              (click)="showHints.set(true)"
+              class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl transition-all duration-200 hover:shadow-lg text-base sm:text-lg w-full sm:w-auto"
+            >
+              💡 Show Hints
+            </button>
+          }
 
-            <!-- @if (gameSubmitted()) {
+          <!-- @if (gameSubmitted()) {
               <button
                 (click)="nextLevel()"
                 class="bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl transition-all duration-200 hover:shadow-lg text-base sm:text-lg w-full sm:w-auto animate-bounce"
@@ -149,10 +146,9 @@ import { GameData } from '../models';
                 {{ isLastLevel() ? 'Complete Lesson' : 'Next Level' }} →
               </button>
             } -->
-          </div>
         </div>
       </div>
-    }
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -167,13 +163,11 @@ export class LevelPlayerComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   // Signal-based reactive state
-  readonly currentLevel = signal<
-    | {
-        level: Pick<Level, 'id' | 'title' | 'description' | 'stars'>;
-        gameData: GameData;
-      }
-    | undefined
-  >(undefined);
+  readonly gameData = signal<GameData | undefined>(undefined);
+  readonly currentLevel = computed<CurrentLevel | undefined>(() => {
+    return this.gameData()?.currentLevel;
+  });
+
   readonly gameSubmitted = signal<boolean>(false);
   readonly showHints = signal<boolean>(false);
   readonly lastScore = signal<number>(0);
@@ -241,7 +235,7 @@ export class LevelPlayerComponent implements OnInit {
   }
 
   private async checkLevelAccess(): Promise<void> {
-    const currentLevel = await firstValueFrom(
+    const result = await firstValueFrom(
       this.gameService.getGameData(
         this.courseId(),
         this.unitId(),
@@ -249,17 +243,17 @@ export class LevelPlayerComponent implements OnInit {
         this.levelId(),
       ),
     );
-    if (!currentLevel) {
+    if (!result) {
       this.router.navigate(['/courses']);
     } else {
-      console.log('Current Level:', currentLevel.level?.title);
-      this.currentLevel.set(currentLevel);
-      if (!currentLevel.gameData.isCompleted) {
+      this.gameData.set(result.gameData);
+
+      if (!result.gameData.isCompleted) {
         this.gameSubmitted.set(false);
         this.showHints.set(false);
         this.lastScore.set(0);
       }
-      this.loadComponent(currentLevel.gameData);
+      this.loadComponent(result.gameData);
     }
   }
 

@@ -29,36 +29,22 @@ export class SelectionGameComponent
   // Modern computed property for better performance
   readonly selectedItemsCount = computed(
     () =>
-      this.gameData()?.gameSpecificData.options.filter(
-        (item) => false, //item.isSelected,
-      ).length,
+      this.gameData()?.data?.items?.filter((item) => item.isSelected).length ||
+      0,
   );
 
-  readonly gameItems = computed(
-    () => this.gameData()?.gameSpecificData.options || [],
-  );
+  readonly gameItems = computed(() => this.gameData()?.data?.items || []);
 
   readonly canSubmit = computed(() => (this.selectedItemsCount() || 0) >= 2);
-
-  // BaseGameComponent interface methods
-  setGameData(data: any): void {
-    // For input signals, this would typically be handled by the parent component
-    // In a more complex implementation, we might have writable signals here
-  }
-
-  getGameData(): any {
-    return this.gameItems();
-  }
-
-  resetGame(): void {
-    // Reset game state - in this case, we'd need writable signals to implement this
-    // For now, this would be handled by the parent component reloading data
-  }
 
   onItemClick(item: any): void {
     if (!this.isSubmitted()) {
       this.itemClick.emit(item);
     }
+  }
+
+  resetGame(): void {
+    throw new Error('Method not implemented.');
   }
 
   trackByItemId = (index: number, item: any): string =>

@@ -1,18 +1,32 @@
 import { BaseGameData } from './base-game.models';
+import { Level } from './course.models';
 
 export type GameType = 'selection' | 'estimation' | 'funding' | 'balance-sheet';
 
+export type CurrentLevel = Pick<
+  Level,
+  'id' | 'title' | 'description' | 'stars'
+>;
+
 export interface SelectionGameData extends BaseGameData {
-  options: Array<{
+  items: Array<{
     id: string;
-    label: string;
-    value: any;
-    isCorrect?: boolean;
-    description?: string;
+    name: string;
+    icon?: string;
+    isCorrect?: boolean; // Indicates if the item is correct (for validation)
+    isSelected?: boolean; // Indicates if the item is selected by the user
+    // Additional properties can be added as needed
   }>;
-  multiSelect?: boolean;
-  minSelections?: number;
-  maxSelections?: number;
+  // options: Array<{
+  //   id: string;
+  //   label: string;
+  //   value: any;
+  //   isCorrect?: boolean;
+  //   description?: string;
+  // }>;
+  // multiSelect?: boolean;
+  // minSelections?: number;
+  // maxSelections?: number;
 }
 
 export interface EstimationGameData extends BaseGameData {
@@ -62,12 +76,12 @@ export interface BalanceSheetGameData extends BaseGameData {
 
 // Generic GameData interface
 export interface GameData<T extends BaseGameData = BaseGameData> {
-  levelId: string;
+  currentLevel: CurrentLevel;
   scene?: string;
   prompt: string;
   hints?: string[];
   gameType: GameType;
   isCompleted?: boolean;
   // Generic game-specific data
-  gameSpecificData: T;
+  data: T;
 }
