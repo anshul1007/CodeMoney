@@ -1,0 +1,92 @@
+{
+  "gameData": {
+    "currentLevel": {
+      "id": "estimate-costs",
+      "title": "How Much Does It Cost?",
+      "description": "Estimate the costs of your lemonade stand items to plan your budget.",
+      "stars": 3
+    },
+    "scene": "A marketplace where the child is looking at different items with price tags for their lemonade stand business.",
+    "prompt": "Now that you know what you need, let's figure out how much each item costs. Make your best estimate!",
+    "hints": [
+      "Think about what you've seen in stores",
+      "Some items cost more than others",
+      "Fresh fruit like lemons might cost around ₹5-10 each"
+    ],
+    "gameType": "estimation",
+    "isCompleted": false,
+    "data": {
+      "currency": "₹",
+      "items": [
+        {
+          "id": "lemons",
+          "name": "Lemons (per kg)",
+          "icon": "🍋",
+          "targetValue": 50,
+          "acceptableRange": {
+            "min": 40,
+            "max": 60
+          },
+          "unit": "₹"
+        },
+        {
+          "id": "sugar",
+          "name": "Sugar (1kg pack)",
+          "icon": "🧂",
+          "targetValue": 45,
+          "acceptableRange": {
+            "min": 35,
+            "max": 55
+          },
+          "unit": "₹"
+        },
+        {
+          "id": "ice",
+          "name": "Ice (1kg bag)",
+          "icon": "🧊",
+          "targetValue": 20,
+          "acceptableRange": {
+            "min": 15,
+            "max": 25
+          },
+          "unit": "₹"
+        },
+        {
+          "id": "stand",
+          "name": "Wooden Stand",
+          "icon": "🏕️",
+          "targetValue": 500,
+          "acceptableRange": {
+            "min": 400,
+            "max": 600
+          },
+          "unit": "₹"
+        },
+        {
+          "id": "cups",
+          "name": "Disposable Cups (pack of 50)",
+          "icon": "🥤",
+          "targetValue": 30,
+          "acceptableRange": {
+            "min": 25,
+            "max": 40
+          },
+          "unit": "₹"
+        },
+        {
+          "id": "napkins",
+          "name": "Napkins (pack of 100)",
+          "icon": "🧼",
+          "targetValue": 25,
+          "acceptableRange": {
+            "min": 20,
+            "max": 35
+          },
+          "unit": "₹"
+        }
+      ],
+      "totalBudget": 670,
+      "minEstimations": 6
+    }
+  }
+}

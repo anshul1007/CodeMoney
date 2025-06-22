@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
+import { ProgressService } from '../services/progress.service';
 
 @Component({
   selector: 'app-welcome',
@@ -10,14 +12,15 @@ import { RouterModule } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WelcomeComponent {
+  private readonly progressService = inject(ProgressService);
+
   startGame() {
     // This will be handled by routing to courses
   }
 
   resetProgress() {
-    // Clear any saved progress
-    localStorage.removeItem('codeMoney_progress');
-    localStorage.removeItem('course_progress');
+    // Use progress service to reset all progress
+    this.progressService.resetProgress();
     alert('Progress has been reset!');
   }
 }

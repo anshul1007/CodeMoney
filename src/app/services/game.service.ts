@@ -25,6 +25,18 @@ export class GameService {
       );
       return SelectionGameComponent as Type<BaseGameComponent>;
     });
+
+    this.componentRegistry.set('estimation', async () => {
+      const { EstimationGameComponent } = await import(
+        '../components/games/estimation-game.component'
+      );
+      return EstimationGameComponent as Type<BaseGameComponent>;
+    });
+
+    this.componentRegistry.set('funding', async () => {
+      const { FundingGameComponent } = await import('../components/games/funding-game.component');
+      return FundingGameComponent as Type<BaseGameComponent>;
+    });
   }
 
   getGameData(

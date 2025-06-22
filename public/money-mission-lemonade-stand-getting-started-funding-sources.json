@@ -1,0 +1,79 @@
+{
+  "gameData": {
+    "currentLevel": {
+      "id": "funding-sources",
+      "title": "Where Will the Money Come From?",
+      "description": "Learn about different ways to fund your business.",
+      "stars": 3
+    },
+    "scene": "A cozy home office where the child is planning their lemonade stand business with family members nearby.",
+    "prompt": "You need money to start your lemonade stand. Let's explore different ways to get the funds you need!",
+    "hints": [
+      "You can ask family members for help",
+      "You might have some savings from allowances",
+      "Sometimes neighbors pay for small jobs"
+    ],
+    "gameType": "funding",
+    "isCompleted": false,
+    "data": {
+      "totalBudget": 670,
+      "fundingSources": [
+        {
+          "id": "savings",
+          "name": "Personal Savings",
+          "description": "Money you've saved from allowances and gifts",
+          "icon": "🏦",
+          "maxAmount": 200,
+          "isAvailable": true,
+          "isSelected": false,
+          "amount": 0
+        },
+        {
+          "id": "family-loan",
+          "name": "Family Loan",
+          "description": "Ask family members to lend you money",
+          "icon": "👨‍👩‍👧‍👦",
+          "maxAmount": 300,
+          "isAvailable": true,
+          "isSelected": false,
+          "amount": 0
+        },
+        {
+          "id": "chores",
+          "name": "Extra Chores",
+          "description": "Earn money by doing extra work around the house",
+          "icon": "🧹",
+          "maxAmount": 150,
+          "isAvailable": true,
+          "isSelected": false,
+          "amount": 0
+        },
+        {
+          "id": "neighbor-jobs",
+          "name": "Neighbor Jobs",
+          "description": "Ask neighbors if they need help with small tasks",
+          "icon": "🏠",
+          "maxAmount": 100,
+          "isAvailable": true,
+          "isSelected": false,
+          "amount": 0
+        },
+        {
+          "id": "gift-money",
+          "name": "Gift Money",
+          "description": "Money received as gifts for birthdays or holidays",
+          "icon": "🎁",
+          "maxAmount": 120,
+          "isAvailable": true,
+          "isSelected": false,
+          "amount": 0
+        }
+      ],
+      "constraints": {
+        "mustAllocateAll": false,
+        "allowDeficit": false,
+        "minSources": 2
+      }
+    }
+  }
+}

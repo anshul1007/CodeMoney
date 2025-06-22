@@ -1,104 +1,125 @@
-// import {
-//   Component,
-//   input,
-//   output,
-//   ChangeDetectionStrategy,
-//   computed,
-// } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { FundingSource } from '../../models/financial.models';
-// import { BaseGameComponent } from '../../models/base-game.models';
-// import { GameData } from '../../models';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
-// @Component({
-//   selector: 'app-funding-game',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule],
-//   templateUrl: './funding-game.component.html',
-//   changeDetection: ChangeDetectionStrategy.OnPush,
-// })
-// export class FundingGameComponent implements BaseGameComponent {
-//   // Input property for game data
-//   readonly gameData = input<GameData>();
-//   readonly fundingSources = input<FundingSource[]>([]);
-//   readonly totalEstimatedCost = input<number>(0);
-//   readonly isSubmitted = input<boolean>(false);
-//   readonly sourceClick = output<FundingSource>();
-//   readonly amountChange = output<void>();
+import { BaseGameComponent } from '../../models/base-game.models';
+import { FundingGameData, FundingSource, GameData } from '../../models/game.models';
 
-//   // BaseGameComponent interface implementation
-//   readonly onInteraction = this.sourceClick;
-//   readonly onValidationChange = output<any>();
+@Component({
+  selector: 'app-funding-game',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './funding-game.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class FundingGameComponent implements BaseGameComponent<FundingGameData> {
+  // Input signals required by BaseGameComponent interface
+  gameData = input<GameData<FundingGameData>>();
+  isSubmitted = input<boolean>(false);
 
-//   // Computed properties for better performance
-//   readonly selectedSources = computed(() =>
-//     this.fundingSources().filter(
-//       (source) => source.isSelected && (source.amount || 0) > 0,
-//     ),
-//   );
+  // Internal state - use signals to track user selections and amounts
+  private readonly userSelections = signal<Record<string, boolean>>({});
+  private readonly userAmounts = signal<Record<string, number>>({});
+  private readonly submittedState = signal<boolean>(false);
 
-//   readonly totalFunding = computed(() =>
-//     this.selectedSources().reduce(
-//       (total, source) => total + (source.amount || 0),
-//       0,
-//     ),
-//   );
+  // Computed properties
+  readonly gameIsSubmitted = computed(() => this.isSubmitted() || this.submittedState());
 
-//   readonly fundingGap = computed(() =>
-//     Math.max(0, this.totalEstimatedCost() - this.totalFunding()),
-//   );
+  readonly fundingSources = computed(() => {
+    const data = this.gameData()?.data;
+    if (!data) return [];
 
-//   readonly isFundingSufficient = computed(
-//     () =>
-//       this.totalFunding() >= this.totalEstimatedCost() &&
-//       this.totalEstimatedCost() > 0,
-//   );
-//   readonly hasSelectedSources = computed(
-//     () => this.selectedSources().length > 0,
-//   );
+    const selections = this.userSelections();
+    const amounts = this.userAmounts();
 
-//   // BaseGameComponent interface methods
-//   readonly canSubmit = computed(
-//     () =>
-//       this.hasSelectedSources() &&
-//       (this.totalEstimatedCost() === 0 || this.isFundingSufficient()),
-//   );
+    return data.fundingSources.map((source) => ({
+      ...source,
+      isSelected: selections[source.id] || false,
+      amount: amounts[source.id] || 0,
+    }));
+  });
 
-//   setGameData(data: any): void {
-//     // For input signals, this would typically be handled by the parent component
-//   }
+  readonly totalEstimatedCost = computed(() => {
+    return this.gameData()?.data?.totalBudget || 0;
+  });
 
-//   getGameData(): any {
-//     return {
-//       fundingSources: this.fundingSources(),
-//       totalEstimatedCost: this.totalEstimatedCost(),
-//     };
-//   }
+  readonly selectedSources = computed(() =>
+    this.fundingSources().filter((source) => source.isSelected && (source.amount || 0) > 0),
+  );
 
-//   resetGame(): void {
-//     // Reset game state - would be handled by parent component reloading data
-//   }
+  readonly totalFunding = computed(() =>
+    this.selectedSources().reduce((total, source) => total + (source.amount || 0), 0),
+  );
 
-//   onSourceClick(source: FundingSource): void {
-//     if (!this.isSubmitted()) {
-//       this.sourceClick.emit(source);
-//     }
-//   }
+  readonly fundingGap = computed(() =>
+    Math.max(0, this.totalEstimatedCost() - this.totalFunding()),
+  );
 
-//   onAmountChange(): void {
-//     this.amountChange.emit();
-//   }
+  readonly isFundingSufficient = computed(
+    () => this.totalFunding() >= this.totalEstimatedCost() && this.totalEstimatedCost() > 0,
+  );
 
-//   getSelectedSources(): FundingSource[] {
-//     return this.selectedSources();
-//   }
+  readonly hasSelectedSources = computed(() => this.selectedSources().length > 0);
 
-//   getTotalFunding(): number {
-//     return this.totalFunding();
-//   }
+  readonly hasMinimumSources = computed(() => {
+    const minSources = this.gameData()?.data?.constraints?.minSources || 1;
+    return this.selectedSources().length >= minSources;
+  });
 
-//   trackBySourceId(index: number, source: FundingSource): string {
-//     return source.id || index.toString();
-//   }
-// }
+  readonly canSubmit = computed(() => {
+    return (
+      this.hasSelectedSources() &&
+      this.hasMinimumSources() &&
+      (this.totalEstimatedCost() === 0 || this.isFundingSufficient())
+    );
+  });
+
+  // BaseGameComponent interface methods
+  resetGame(): void {
+    this.submittedState.set(false);
+    this.userSelections.set({});
+    this.userAmounts.set({});
+  }
+
+  hasHints = computed(() => {
+    return (this.gameData()?.hints?.length || 0) > 0;
+  });
+
+  // Component-specific methods
+  onSourceClick(source: FundingSource): void {
+    if (this.gameIsSubmitted()) return;
+
+    const currentSelections = this.userSelections();
+    const newSelection = !currentSelections[source.id];
+
+    this.userSelections.set({
+      ...currentSelections,
+      [source.id]: newSelection,
+    });
+
+    // If deselecting, reset the amount
+    if (!newSelection) {
+      const currentAmounts = this.userAmounts();
+      this.userAmounts.set({
+        ...currentAmounts,
+        [source.id]: 0,
+      });
+    }
+  }
+
+  onAmountChange(sourceId: string, value: number): void {
+    const currentAmounts = this.userAmounts();
+    this.userAmounts.set({
+      ...currentAmounts,
+      [sourceId]: value || 0,
+    });
+  }
+
+  getSelectedSources(): FundingSource[] {
+    return this.selectedSources();
+  }
+
+  trackBySourceId(index: number, source: FundingSource): string {
+    return source.id || index.toString();
+  }
+}

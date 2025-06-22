@@ -27,32 +27,44 @@ export interface SelectionGameData extends BaseGameData {
   // maxSelections?: number;
 }
 
-export interface EstimationGameData extends BaseGameData {
+export interface EstimationItem {
+  id: string;
+  name: string;
+  icon: string;
   targetValue: number;
-  unit: string;
   acceptableRange: {
     min: number;
     max: number;
   };
-  hints?: {
-    rangeHint?: string;
-    contextHint?: string;
-  };
+  unit: string;
+  userEstimate?: number;
+}
+
+export interface EstimationGameData extends BaseGameData {
+  currency: string;
+  items: EstimationItem[];
+  totalBudget?: number;
+  minEstimations?: number;
+}
+
+export interface FundingSource {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  maxAmount: number;
+  isAvailable: boolean;
+  isSelected?: boolean;
+  amount?: number;
 }
 
 export interface FundingGameData extends BaseGameData {
   totalBudget: number;
-  categories: {
-    id: string;
-    name: string;
-    description: string;
-    minAmount?: number;
-    maxAmount?: number;
-    suggestedAmount?: number;
-  }[];
+  fundingSources: FundingSource[];
   constraints?: {
     mustAllocateAll?: boolean;
     allowDeficit?: boolean;
+    minSources?: number;
   };
 }
 

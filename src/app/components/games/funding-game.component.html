@@ -20,7 +20,7 @@
   <div class="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-6 xl:gap-8 xl:mb-8">
     @for (source of fundingSources(); track trackBySourceId($index, source)) {
       <div
-        class="transition-all duration-200 cursor-pointer hover:shadow-md funding-option xl:hover:shadow-lg hover:cursor-pointer"
+        class="transition-all duration-200 cursor-pointer hover:shadow-md hover:cursor-pointer funding-option xl:hover:shadow-lg"
         [class.selected]="source.isSelected"
         (click)="onSourceClick(source)"
         (keyup.enter)="onSourceClick(source)"
@@ -63,11 +63,16 @@
               <input
                 type="number"
                 [id]="'amount-input-' + source.id"
-                [(ngModel)]="source.amount"
+                [value]="source.amount"
                 [max]="source.maxAmount || 0"
                 placeholder="0"
-                class="py-1.5 px-2 w-full text-sm rounded-lg border border-gray-300 cursor-text sm:py-2 sm:px-3 sm:text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-500 hover:cursor-text"
-                (input)="onAmountChange()"
+                min="0"
+                class="py-1.5 px-2 w-full text-sm rounded-lg border border-gray-300 cursor-text sm:py-2 sm:px-3 sm:text-base hover:cursor-text focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                [disabled]="gameIsSubmitted()"
+                (input)="onAmountChange(source.id, +$any($event.target).value || 0)"
+                (click)="$event.stopPropagation()"
+                (focus)="$event.stopPropagation()"
+                (mousedown)="$event.stopPropagation()"
               />
             </div>
           }

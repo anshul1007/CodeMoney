@@ -1,81 +1,95 @@
-// import {
-//   Component,
-//   input,
-//   output,
-//   ChangeDetectionStrategy,
-//   computed,
-// } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { EstimationField } from '../../models/game.models';
-// import { BaseGameComponent } from '../../models/game-interface.models';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
-// @Component({
-//   selector: 'app-estimation-game',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule],
-//   templateUrl: './estimation-game.component.html',
-//   changeDetection: ChangeDetectionStrategy.OnPush,
-// })
-// export class EstimationGameComponent implements BaseGameComponent {
-//   readonly estimationFields = input<EstimationField[]>([]);
-//   readonly isSubmitted = input<boolean>(false);
-//   readonly valueChange = output<void>();
+import { BaseGameComponent } from '../../models/base-game.models';
+import { EstimationGameData, EstimationItem, GameData } from '../../models/game.models';
 
-//   // BaseGameComponent interface implementation
-//   readonly onInteraction = this.valueChange;
-//   readonly onValidationChange = output<any>();
+@Component({
+  selector: 'app-estimation-game',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './estimation-game.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class EstimationGameComponent implements BaseGameComponent<EstimationGameData> {
+  // Input signals required by BaseGameComponent interface
+  gameData = input<GameData<EstimationGameData>>();
+  isSubmitted = input<boolean>(false);
 
-//   // Computed properties for validation and total cost
-//   readonly totalCost = computed(() =>
-//     this.estimationFields().reduce(
-//       (total, field) => total + (field.userEstimate || 0),
-//       0,
-//     ),
-//   );
+  // Internal state - use a signal to track user estimates
+  private readonly userEstimates = signal<Record<string, number>>({});
+  private readonly submittedState = signal<boolean>(false);
 
-//   readonly allFieldsComplete = computed(() =>
-//     this.estimationFields().every(
-//       (field) => field.userEstimate !== undefined && field.userEstimate > 0,
-//     ),
-//   );
-//   readonly allFieldsValid = computed(() =>
-//     this.estimationFields().every(
-//       (field) => field.userEstimate !== undefined && field.userEstimate > 0,
-//     ),
-//   );
+  // Computed properties
+  readonly gameIsSubmitted = computed(() => this.isSubmitted() || this.submittedState());
 
-//   // BaseGameComponent interface methods
-//   readonly canSubmit = computed(() => this.allFieldsComplete());
+  readonly estimationFields = computed(() => {
+    const data = this.gameData()?.data;
+    if (!data) return [];
 
-//   setGameData(data: any): void {
-//     // For input signals, this would typically be handled by the parent component
-//   }
+    const estimates = this.userEstimates();
 
-//   getGameData(): any {
-//     return this.estimationFields();
-//   }
+    return data.items.map((item) => ({
+      ...item,
+      itemName: item.name, // Map 'name' to 'itemName' for template compatibility
+      currency: data.currency,
+      userEstimate: estimates[item.id] || 0,
+    }));
+  });
 
-//   resetGame(): void {
-//     // Reset game state - would be handled by parent component reloading data
-//   }
+  readonly totalCost = computed(() => {
+    const estimates = this.userEstimates();
+    return Object.values(estimates).reduce((total, value) => total + (value || 0), 0);
+  });
 
-//   onValueChange(event: Event): void {
-//     const input = event.target as HTMLInputElement;
-//     const value = parseFloat(input.value);
+  readonly allFieldsComplete = computed(() => {
+    const estimates = this.userEstimates();
+    const data = this.gameData()?.data;
+    if (!data) return false;
 
-//     if (value < 0) {
-//       input.value = '0';
-//     }
+    const minRequired = data.minEstimations || data.items.length;
+    const completedFields = Object.values(estimates).filter((value) => value && value > 0);
 
-//     this.valueChange.emit();
-//   }
+    return completedFields.length >= minRequired;
+  });
 
-//   getTotalCost(): number {
-//     return this.totalCost();
-//   }
+  readonly canSubmit = computed(() => {
+    return this.allFieldsComplete() && !this.gameIsSubmitted();
+  });
 
-//   trackByFieldId(index: number, field: EstimationField): string {
-//     return field.id || index.toString();
-//   }
-// }
+  // BaseGameComponent interface methods
+  resetGame(): void {
+    this.submittedState.set(false);
+    this.userEstimates.set({});
+  }
+
+  hasHints = computed(() => {
+    return (this.gameData()?.hints?.length || 0) > 0;
+  });
+
+  // Component-specific methods
+  updateEstimate(itemId: string, value: number): void {
+    const currentEstimates = this.userEstimates();
+    this.userEstimates.set({
+      ...currentEstimates,
+      [itemId]: value || 0,
+    });
+  }
+
+  onValueChange(event: Event, itemId: string): void {
+    const input = event.target as HTMLInputElement;
+    const value = parseFloat(input.value) || 0;
+
+    if (value < 0) {
+      input.value = '0';
+      this.updateEstimate(itemId, 0);
+    } else {
+      this.updateEstimate(itemId, value);
+    }
+  }
+
+  trackByFieldId(index: number, field: EstimationItem): string {
+    return field.id || index.toString();
+  }
+}

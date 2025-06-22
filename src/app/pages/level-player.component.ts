@@ -26,6 +26,7 @@ import {
 import { CurrentLevel, GameData } from '../models';
 import { BaseGameComponent } from '../models/base-game.models';
 import { GameService } from '../services/game.service';
+import { ProgressService } from '../services/progress.service';
 
 @Component({
   selector: 'app-level-player-dynamic',
@@ -58,7 +59,7 @@ import { GameService } from '../services/game.service';
       </div>
 
       <div
-        class="px-4 py-2 mx-auto space-y-3 max-w-7xl sm:px-4 sm:py-2 sm:space-y-3 xl:px-6 xl:py-3"
+        class="py-2 px-4 mx-auto space-y-3 max-w-7xl sm:py-2 sm:px-4 sm:space-y-3 xl:py-3 xl:px-6"
       >
         <app-game-prompt
           [prompt]="gameData()?.prompt"
@@ -68,7 +69,7 @@ import { GameService } from '../services/game.service';
       </div>
 
       <div
-        class="px-4 py-2 mx-auto space-y-3 max-w-7xl sm:px-4 sm:py-2 sm:space-y-3 xl:px-6 xl:py-3"
+        class="py-2 px-4 mx-auto space-y-3 max-w-7xl sm:py-2 sm:px-4 sm:space-y-3 xl:py-3 xl:px-6"
       >
         <app-card-wrapper customClasses="game-content">
           <ng-template #gameContainer></ng-template>
@@ -171,6 +172,7 @@ export class LevelPlayerComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly gameService = inject(GameService);
+  private readonly progressService = inject(ProgressService);
   private readonly destroyRef = inject(DestroyRef);
 
   // Signal-based reactive state
@@ -264,14 +266,40 @@ export class LevelPlayerComponent implements OnInit {
     if (!result) {
       this.router.navigate(['/courses']);
     } else {
-      this.gameData.set(result.gameData);
+      // Check if level is already completed from local storage
+      const isCompleted = this.progressService.isLevelCompleted(
+        this.courseId(),
+        this.unitId(),
+        this.lessonId(),
+        this.levelId(),
+      );
 
-      if (!result.gameData.isCompleted) {
+      // Update game data with completion status
+      const gameDataWithCompletion = {
+        ...result.gameData,
+        isCompleted: isCompleted,
+      };
+
+      this.gameData.set(gameDataWithCompletion);
+
+      // Set initial state based on completion status
+      if (isCompleted) {
+        this.gameSubmitted.set(true);
+        this.showHints.set(false);
+        const stars = this.progressService.getLevelStars(
+          this.courseId(),
+          this.unitId(),
+          this.lessonId(),
+          this.levelId(),
+        );
+        this.lastScore.set(stars);
+      } else {
         this.gameSubmitted.set(false);
         this.showHints.set(false);
         this.lastScore.set(0);
       }
-      this.loadComponent(result.gameData);
+
+      this.loadComponent(gameDataWithCompletion);
     }
   }
 
@@ -287,6 +315,11 @@ export class LevelPlayerComponent implements OnInit {
             inputBinding('isSubmitted', () => this.gameSubmitted()),
           ],
         });
+
+        componentRef.onDestroy(() => {
+          this.currentGameComponent.set(null);
+        });
+
         this.currentGameComponent.set(componentRef as ComponentRef<BaseGameComponent>);
       } else {
         this.currentGameComponent.set(null);
@@ -311,12 +344,23 @@ export class LevelPlayerComponent implements OnInit {
     const score = 3; // Default score for completion
     this.lastScore.set(score);
 
-    // Log success for now (could be enhanced with actual validation)
-    // eslint-disable-next-line no-console
-    console.log('Game submitted successfully!', {
-      gameType: this.gameData()?.gameType,
-      score: score,
-    });
+    // Mark level as complete and update local storage
+    this.progressService.completeLevel(
+      this.courseId(),
+      this.unitId(),
+      this.lessonId(),
+      this.levelId(),
+      score,
+    );
+
+    // Update the game data to reflect completion
+    const currentGameData = this.gameData();
+    if (currentGameData) {
+      this.gameData.set({
+        ...currentGameData,
+        isCompleted: true,
+      });
+    }
   }
 
   //   nextLevel(): void {}
