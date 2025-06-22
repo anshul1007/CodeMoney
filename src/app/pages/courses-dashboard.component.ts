@@ -1,15 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { CourseCardComponent, HeaderComponent } from '../components';
-import { UserProgress } from '../components/progress-overview.component';
+import { ProgressOverviewComponent, UserProgress } from '../components/progress-overview.component';
 import { CourseService } from '../services/course.service';
+import { ProgressService } from '../services/progress.service';
 
 @Component({
   selector: 'app-courses-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, HeaderComponent, CourseCardComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    HeaderComponent,
+    CourseCardComponent,
+    ProgressOverviewComponent,
+  ],
   template: `
     <div
       class="min-h-screen bg-gradient-to-br via-indigo-50 to-violet-50 from-sky-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
@@ -18,14 +25,11 @@ import { CourseService } from '../services/course.service';
       <app-header title="💰 Course Dashboard"></app-header>
 
       <!-- User Progress Overview -->
-      <!-- <app-progress-overview
-        [progress]="progress()"
-        [courses]="courses()"
-      ></app-progress-overview> -->
+      <app-progress-overview [progress]="progress()" [courses]="courses()"></app-progress-overview>
 
       <!-- Main Content: Courses Grid -->
       <div
-        class="py-8 px-4 mx-auto max-w-7xl text-center sm:px-6 md:py-12 xl:py-16 xl:px-8 2xl:py-20 2xl:px-10"
+        class="py-8 px-4 mx-auto max-w-7xl text-center sm:px-6 md:py-12 xl:py-16 xl:px-8 2xl:py-16 2xl:px-10"
       >
         <div
           class="grid gap-4 sm:gap-6 xl:gap-8 2xl:gap-10"
@@ -43,12 +47,22 @@ import { CourseService } from '../services/course.service';
 })
 export class CoursesDashboardComponent {
   private readonly courseService = inject(CourseService);
+  private readonly progressService = inject(ProgressService);
 
   readonly courses = this.courseService.courses;
 
-  readonly progress = signal<UserProgress>({
-    totalStars: 0,
-    completedLevels: [],
-    unlockedLevels: [],
+  readonly progress = computed<UserProgress>(() => {
+    const progressData = this.progressService.progress();
+    const stats = this.progressService.getCompletionStats();
+
+    return {
+      totalStars: stats.totalStars,
+      completedLevels: progressData.completedLevels,
+      unlockedLevels: progressData.unlockedLevels,
+      currentCourse: progressData.currentCourse,
+      currentUnit: progressData.currentUnit,
+      currentLesson: progressData.currentLesson,
+      currentLevel: progressData.currentLevel,
+    };
   });
 }

@@ -15,16 +15,6 @@ export interface SelectionItem {
 
 export interface SelectionGameData extends BaseGameData {
   items: SelectionItem[];
-  // options: Array<{
-  //   id: string;
-  //   label: string;
-  //   value: any;
-  //   isCorrect?: boolean;
-  //   description?: string;
-  // }>;
-  // multiSelect?: boolean;
-  // minSelections?: number;
-  // maxSelections?: number;
 }
 
 export interface EstimationItem {

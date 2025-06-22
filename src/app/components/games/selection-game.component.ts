@@ -70,14 +70,5 @@ export class SelectionGameComponent implements BaseGameComponent<SelectionGameDa
     this.selectedItems.set(new Set());
   }
 
-  // // Additional utility methods for external access
-  // getSelectedItems(): SelectionItem[] {
-  //   return this.gameItems().filter((item) => item.isSelected);
-  // }
-
-  // getSelectedItemIds(): string[] {
-  //   return Array.from(this.selectedItems());
-  // }
-
   trackByItemId = (index: number, item: SelectionItem): string => item.id || index.toString();
 }

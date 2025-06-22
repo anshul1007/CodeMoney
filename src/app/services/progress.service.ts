@@ -185,4 +185,18 @@ export class ProgressService {
       totalScore: progress.score,
     };
   }
+
+  updateCurrentPosition(courseId: string, unitId: string, lessonId: string, levelId: string): void {
+    const currentProgress = this.progressSignal();
+    const updatedProgress: GameProgress = {
+      ...currentProgress,
+      currentCourse: courseId,
+      currentUnit: unitId,
+      currentLesson: lessonId,
+      currentLevel: levelId,
+    };
+
+    this.progressSignal.set(updatedProgress);
+    this.saveProgress(updatedProgress);
+  }
 }

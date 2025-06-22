@@ -25,6 +25,7 @@ import {
 } from '../components';
 import { CurrentLevel, GameData } from '../models';
 import { BaseGameComponent } from '../models/base-game.models';
+import { CourseService } from '../services/course.service';
 import { GameService } from '../services/game.service';
 import { ProgressService } from '../services/progress.service';
 
@@ -173,6 +174,7 @@ export class LevelPlayerComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly gameService = inject(GameService);
   private readonly progressService = inject(ProgressService);
+  private readonly courseService = inject(CourseService);
   private readonly destroyRef = inject(DestroyRef);
 
   // Signal-based reactive state
@@ -212,41 +214,9 @@ export class LevelPlayerComponent implements OnInit {
     return component.instance.canSubmit();
   });
 
-  // Computed properties
-  //   readonly isLastLevel = computed(() => {
-  //     const level = this.currentLevel();
-  //     const courseId = this.courseId();
-  //     const unitId = this.unitId();
-  //     const lessonId = this.lessonId();
-  //     const levelId = this.levelId();
-
-  //     if (!level || !courseId || !unitId || !lessonId || !levelId) return false;
-
-  //     const lesson = this.courseService.getLesson(courseId, unitId, lessonId);
-  //     if (!lesson) return false;
-
-  //     const currentIndex = lesson.levels.findIndex((l) => l.id === levelId);
-  //     return currentIndex === lesson.levels.length - 1;
-  //   });
-
-  //   readonly canSubmitGame = computed(() => {
-  //     const validation = this.validationResult();
-  //     return validation?.isValid ?? false;
-  //   });
-
-  //   readonly submitButtonText = computed(() => {
-  //     const config = this.gameConfig();
-  //     if (!config) return 'Submit Game';
-
-  //     // Generic submit button text based on game type
-  //     const typeLabels: { [key: string]: string } = {
-  //       selection: 'Submit Selection',
-  //       estimation: 'Submit Estimates',
-  //       funding: 'Submit Funding Plan',
-  //     };
-
-  //     return typeLabels[config.type] || 'Submit Game';
-  //   });
+  readonly levelAccessible = computed(() => {
+    return this.hasAccessToLevel();
+  });
 
   ngOnInit(): void {
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
@@ -265,42 +235,56 @@ export class LevelPlayerComponent implements OnInit {
     );
     if (!result) {
       this.router.navigate(['/courses']);
-    } else {
-      // Check if level is already completed from local storage
-      const isCompleted = this.progressService.isLevelCompleted(
+      return;
+    }
+
+    if (!this.hasAccessToLevel()) {
+      this.router.navigate(['/courses']);
+      return;
+    }
+
+    // Check if level is already completed from local storage
+    const isCompleted = this.progressService.isLevelCompleted(
+      this.courseId(),
+      this.unitId(),
+      this.lessonId(),
+      this.levelId(),
+    );
+
+    // Update game data with completion status
+    const gameDataWithCompletion = {
+      ...result.gameData,
+      isCompleted: isCompleted,
+    };
+
+    this.gameData.set(gameDataWithCompletion);
+
+    // Update current position in progress
+    this.progressService.updateCurrentPosition(
+      this.courseId(),
+      this.unitId(),
+      this.lessonId(),
+      this.levelId(),
+    );
+
+    // Set initial state based on completion status
+    if (isCompleted) {
+      this.gameSubmitted.set(true);
+      this.showHints.set(false);
+      const stars = this.progressService.getLevelStars(
         this.courseId(),
         this.unitId(),
         this.lessonId(),
         this.levelId(),
       );
-
-      // Update game data with completion status
-      const gameDataWithCompletion = {
-        ...result.gameData,
-        isCompleted: isCompleted,
-      };
-
-      this.gameData.set(gameDataWithCompletion);
-
-      // Set initial state based on completion status
-      if (isCompleted) {
-        this.gameSubmitted.set(true);
-        this.showHints.set(false);
-        const stars = this.progressService.getLevelStars(
-          this.courseId(),
-          this.unitId(),
-          this.lessonId(),
-          this.levelId(),
-        );
-        this.lastScore.set(stars);
-      } else {
-        this.gameSubmitted.set(false);
-        this.showHints.set(false);
-        this.lastScore.set(0);
-      }
-
-      this.loadComponent(gameDataWithCompletion);
+      this.lastScore.set(stars);
+    } else {
+      this.gameSubmitted.set(false);
+      this.showHints.set(false);
+      this.lastScore.set(0);
     }
+
+    this.loadComponent(gameDataWithCompletion);
   }
 
   private async loadComponent(gameData: GameData) {
@@ -353,6 +337,9 @@ export class LevelPlayerComponent implements OnInit {
       score,
     );
 
+    // Automatically unlock the next level
+    this.unlockNextLevel();
+
     // Update the game data to reflect completion
     const currentGameData = this.gameData();
     if (currentGameData) {
@@ -363,14 +350,144 @@ export class LevelPlayerComponent implements OnInit {
     }
   }
 
+  private unlockNextLevel(): void {
+    const courseId = this.courseId();
+    const unitId = this.unitId();
+    const lessonId = this.lessonId();
+    const currentLevelId = this.levelId();
+
+    if (!courseId || !unitId || !lessonId || !currentLevelId) return;
+
+    // Get the current course structure
+    const courses = this.courseService.courses();
+    const course = courses.find((c) => c.id === courseId);
+    if (!course) return;
+
+    const unit = course.units.find((u) => u.id === unitId);
+    if (!unit) return;
+
+    const lesson = unit.lessons.find((l) => l.id === lessonId);
+    if (!lesson) return;
+
+    // Find current level index
+    const currentLevelIndex = lesson.levels.findIndex((level) => level.id === currentLevelId);
+    if (currentLevelIndex === -1) return;
+
+    // Check if there's a next level to unlock
+    const nextLevelIndex = currentLevelIndex + 1;
+    if (nextLevelIndex < lesson.levels.length) {
+      const nextLevel = lesson.levels[nextLevelIndex];
+      this.progressService.unlockLevel(courseId, unitId, lessonId, nextLevel.id);
+    }
+  }
+
   //   nextLevel(): void {}
   nextLevel(): void {
-    // For now, navigate back to courses dashboard
-    // This could be enhanced to navigate to the actual next level
-    this.router.navigate(['/courses']);
+    const courseId = this.courseId();
+    const unitId = this.unitId();
+    const lessonId = this.lessonId();
+    const currentLevelId = this.levelId();
+
+    if (!courseId || !unitId || !lessonId || !currentLevelId) {
+      this.router.navigate(['/courses']);
+      return;
+    }
+
+    // Get the current course structure
+    const courses = this.courseService.courses();
+    const course = courses.find((c) => c.id === courseId);
+    if (!course) {
+      this.router.navigate(['/courses']);
+      return;
+    }
+
+    const unit = course.units.find((u) => u.id === unitId);
+    if (!unit) {
+      this.router.navigate(['/courses']);
+      return;
+    }
+
+    const lesson = unit.lessons.find((l) => l.id === lessonId);
+    if (!lesson) {
+      this.router.navigate(['/courses']);
+      return;
+    }
+
+    // Find current level index
+    const currentLevelIndex = lesson.levels.findIndex((level) => level.id === currentLevelId);
+    if (currentLevelIndex === -1) {
+      this.router.navigate(['/courses']);
+      return;
+    }
+
+    // Check if there's a next level
+    const nextLevelIndex = currentLevelIndex + 1;
+    if (nextLevelIndex < lesson.levels.length) {
+      const nextLevel = lesson.levels[nextLevelIndex];
+
+      const isCurrentLevelCompleted = this.progressService.isLevelCompleted(
+        courseId,
+        unitId,
+        lessonId,
+        currentLevelId,
+      );
+
+      if (isCurrentLevelCompleted) {
+        // Unlock the next level if it's not already unlocked
+        if (!this.progressService.isLevelUnlocked(courseId, unitId, lessonId, nextLevel.id)) {
+          this.progressService.unlockLevel(courseId, unitId, lessonId, nextLevel.id);
+        }
+
+        // Navigate to the next level
+        this.router.navigate(['/level', courseId, unitId, lessonId, nextLevel.id]);
+      } else {
+        // Current level not completed, go back to courses dashboard
+        this.router.navigate(['/courses']);
+      }
+    } else {
+      // No more levels in this lesson, go back to courses dashboard
+      this.router.navigate(['/courses']);
+    }
   }
 
   goBack(): void {
     this.router.navigate(['/courses']);
+  }
+
+  private hasAccessToLevel(): boolean {
+    const courseId = this.courseId();
+    const unitId = this.unitId();
+    const lessonId = this.lessonId();
+    const currentLevelId = this.levelId();
+
+    if (!courseId || !unitId || !lessonId || !currentLevelId) return false;
+
+    // Get the current course structure
+    const courses = this.courseService.courses();
+    const course = courses.find((c) => c.id === courseId);
+    if (!course) return false;
+
+    const unit = course.units.find((u) => u.id === unitId);
+    if (!unit) return false;
+
+    const lesson = unit.lessons.find((l) => l.id === lessonId);
+    if (!lesson) return false;
+
+    // Find current level index
+    const currentLevelIndex = lesson.levels.findIndex((level) => level.id === currentLevelId);
+    if (currentLevelIndex === -1) return false;
+
+    // Check if this is the first level (always accessible)
+    if (currentLevelIndex === 0) return true;
+
+    // Check if all previous levels are completed
+    for (let i = 0; i < currentLevelIndex; i++) {
+      const previousLevel = lesson.levels[i];
+      if (!this.progressService.isLevelCompleted(courseId, unitId, lessonId, previousLevel.id)) {
+        return false; // Previous level not completed, no access
+      }
+    }
+
+    return true; // All previous levels completed, access granted
   }
 }
