@@ -64,7 +64,7 @@ export interface UserProgress {
         </div>
 
         <!-- Completion message -->
-        <div class="mt-2 text-center text-xs text-gray-600 xl:mt-3 xl:text-sm">
+        <div class="mt-2 text-xs text-center text-gray-600 xl:mt-3 xl:text-sm">
           <span class="italic">{{ completionMessage() }}</span>
         </div>
       </div>
