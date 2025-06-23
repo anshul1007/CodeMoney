@@ -1,36 +1,25 @@
-export interface Course {
+export interface BaseItem {
   id: string;
   title: string;
   description: string;
   icon: string;
+  isUnlocked: boolean;
+}
+
+export interface Course extends BaseItem {
   units: Unit[];
-  isUnlocked: boolean;
 }
 
-export interface Unit {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
+export interface Unit extends BaseItem {
   lessons: Lesson[];
-  isUnlocked: boolean;
 }
 
-export interface Lesson {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
+export interface Lesson extends BaseItem {
   levels: Level[];
-  isUnlocked: boolean;
 }
 
-export interface Level {
-  id: string;
-  title: string;
-  description: string;
+export interface Level extends BaseItem {
   objective: string;
-  isUnlocked: boolean;
   isCompleted: boolean;
   stars: number; // 0-3 stars based on performance
 }

@@ -1,7 +1,8 @@
 import { BaseGameData } from './base-game.models';
 import { Level } from './course.models';
+import { GameType } from './game-registry';
 
-export type GameType = 'selection' | 'estimation' | 'funding' | 'balance-sheet';
+export type { GameType };
 
 export type CurrentLevel = Pick<Level, 'id' | 'title' | 'description' | 'stars'>;
 
@@ -56,22 +57,6 @@ export interface FundingGameData extends BaseGameData {
     allowDeficit?: boolean;
     minSources?: number;
   };
-}
-
-export interface BalanceSheetGameData extends BaseGameData {
-  accounts: {
-    id: string;
-    name: string;
-    type: 'asset' | 'liability' | 'equity';
-    category: string;
-    initialBalance?: number;
-  }[];
-  transactions: {
-    id: string;
-    description: string;
-    amount: number;
-    affectedAccounts: string[];
-  }[];
 }
 
 // Generic GameData interface

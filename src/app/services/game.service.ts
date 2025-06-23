@@ -3,7 +3,7 @@ import { inject, Injectable, Type } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { GameData, GameType } from '../models';
+import { GAME_REGISTRY, GameData, GameType } from '../models';
 import { BaseGameComponent } from '../models/base-game.models';
 
 @Injectable({
@@ -11,33 +11,6 @@ import { BaseGameComponent } from '../models/base-game.models';
 })
 export class GameService {
   #http = inject(HttpClient);
-
-  private componentRegistry = new Map<GameType, () => Promise<Type<BaseGameComponent>>>();
-
-  constructor() {
-    this.registerComponents();
-  }
-
-  private registerComponents() {
-    this.componentRegistry.set('selection', async () => {
-      const { SelectionGameComponent } = await import(
-        '../components/games/selection-game.component'
-      );
-      return SelectionGameComponent as Type<BaseGameComponent>;
-    });
-
-    this.componentRegistry.set('estimation', async () => {
-      const { EstimationGameComponent } = await import(
-        '../components/games/estimation-game.component'
-      );
-      return EstimationGameComponent as Type<BaseGameComponent>;
-    });
-
-    this.componentRegistry.set('funding', async () => {
-      const { FundingGameComponent } = await import('../components/games/funding-game.component');
-      return FundingGameComponent as Type<BaseGameComponent>;
-    });
-  }
 
   getGameData(
     courseId: string,
@@ -61,9 +34,9 @@ export class GameService {
   }
 
   async getComponent(componentType: GameType): Promise<Type<BaseGameComponent> | null> {
-    const componentLoader = this.componentRegistry.get(componentType);
-    if (componentLoader) {
-      return await componentLoader();
+    const registryEntry = GAME_REGISTRY[componentType];
+    if (registryEntry) {
+      return await registryEntry.component();
     }
     return null;
   }
