@@ -23,7 +23,7 @@ export class GameService {
     return this.#http
       .get<{
         gameData: GameData;
-      }>(`/${courseId}-${unitId}-${lessonId}-${levelId}.json`)
+      }>(`${courseId}-${unitId}-${lessonId}-${levelId}.json`)
       .pipe(
         map((response) => {
           return {

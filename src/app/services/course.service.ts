@@ -15,7 +15,7 @@ export class CourseService {
   #http = inject(HttpClient);
   #progressService = inject(ProgressService);
 
-  private readonly mockUrl = '/mock-courses.json';
+  private readonly mockUrl = 'mock-courses.json';
 
   private readonly baseCourses = toSignal(this.getCourses(), {
     initialValue: [],
