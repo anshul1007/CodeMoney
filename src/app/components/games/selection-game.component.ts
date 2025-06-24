@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 
-import { GAME_CONFIG, GameData, SelectionGameData, SelectionItem } from '../../models';
+import { GAME_CONFIG, GameData, MultiChoiceGameData, SelectionItem } from '../../models';
 import { BaseGameComponent } from '../../models/base-game.models';
 
 @Component({
@@ -11,8 +11,8 @@ import { BaseGameComponent } from '../../models/base-game.models';
   templateUrl: './selection-game.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SelectionGameComponent implements BaseGameComponent<SelectionGameData> {
-  readonly gameData = input<GameData<SelectionGameData>>();
+export class SelectionGameComponent implements BaseGameComponent<MultiChoiceGameData> {
+  readonly gameData = input<GameData<MultiChoiceGameData>>();
   readonly isSubmitted = input<boolean>(false);
   readonly selectionChange = output<SelectionItem>();
 

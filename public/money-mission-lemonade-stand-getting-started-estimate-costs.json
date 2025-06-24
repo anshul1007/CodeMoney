@@ -13,7 +13,7 @@
       "Some items cost more than others",
       "Fresh fruit like lemons might cost around ₹5-10 each"
     ],
-    "gameType": "estimation",
+    "gameType": "value-input",
     "isCompleted": false,
     "data": {
       "currency": "₹",

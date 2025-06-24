@@ -1,45 +1,52 @@
 import { Type } from '@angular/core';
 
 import { BaseGameComponent } from './base-game.models';
-import { EstimationGameData, FundingGameData, SelectionGameData } from './game.models';
+import { MultiChoiceGameData, ResourceAllocationGameData, ValueInputGameData } from './game.models';
 
+// Generic game registry based on interaction patterns
 export interface GameRegistry {
-  selection: {
+  'multi-choice': {
     component: () => Promise<Type<BaseGameComponent>>;
-    dataType: SelectionGameData;
+    dataType: MultiChoiceGameData;
   };
-  estimation: {
+  'value-input': {
     component: () => Promise<Type<BaseGameComponent>>;
-    dataType: EstimationGameData;
+    dataType: ValueInputGameData;
   };
-  funding: {
+  'resource-allocation': {
     component: () => Promise<Type<BaseGameComponent>>;
-    dataType: FundingGameData;
+    dataType: ResourceAllocationGameData;
   };
 }
 
+// Automatically derive GameType from registry keys
 export type GameType = keyof GameRegistry;
 
+// Type-safe game data mapping
+export type GameDataMap = {
+  [K in GameType]: GameRegistry[K]['dataType'];
+};
+
 export const GAME_REGISTRY: GameRegistry = {
-  selection: {
+  'multi-choice': {
     component: () =>
       import('../components/games/selection-game.component').then(
         (m) => m.SelectionGameComponent as Type<BaseGameComponent>,
       ),
-    dataType: {} as SelectionGameData, // Type placeholder
+    dataType: {} as MultiChoiceGameData,
   },
-  estimation: {
+  'value-input': {
     component: () =>
       import('../components/games/estimation-game.component').then(
         (m) => m.EstimationGameComponent as Type<BaseGameComponent>,
       ),
-    dataType: {} as EstimationGameData,
+    dataType: {} as ValueInputGameData,
   },
-  funding: {
+  'resource-allocation': {
     component: () =>
       import('../components/games/funding-game.component').then(
         (m) => m.FundingGameComponent as Type<BaseGameComponent>,
       ),
-    dataType: {} as FundingGameData,
+    dataType: {} as ResourceAllocationGameData,
   },
 } as const;

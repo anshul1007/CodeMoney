@@ -18,6 +18,10 @@
     "perf:audit": "lighthouse http://localhost:4200 --output=html --output-path=./lighthouse-report.html --chrome-flags=\"--headless\"",
     "size-check": "npm run build:prod && ls -la dist/code-money/",
     "preview": "npm run build:prod && npx http-server dist/code-money -p 8080",
+    "deploy:build": "npm run build -- --base-href=\"/CodeMoney/\"",
+    "deploy:test": "npm run lint && npm run test -- --watch=false --browsers=ChromeHeadless && npm run deploy:build",
+    "deploy:preview": "npm run deploy:build && npx http-server dist/CodeMoney -p 8080",
+    "deploy:validate": "npx js-yaml .github/workflows/deploy.yml",
     "audit": "node scripts/audit.js",
     "audit:full": "npm run audit && npm run test:coverage && npm run perf:audit",
     "prepare": "husky install"

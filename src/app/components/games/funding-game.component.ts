@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, input, signal } from '@an
 import { FormsModule } from '@angular/forms';
 
 import { BaseGameComponent } from '../../models/base-game.models';
-import { FundingGameData, FundingSource, GameData } from '../../models/game.models';
+import { FundingSource, GameData, ResourceAllocationGameData } from '../../models/game.models';
 
 @Component({
   selector: 'app-funding-game',
@@ -12,9 +12,9 @@ import { FundingGameData, FundingSource, GameData } from '../../models/game.mode
   templateUrl: './funding-game.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FundingGameComponent implements BaseGameComponent<FundingGameData> {
+export class FundingGameComponent implements BaseGameComponent<ResourceAllocationGameData> {
   // Input signals required by BaseGameComponent interface
-  gameData = input<GameData<FundingGameData>>();
+  gameData = input<GameData<ResourceAllocationGameData>>();
   isSubmitted = input<boolean>(false);
 
   // Internal state - use signals to track user selections and amounts

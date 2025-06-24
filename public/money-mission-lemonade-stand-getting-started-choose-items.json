@@ -57,6 +57,6 @@
       ]
     },
     "hints": ["Think about what customers need to buy and enjoy lemonade!"],
-    "gameType": "selection"
+    "gameType": "multi-choice"
   }
 }

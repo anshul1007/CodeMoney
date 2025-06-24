@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, input, signal } from '@an
 import { FormsModule } from '@angular/forms';
 
 import { BaseGameComponent } from '../../models/base-game.models';
-import { EstimationGameData, EstimationItem, GameData } from '../../models/game.models';
+import { EstimationItem, GameData, ValueInputGameData } from '../../models/game.models';
 
 @Component({
   selector: 'app-estimation-game',
@@ -12,9 +12,9 @@ import { EstimationGameData, EstimationItem, GameData } from '../../models/game.
   templateUrl: './estimation-game.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EstimationGameComponent implements BaseGameComponent<EstimationGameData> {
+export class EstimationGameComponent implements BaseGameComponent<ValueInputGameData> {
   // Input signals required by BaseGameComponent interface
-  gameData = input<GameData<EstimationGameData>>();
+  gameData = input<GameData<ValueInputGameData>>();
   isSubmitted = input<boolean>(false);
 
   // Internal state - use a signal to track user estimates

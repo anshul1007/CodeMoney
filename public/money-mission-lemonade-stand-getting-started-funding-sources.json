@@ -13,7 +13,7 @@
       "You might have some savings from allowances",
       "Sometimes neighbors pay for small jobs"
     ],
-    "gameType": "funding",
+    "gameType": "resource-allocation",
     "isCompleted": false,
     "data": {
       "totalBudget": 670,

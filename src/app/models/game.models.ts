@@ -14,7 +14,7 @@ export interface SelectionItem {
   isSelected?: boolean;
 }
 
-export interface SelectionGameData extends BaseGameData {
+export interface MultiChoiceGameData extends BaseGameData {
   items: SelectionItem[];
 }
 
@@ -31,7 +31,7 @@ export interface EstimationItem {
   userEstimate?: number;
 }
 
-export interface EstimationGameData extends BaseGameData {
+export interface ValueInputGameData extends BaseGameData {
   currency: string;
   items: EstimationItem[];
   totalBudget?: number;
@@ -49,7 +49,7 @@ export interface FundingSource {
   amount?: number;
 }
 
-export interface FundingGameData extends BaseGameData {
+export interface ResourceAllocationGameData extends BaseGameData {
   totalBudget: number;
   fundingSources: FundingSource[];
   constraints?: {
