@@ -51,7 +51,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist/CodeMoney'
+          path: './dist/CodeMoney/browser'
 
   deploy:
     environment:
