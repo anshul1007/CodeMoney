@@ -17,7 +17,7 @@ import { RouterModule } from '@angular/router';
             class="flex items-center space-x-2 text-gray-700 transition-colors cursor-pointer hover:text-gray-900 hover:cursor-pointer"
           >
             <img
-              src="/assets/logo-code-money.svg"
+              src="assets/logo-code-money.svg"
               alt="CodeMoney"
               class="flex-shrink-0 w-auto h-8 sm:h-10 lg:h-12 xl:h-14 2xl:h-16"
             />
