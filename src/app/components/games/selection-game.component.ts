@@ -1,8 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 
 import { GAME_CONFIG, GameData, MultiChoiceGameData, SelectionItem } from '../../models';
 import { BaseGameComponent } from '../../models/base-game.models';
+import { ProgressService } from '../../services/progress.service';
 
 @Component({
   selector: 'app-selection-game',
@@ -16,7 +26,55 @@ export class SelectionGameComponent implements BaseGameComponent<MultiChoiceGame
   readonly isSubmitted = input<boolean>(false);
   readonly selectionChange = output<SelectionItem>();
 
+  // Injections
+  private readonly progressService = inject(ProgressService);
+
+  // Input signals for level identification
+  readonly courseId = input<string>();
+  readonly unitId = input<string>();
+  readonly lessonId = input<string>();
+  readonly levelId = input<string>();
+
   private selectedItems = signal<Set<string>>(new Set());
+
+  // Load saved submission on component initialization
+  private loadSavedSubmission = effect(() => {
+    const courseId = this.courseId();
+    const unitId = this.unitId();
+    const lessonId = this.lessonId();
+    const levelId = this.levelId();
+
+    if (courseId && unitId && lessonId && levelId && this.isSubmitted()) {
+      const savedData = this.progressService.loadUserSubmission(
+        courseId,
+        unitId,
+        lessonId,
+        levelId,
+      );
+      if (savedData && Array.isArray(savedData)) {
+        this.selectedItems.set(new Set(savedData));
+      }
+    }
+  });
+
+  // Method to save user selection on submit
+  saveUserSubmission(): void {
+    const courseId = this.courseId();
+    const unitId = this.unitId();
+    const lessonId = this.lessonId();
+    const levelId = this.levelId();
+
+    if (courseId && unitId && lessonId && levelId) {
+      const selectedIds = Array.from(this.selectedItems());
+      this.progressService.saveUserSubmission(courseId, unitId, lessonId, levelId, selectedIds);
+    }
+  }
+
+  private resetSavedSubmission = effect(() => {
+    if (!this.isSubmitted()) {
+      this.selectedItems.set(new Set());
+    }
+  });
 
   // BaseGameComponent interface implementation
   readonly onInteraction = this.selectionChange;

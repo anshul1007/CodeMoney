@@ -173,6 +173,9 @@ export class ProgressService {
       // eslint-disable-next-line no-console
       console.error('Failed to clear level data:', error);
     }
+
+    // Clear all user submissions
+    this.clearAllUserSubmissions();
   }
 
   // Get completion statistics
@@ -198,5 +201,57 @@ export class ProgressService {
 
     this.progressSignal.set(updatedProgress);
     this.saveProgress(updatedProgress);
+  }
+
+  // Simple methods to save/load user submission data
+  saveUserSubmission(
+    courseId: string,
+    unitId: string,
+    lessonId: string,
+    levelId: string,
+    submissionData: unknown,
+  ): void {
+    const levelKey = `${courseId}-${unitId}-${lessonId}-${levelId}`;
+    try {
+      localStorage.setItem(
+        `submission_${levelKey}`,
+        JSON.stringify({
+          submittedAt: new Date().toISOString(),
+          data: submissionData,
+        }),
+      );
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to save user submission:', error);
+    }
+  }
+
+  loadUserSubmission(courseId: string, unitId: string, lessonId: string, levelId: string): unknown {
+    const levelKey = `${courseId}-${unitId}-${lessonId}-${levelId}`;
+    try {
+      const stored = localStorage.getItem(`submission_${levelKey}`);
+      if (stored) {
+        const submissionData = JSON.parse(stored);
+        return submissionData.data;
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to load user submission:', error);
+    }
+    return null;
+  }
+
+  clearAllUserSubmissions(): void {
+    try {
+      const keys = Object.keys(localStorage);
+      keys.forEach((key) => {
+        if (key.startsWith('submission_')) {
+          localStorage.removeItem(key);
+        }
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to clear user submissions:', error);
+    }
   }
 }

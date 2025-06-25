@@ -297,6 +297,10 @@ export class LevelPlayerComponent implements OnInit {
           bindings: [
             inputBinding('gameData', () => gameData),
             inputBinding('isSubmitted', () => this.gameSubmitted()),
+            inputBinding('courseId', () => this.courseId()),
+            inputBinding('unitId', () => this.unitId()),
+            inputBinding('lessonId', () => this.lessonId()),
+            inputBinding('levelId', () => this.levelId()),
           ],
         });
 
@@ -320,6 +324,11 @@ export class LevelPlayerComponent implements OnInit {
   handleSubmit(): void {
     const component = this.currentGameComponent();
     if (!component?.instance || !this.canSubmitGame() || this.gameSubmitted()) return;
+
+    // Save user submission data before marking as submitted
+    if (component.instance.saveUserSubmission) {
+      component.instance.saveUserSubmission();
+    }
 
     // Set the game as submitted
     this.gameSubmitted.set(true);
