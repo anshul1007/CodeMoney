@@ -1,18 +1,14 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { BaseGameComponent } from '../../models/base-game.models';
-import { FundingSource, GameData, ResourceAllocationGameData } from '../../models/game.models';
-import { ProgressService } from '../../services/progress.service';
+import { BaseGameComponent, BaseGameMixin } from '../../models/base-game.models';
+import {
+  FundingSource,
+  FundingSubmissionData,
+  GameData,
+  ResourceAllocationGameData,
+} from '../../models/game.models';
 
 @Component({
   selector: 'app-funding-game',
@@ -21,68 +17,56 @@ import { ProgressService } from '../../services/progress.service';
   templateUrl: './funding-game.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FundingGameComponent implements BaseGameComponent<ResourceAllocationGameData> {
-  // Input signals required by BaseGameComponent interface
+export class FundingGameComponent
+  extends BaseGameMixin<FundingSubmissionData>
+  implements BaseGameComponent<ResourceAllocationGameData>
+{
   gameData = input<GameData<ResourceAllocationGameData>>();
   isSubmitted = input<boolean>(false);
 
-  // Injections
-  private readonly progressService = inject(ProgressService);
-
-  // Input signals for level identification
   readonly courseId = input<string>();
   readonly unitId = input<string>();
   readonly lessonId = input<string>();
   readonly levelId = input<string>();
 
-  // Internal state - use signals to track user selections and amounts
   private readonly userSelections = signal<Record<string, boolean>>({});
   private readonly userAmounts = signal<Record<string, number>>({});
   private readonly submittedState = signal<boolean>(false);
 
-  // Load saved submission on component initialization
-  private loadSavedSubmission = effect(() => {
-    const courseId = this.courseId();
-    const unitId = this.unitId();
-    const lessonId = this.lessonId();
-    const levelId = this.levelId();
-
-    if (courseId && unitId && lessonId && levelId && this.isSubmitted()) {
-      const savedData = this.progressService.loadUserSubmission(
-        courseId,
-        unitId,
-        lessonId,
-        levelId,
-      );
-      if (savedData && typeof savedData === 'object') {
-        const fundingData = savedData as {
-          selections: Record<string, boolean>;
-          amounts: Record<string, number>;
-        };
-        this.userSelections.set(fundingData.selections || {});
-        this.userAmounts.set(fundingData.amounts || {});
-      }
-    }
-  });
-
-  // Method to save user funding data on submit
-  saveUserSubmission(): void {
-    const courseId = this.courseId();
-    const unitId = this.unitId();
-    const lessonId = this.lessonId();
-    const levelId = this.levelId();
-
-    if (courseId && unitId && lessonId && levelId) {
-      const submissionData = {
-        selections: this.userSelections(),
-        amounts: this.userAmounts(),
-      };
-      this.progressService.saveUserSubmission(courseId, unitId, lessonId, levelId, submissionData);
-    }
+  constructor() {
+    super();
+    this.initializeSubmissionLoading<FundingSubmissionData>(
+      this.courseId,
+      this.unitId,
+      this.lessonId,
+      this.levelId,
+      this.isSubmitted,
+      (data: FundingSubmissionData) => {
+        if (data) {
+          this.userSelections.set(data.selections || {});
+          this.userAmounts.set(data.amounts || {});
+        }
+      },
+    );
   }
 
-  // Computed properties
-  readonly gameIsSubmitted = computed(() => this.isSubmitted() || this.submittedState());
+  saveUserSubmission(): void {
+    this.saveUserSubmissionWithData(
+      this.courseId,
+      this.unitId,
+      this.lessonId,
+      this.levelId,
+      (): FundingSubmissionData => ({
+        selections: this.userSelections(),
+        amounts: this.userAmounts(),
+      }),
+    );
+  }
+
+  readonly gameIsSubmitted = this.createGameIsSubmittedComputed(
+    this.isSubmitted,
+    this.submittedState,
+  );
 
   readonly fundingSources = computed(() => {
     const data = this.gameData()?.data;
@@ -133,18 +117,14 @@ export class FundingGameComponent implements BaseGameComponent<ResourceAllocatio
     );
   });
 
-  // BaseGameComponent interface methods
   resetGame(): void {
     this.submittedState.set(false);
     this.userSelections.set({});
     this.userAmounts.set({});
   }
 
-  hasHints = computed(() => {
-    return (this.gameData()?.hints?.length || 0) > 0;
-  });
+  hasHints = this.createHasHintsComputed(this.gameData);
 
-  // Component-specific methods
   onSourceClick(source: FundingSource): void {
     if (this.gameIsSubmitted()) return;
 
@@ -156,7 +136,6 @@ export class FundingGameComponent implements BaseGameComponent<ResourceAllocatio
       [source.id]: newSelection,
     });
 
-    // If deselecting, reset the amount
     if (!newSelection) {
       const currentAmounts = this.userAmounts();
       this.userAmounts.set({

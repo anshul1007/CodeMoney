@@ -22,4 +22,9 @@ export interface Level extends BaseItem {
   objective: string;
   isCompleted: boolean;
   stars: number; // 0-3 stars based on performance
+  prevLevelId?: string | null;
+  nextLevelId?: string | null;
+  courseId?: string;
+  unitId?: string;
+  lessonId?: string;
 }

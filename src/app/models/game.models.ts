@@ -70,3 +70,15 @@ export interface GameData<T extends BaseGameData = BaseGameData> {
   // Generic game-specific data
   data: T;
 }
+
+// Submission data types for saved game states
+export interface EstimationSubmissionData {
+  userEstimates: Record<string, number>;
+}
+
+export interface FundingSubmissionData {
+  selections: Record<string, boolean>;
+  amounts: Record<string, number>;
+}
+
+export type SelectionSubmissionData = string[];

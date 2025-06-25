@@ -1,18 +1,14 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 
-import { GAME_CONFIG, GameData, MultiChoiceGameData, SelectionItem } from '../../models';
-import { BaseGameComponent } from '../../models/base-game.models';
-import { ProgressService } from '../../services/progress.service';
+import {
+  GAME_CONFIG,
+  GameData,
+  MultiChoiceGameData,
+  SelectionItem,
+  SelectionSubmissionData,
+} from '../../models';
+import { BaseGameComponent, BaseGameMixin } from '../../models/base-game.models';
 
 @Component({
   selector: 'app-selection-game',
@@ -21,15 +17,14 @@ import { ProgressService } from '../../services/progress.service';
   templateUrl: './selection-game.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SelectionGameComponent implements BaseGameComponent<MultiChoiceGameData> {
+export class SelectionGameComponent
+  extends BaseGameMixin<SelectionSubmissionData>
+  implements BaseGameComponent<MultiChoiceGameData>
+{
   readonly gameData = input<GameData<MultiChoiceGameData>>();
   readonly isSubmitted = input<boolean>(false);
   readonly selectionChange = output<SelectionItem>();
 
-  // Injections
-  private readonly progressService = inject(ProgressService);
-
-  // Input signals for level identification
   readonly courseId = input<string>();
   readonly unitId = input<string>();
   readonly lessonId = input<string>();
@@ -37,50 +32,35 @@ export class SelectionGameComponent implements BaseGameComponent<MultiChoiceGame
 
   private selectedItems = signal<Set<string>>(new Set());
 
-  // Load saved submission on component initialization
-  private loadSavedSubmission = effect(() => {
-    const courseId = this.courseId();
-    const unitId = this.unitId();
-    const lessonId = this.lessonId();
-    const levelId = this.levelId();
-
-    if (courseId && unitId && lessonId && levelId && this.isSubmitted()) {
-      const savedData = this.progressService.loadUserSubmission(
-        courseId,
-        unitId,
-        lessonId,
-        levelId,
-      );
-      if (savedData && Array.isArray(savedData)) {
-        this.selectedItems.set(new Set(savedData));
-      }
-    }
-  });
-
-  // Method to save user selection on submit
-  saveUserSubmission(): void {
-    const courseId = this.courseId();
-    const unitId = this.unitId();
-    const lessonId = this.lessonId();
-    const levelId = this.levelId();
-
-    if (courseId && unitId && lessonId && levelId) {
-      const selectedIds = Array.from(this.selectedItems());
-      this.progressService.saveUserSubmission(courseId, unitId, lessonId, levelId, selectedIds);
-    }
+  constructor() {
+    super();
+    this.initializeSubmissionLoading<SelectionSubmissionData>(
+      this.courseId,
+      this.unitId,
+      this.lessonId,
+      this.levelId,
+      this.isSubmitted,
+      (data: SelectionSubmissionData) => {
+        if (data && Array.isArray(data)) {
+          this.selectedItems.set(new Set(data));
+        }
+      },
+    );
   }
 
-  private resetSavedSubmission = effect(() => {
-    if (!this.isSubmitted()) {
-      this.selectedItems.set(new Set());
-    }
-  });
+  saveUserSubmission(): void {
+    this.saveUserSubmissionWithData(
+      this.courseId,
+      this.unitId,
+      this.lessonId,
+      this.levelId,
+      () => Array.from(this.selectedItems()) as SelectionSubmissionData,
+    );
+  }
 
-  // BaseGameComponent interface implementation
   readonly onInteraction = this.selectionChange;
   readonly validationChange = output<boolean>();
 
-  // Modern computed property for better performance
   readonly selectedItemsCount = computed(() => this.selectedItems().size);
   readonly minSelectionsRequired = computed(
     () => GAME_CONFIG.SELECTION_GAME.MIN_REQUIRED_SELECTIONS,
@@ -100,14 +80,10 @@ export class SelectionGameComponent implements BaseGameComponent<MultiChoiceGame
     () => (this.selectedItemsCount() || 0) >= GAME_CONFIG.SELECTION_GAME.MIN_REQUIRED_SELECTIONS,
   );
 
-  readonly hasHints = computed(() => {
-    const hints = this.gameData()?.hints;
-    return Boolean(hints && hints.length > 0);
-  });
+  readonly hasHints = this.createHasHintsComputed(this.gameData);
 
   onItemClick(item: SelectionItem): void {
     if (!this.isSubmitted()) {
-      // Update internal selection state
       const currentSelections = new Set(this.selectedItems());
 
       if (currentSelections.has(item.id)) {
@@ -118,7 +94,6 @@ export class SelectionGameComponent implements BaseGameComponent<MultiChoiceGame
 
       this.selectedItems.set(currentSelections);
 
-      // Emit the updated item for parent component if needed
       const updatedItem = { ...item, isSelected: currentSelections.has(item.id) };
       this.selectionChange.emit(updatedItem);
     }

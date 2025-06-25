@@ -75,8 +75,8 @@ export class CourseService {
   private applyProgressToLesson(courseId: string, unitId: string, lesson: Lesson): Lesson {
     return {
       ...lesson,
-      levels: lesson.levels.map((level, index) =>
-        this.applyProgressToLevel(courseId, unitId, lesson.id, level, index, lesson.levels),
+      levels: lesson.levels.map((level) =>
+        this.applyProgressToLevel(courseId, unitId, lesson.id, level),
       ),
     };
   }
@@ -86,8 +86,6 @@ export class CourseService {
     unitId: string,
     lessonId: string,
     level: Level,
-    index: number,
-    allLevels: Level[],
   ): Level {
     // Check if this level is completed
     const isCompleted = this.#progressService.isLevelCompleted(
@@ -97,22 +95,11 @@ export class CourseService {
       level.id,
     );
 
-    // Determine if this level should be unlocked
-    let isUnlocked = false;
-
-    if (index === 0) {
-      // First level is always unlocked
-      isUnlocked = true;
-    } else {
-      // Level is unlocked if the previous level is completed
-      const previousLevel = allLevels[index - 1];
-      isUnlocked = this.#progressService.isLevelCompleted(
-        courseId,
-        unitId,
-        lessonId,
-        previousLevel.id,
-      );
-    }
+    // Determine if this level should be unlocked using prevLevelId
+    // First level (no prevLevelId) is always unlocked, others require previous level to be completed
+    const isUnlocked = level.prevLevelId
+      ? this.#progressService.isLevelCompleted(courseId, unitId, lessonId, level.prevLevelId)
+      : true;
 
     // Get stars for completed levels
     const stars = isCompleted

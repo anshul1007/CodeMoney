@@ -1,18 +1,14 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { BaseGameComponent } from '../../models/base-game.models';
-import { EstimationItem, GameData, ValueInputGameData } from '../../models/game.models';
-import { ProgressService } from '../../services/progress.service';
+import { BaseGameComponent, BaseGameMixin } from '../../models/base-game.models';
+import {
+  EstimationItem,
+  EstimationSubmissionData,
+  GameData,
+  ValueInputGameData,
+} from '../../models/game.models';
 
 @Component({
   selector: 'app-estimation-game',
@@ -21,59 +17,53 @@ import { ProgressService } from '../../services/progress.service';
   templateUrl: './estimation-game.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EstimationGameComponent implements BaseGameComponent<ValueInputGameData> {
-  // Input signals required by BaseGameComponent interface
+export class EstimationGameComponent
+  extends BaseGameMixin<EstimationSubmissionData>
+  implements BaseGameComponent<ValueInputGameData>
+{
   gameData = input<GameData<ValueInputGameData>>();
   isSubmitted = input<boolean>(false);
 
-  // Injections
-  private readonly progressService = inject(ProgressService);
-
-  // Input signals for level identification
   readonly courseId = input<string>();
   readonly unitId = input<string>();
   readonly lessonId = input<string>();
   readonly levelId = input<string>();
 
-  // Internal state - use a signal to track user estimates
   private readonly userEstimates = signal<Record<string, number>>({});
   private readonly submittedState = signal<boolean>(false);
 
-  // Load saved submission on component initialization
-  private loadSavedSubmission = effect(() => {
-    const courseId = this.courseId();
-    const unitId = this.unitId();
-    const lessonId = this.lessonId();
-    const levelId = this.levelId();
-
-    if (courseId && unitId && lessonId && levelId && this.isSubmitted()) {
-      const savedData = this.progressService.loadUserSubmission(
-        courseId,
-        unitId,
-        lessonId,
-        levelId,
-      );
-      if (savedData && typeof savedData === 'object') {
-        this.userEstimates.set(savedData as Record<string, number>);
-      }
-    }
-  });
-
-  // Method to save user estimates on submit
-  saveUserSubmission(): void {
-    const courseId = this.courseId();
-    const unitId = this.unitId();
-    const lessonId = this.lessonId();
-    const levelId = this.levelId();
-
-    if (courseId && unitId && lessonId && levelId) {
-      const estimates = this.userEstimates();
-      this.progressService.saveUserSubmission(courseId, unitId, lessonId, levelId, estimates);
-    }
+  constructor() {
+    super();
+    this.initializeSubmissionLoading<EstimationSubmissionData>(
+      this.courseId,
+      this.unitId,
+      this.lessonId,
+      this.levelId,
+      this.isSubmitted,
+      (data: EstimationSubmissionData) => {
+        if (data && data.userEstimates) {
+          this.userEstimates.set(data.userEstimates);
+        }
+      },
+    );
   }
 
-  // Computed properties
-  readonly gameIsSubmitted = computed(() => this.isSubmitted() || this.submittedState());
+  saveUserSubmission(): void {
+    this.saveUserSubmissionWithData(
+      this.courseId,
+      this.unitId,
+      this.lessonId,
+      this.levelId,
+      (): EstimationSubmissionData => ({
+        userEstimates: this.userEstimates(),
+      }),
+    );
+  }
+
+  readonly gameIsSubmitted = this.createGameIsSubmittedComputed(
+    this.isSubmitted,
+    this.submittedState,
+  );
 
   readonly estimationFields = computed(() => {
     const data = this.gameData()?.data;
@@ -83,7 +73,7 @@ export class EstimationGameComponent implements BaseGameComponent<ValueInputGame
 
     return data.items.map((item) => ({
       ...item,
-      itemName: item.name, // Map 'name' to 'itemName' for template compatibility
+      itemName: item.name,
       currency: data.currency,
       userEstimate: estimates[item.id] || 0,
     }));
@@ -109,17 +99,13 @@ export class EstimationGameComponent implements BaseGameComponent<ValueInputGame
     return this.allFieldsComplete() && !this.gameIsSubmitted();
   });
 
-  // BaseGameComponent interface methods
   resetGame(): void {
     this.submittedState.set(false);
     this.userEstimates.set({});
   }
 
-  hasHints = computed(() => {
-    return (this.gameData()?.hints?.length || 0) > 0;
-  });
+  hasHints = this.createHasHintsComputed(this.gameData);
 
-  // Component-specific methods
   updateEstimate(itemId: string, value: number): void {
     const currentEstimates = this.userEstimates();
     this.userEstimates.set({

@@ -367,27 +367,12 @@ export class LevelPlayerComponent implements OnInit {
 
     if (!courseId || !unitId || !lessonId || !currentLevelId) return;
 
-    // Get the current course structure
-    const courses = this.courseService.courses();
-    const course = courses.find((c) => c.id === courseId);
-    if (!course) return;
+    // Get the current level using the service
+    const currentLevel = this.courseService.getLevel()(courseId, unitId, lessonId, currentLevelId);
+    if (!currentLevel?.nextLevelId) return;
 
-    const unit = course.units.find((u) => u.id === unitId);
-    if (!unit) return;
-
-    const lesson = unit.lessons.find((l) => l.id === lessonId);
-    if (!lesson) return;
-
-    // Find current level index
-    const currentLevelIndex = lesson.levels.findIndex((level) => level.id === currentLevelId);
-    if (currentLevelIndex === -1) return;
-
-    // Check if there's a next level to unlock
-    const nextLevelIndex = currentLevelIndex + 1;
-    if (nextLevelIndex < lesson.levels.length) {
-      const nextLevel = lesson.levels[nextLevelIndex];
-      this.progressService.unlockLevel(courseId, unitId, lessonId, nextLevel.id);
-    }
+    // Unlock the next level using nextLevelId
+    this.progressService.unlockLevel(courseId, unitId, lessonId, currentLevel.nextLevelId);
   }
 
   //   nextLevel(): void {}
@@ -402,57 +387,17 @@ export class LevelPlayerComponent implements OnInit {
       return;
     }
 
-    // Get the current course structure
-    const courses = this.courseService.courses();
-    const course = courses.find((c) => c.id === courseId);
-    if (!course) {
+    // Get the current level using the service
+    const currentLevel = this.courseService.getLevel()(courseId, unitId, lessonId, currentLevelId);
+    if (!currentLevel) {
       this.router.navigate(['/courses']);
       return;
     }
 
-    const unit = course.units.find((u) => u.id === unitId);
-    if (!unit) {
-      this.router.navigate(['/courses']);
-      return;
-    }
-
-    const lesson = unit.lessons.find((l) => l.id === lessonId);
-    if (!lesson) {
-      this.router.navigate(['/courses']);
-      return;
-    }
-
-    // Find current level index
-    const currentLevelIndex = lesson.levels.findIndex((level) => level.id === currentLevelId);
-    if (currentLevelIndex === -1) {
-      this.router.navigate(['/courses']);
-      return;
-    }
-
-    // Check if there's a next level
-    const nextLevelIndex = currentLevelIndex + 1;
-    if (nextLevelIndex < lesson.levels.length) {
-      const nextLevel = lesson.levels[nextLevelIndex];
-
-      const isCurrentLevelCompleted = this.progressService.isLevelCompleted(
-        courseId,
-        unitId,
-        lessonId,
-        currentLevelId,
-      );
-
-      if (isCurrentLevelCompleted) {
-        // Unlock the next level if it's not already unlocked
-        if (!this.progressService.isLevelUnlocked(courseId, unitId, lessonId, nextLevel.id)) {
-          this.progressService.unlockLevel(courseId, unitId, lessonId, nextLevel.id);
-        }
-
-        // Navigate to the next level
-        this.router.navigate(['/level', courseId, unitId, lessonId, nextLevel.id]);
-      } else {
-        // Current level not completed, go back to courses dashboard
-        this.router.navigate(['/courses']);
-      }
+    // Navigate to next level if it exists
+    if (currentLevel.nextLevelId) {
+      // Navigate to the next level using nextLevelId
+      this.router.navigate(['/level', courseId, unitId, lessonId, currentLevel.nextLevelId]);
     } else {
       // No more levels in this lesson, go back to courses dashboard
       this.router.navigate(['/courses']);
@@ -471,32 +416,14 @@ export class LevelPlayerComponent implements OnInit {
 
     if (!courseId || !unitId || !lessonId || !currentLevelId) return false;
 
-    // Get the current course structure
-    const courses = this.courseService.courses();
-    const course = courses.find((c) => c.id === courseId);
-    if (!course) return false;
+    // Get the current level using the service
+    const currentLevel = this.courseService.getLevel()(courseId, unitId, lessonId, currentLevelId);
+    if (!currentLevel) return false;
 
-    const unit = course.units.find((u) => u.id === unitId);
-    if (!unit) return false;
-
-    const lesson = unit.lessons.find((l) => l.id === lessonId);
-    if (!lesson) return false;
-
-    // Find current level index
-    const currentLevelIndex = lesson.levels.findIndex((level) => level.id === currentLevelId);
-    if (currentLevelIndex === -1) return false;
-
-    // Check if this is the first level (always accessible)
-    if (currentLevelIndex === 0) return true;
-
-    // Check if all previous levels are completed
-    for (let i = 0; i < currentLevelIndex; i++) {
-      const previousLevel = lesson.levels[i];
-      if (!this.progressService.isLevelCompleted(courseId, unitId, lessonId, previousLevel.id)) {
-        return false; // Previous level not completed, no access
-      }
-    }
-
-    return true; // All previous levels completed, access granted
+    // First level (no prevLevelId) is always accessible, others require previous level to be completed
+    return (
+      !currentLevel.prevLevelId ||
+      this.progressService.isLevelCompleted(courseId, unitId, lessonId, currentLevel.prevLevelId)
+    );
   }
 }

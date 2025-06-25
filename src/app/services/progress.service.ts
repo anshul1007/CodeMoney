@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 
 import { GameProgress } from '../models/progress.models';
 
@@ -253,5 +253,29 @@ export class ProgressService {
       // eslint-disable-next-line no-console
       console.error('Failed to clear user submissions:', error);
     }
+  }
+
+  // Helper method to create a load saved submission effect
+  createLoadSavedSubmissionEffect<T = unknown>(
+    courseId: () => string | undefined,
+    unitId: () => string | undefined,
+    lessonId: () => string | undefined,
+    levelId: () => string | undefined,
+    isSubmitted: () => boolean,
+    loadSavedData: (data: T) => void,
+  ) {
+    return effect(() => {
+      const cId = courseId();
+      const uId = unitId();
+      const lId = lessonId();
+      const lvlId = levelId();
+
+      if (cId && uId && lId && lvlId && isSubmitted()) {
+        const savedData = this.loadUserSubmission(cId, uId, lId, lvlId);
+        if (savedData) {
+          loadSavedData(savedData as T);
+        }
+      }
+    });
   }
 }

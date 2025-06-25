@@ -28,7 +28,9 @@
                   "objective": "Choose the correct items needed for a lemonade stand business.",
                   "isCompleted": false,
                   "isUnlocked": true,
-                  "stars": 0
+                  "stars": 0,
+                  "prevLevelId": null,
+                  "nextLevelId": "estimate-costs"
                 },
                 {
                   "id": "estimate-costs",
@@ -37,7 +39,9 @@
                   "objective": "Make cost estimates for your business items.",
                   "isCompleted": false,
                   "isUnlocked": false,
-                  "stars": 0
+                  "stars": 0,
+                  "prevLevelId": "choose-items",
+                  "nextLevelId": "funding-sources"
                 },
                 {
                   "id": "funding-sources",
@@ -46,7 +50,9 @@
                   "objective": "Choose how you will get money to start your business.",
                   "isCompleted": false,
                   "isUnlocked": false,
-                  "stars": 0
+                  "stars": 0,
+                  "prevLevelId": "estimate-costs",
+                  "nextLevelId": null
                 }
               ]
             }
