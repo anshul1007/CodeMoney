@@ -6,6 +6,7 @@ import {
   BaseGameComponent,
   BaseGameMixin,
   GameComponentWithHints,
+  GameComponentWithReset,
   GameComponentWithSave,
 } from '../../models/base-game.models';
 import {
@@ -27,7 +28,8 @@ export class FundingGameComponent
   implements
     BaseGameComponent<ResourceAllocationGameData>,
     GameComponentWithHints,
-    GameComponentWithSave
+    GameComponentWithSave,
+    GameComponentWithReset
 {
   gameData = input<GameData<ResourceAllocationGameData>>();
   isSubmitted = input<boolean>(false);

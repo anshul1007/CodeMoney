@@ -6,6 +6,7 @@ import {
   BaseGameComponent,
   BaseGameMixin,
   GameComponentWithHints,
+  GameComponentWithReset,
   GameComponentWithSave,
 } from '../../models/base-game.models';
 import {
@@ -24,7 +25,11 @@ import {
 })
 export class EstimationGameComponent
   extends BaseGameMixin<ValueInputGameData, EstimationSubmissionData>
-  implements BaseGameComponent<ValueInputGameData>, GameComponentWithHints, GameComponentWithSave
+  implements
+    BaseGameComponent<ValueInputGameData>,
+    GameComponentWithHints,
+    GameComponentWithSave,
+    GameComponentWithReset
 {
   gameData = input<GameData<ValueInputGameData>>();
   isSubmitted = input<boolean>(false);

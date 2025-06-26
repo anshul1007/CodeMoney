@@ -25,6 +25,10 @@ export interface GameComponentWithSave {
   saveUserSubmission: () => void;
 }
 
+export interface GameComponentWithReset {
+  resetGame: () => void;
+}
+
 // Type guard functions for better type safety
 export function isGameComponentWithHints(
   component: BaseGameComponent,
@@ -36,6 +40,12 @@ export function isGameComponentWithSave(
   component: BaseGameComponent,
 ): component is BaseGameComponent & GameComponentWithSave {
   return 'saveUserSubmission' in component && typeof component.saveUserSubmission === 'function';
+}
+
+export function isGameComponentWithReset(
+  component: BaseGameComponent,
+): component is BaseGameComponent & GameComponentWithReset {
+  return 'resetGame' in component && typeof component.resetGame === 'function';
 }
 
 export abstract class BaseGameMixin<TGameData extends BaseGameData, TSubmissionData> {

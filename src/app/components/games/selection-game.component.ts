@@ -12,6 +12,7 @@ import {
   BaseGameComponent,
   BaseGameMixin,
   GameComponentWithHints,
+  GameComponentWithReset,
   GameComponentWithSave,
 } from '../../models/base-game.models';
 
@@ -24,7 +25,11 @@ import {
 })
 export class SelectionGameComponent
   extends BaseGameMixin<MultiChoiceGameData, SelectionSubmissionData>
-  implements BaseGameComponent<MultiChoiceGameData>, GameComponentWithHints, GameComponentWithSave
+  implements
+    BaseGameComponent<MultiChoiceGameData>,
+    GameComponentWithHints,
+    GameComponentWithSave,
+    GameComponentWithReset
 {
   readonly gameData = input<GameData<MultiChoiceGameData>>();
   readonly isSubmitted = input<boolean>(false);

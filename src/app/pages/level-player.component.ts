@@ -27,6 +27,7 @@ import { CurrentLevel, GameData } from '../models';
 import {
   BaseGameComponent,
   isGameComponentWithHints,
+  isGameComponentWithReset,
   isGameComponentWithSave,
 } from '../models/base-game.models';
 import { CourseService } from '../services/course.service';
@@ -117,6 +118,15 @@ import { ProgressService } from '../services/progress.service';
           </button>
         }
 
+        @if (canResetGame()) {
+          <button
+            (click)="handleReset()"
+            class="py-4 px-8 w-full text-base font-bold text-white bg-red-500 rounded-xl transition-all duration-200 cursor-pointer sm:py-5 sm:px-10 sm:w-auto sm:text-lg xl:py-6 xl:px-12 xl:text-xl hover:bg-red-600 hover:shadow-lg hover:-translate-y-1 hover:cursor-pointer"
+          >
+            🔄 Reset
+          </button>
+        }
+
         @if (shouldShowHintsButton()) {
           <button
             (click)="showHints.set(true)"
@@ -183,6 +193,13 @@ export class LevelPlayerComponent {
     if (!component?.instance) return false;
 
     return component.instance.canSubmit();
+  });
+
+  readonly canResetGame = computed(() => {
+    const component = this.currentGameComponent();
+    if (!component?.instance) return false;
+
+    return isGameComponentWithReset(component.instance) && !this.gameSubmitted();
   });
 
   readonly levelAccessible = computed(() => {
@@ -315,6 +332,16 @@ export class LevelPlayerComponent {
         ...currentGameData,
         isCompleted: true,
       });
+    }
+  }
+
+  handleReset(): void {
+    const component = this.currentGameComponent();
+    if (!component?.instance || this.gameSubmitted()) return;
+
+    if (isGameComponentWithReset(component.instance)) {
+      component.instance.resetGame();
+      this.showHints.set(false);
     }
   }
 
