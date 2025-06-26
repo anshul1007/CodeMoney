@@ -15,63 +15,65 @@ export interface BaseGameComponent<T extends BaseGameData = BaseGameData> {
   isSubmitted: () => boolean;
   canSubmit: () => boolean;
   resetGame(): void;
-  hasHints?: () => boolean;
-  saveUserSubmission?: () => void;
 }
 
-export abstract class BaseGameMixin<S> {
+export interface GameComponentWithHints {
+  hasHints: () => boolean;
+}
+
+export interface GameComponentWithSave {
+  saveUserSubmission: () => void;
+}
+
+// Type guard functions for better type safety
+export function isGameComponentWithHints(
+  component: BaseGameComponent,
+): component is BaseGameComponent & GameComponentWithHints {
+  return 'hasHints' in component && typeof component.hasHints === 'function';
+}
+
+export function isGameComponentWithSave(
+  component: BaseGameComponent,
+): component is BaseGameComponent & GameComponentWithSave {
+  return 'saveUserSubmission' in component && typeof component.saveUserSubmission === 'function';
+}
+
+export abstract class BaseGameMixin<TGameData extends BaseGameData, TSubmissionData> {
   protected readonly progressService = inject(ProgressService);
 
-  protected initializeSubmissionLoading<T = S>(
-    courseId: () => string | undefined,
-    unitId: () => string | undefined,
-    lessonId: () => string | undefined,
-    levelId: () => string | undefined,
+  abstract readonly courseId: () => string | undefined;
+  abstract readonly unitId: () => string | undefined;
+  abstract readonly lessonId: () => string | undefined;
+  abstract readonly levelId: () => string | undefined;
+
+  protected initializeSubmissionLoading(
     isSubmitted: () => boolean,
-    onLoadSavedSubmission: (data: T) => void,
+    onLoadSavedSubmission: (data: TSubmissionData) => void,
   ): void {
-    this.progressService.createLoadSavedSubmissionEffect<T>(
-      courseId,
-      unitId,
-      lessonId,
-      levelId,
+    this.progressService.createLoadSavedSubmissionEffect<TSubmissionData>(
+      this.courseId,
+      this.unitId,
+      this.lessonId,
+      this.levelId,
       isSubmitted,
       onLoadSavedSubmission,
     );
   }
 
-  protected saveSubmissionData<T>(
-    courseId: () => string | undefined,
-    unitId: () => string | undefined,
-    lessonId: () => string | undefined,
-    levelId: () => string | undefined,
-    submissionData: T,
-  ): void {
-    const cId = courseId();
-    const uId = unitId();
-    const lId = lessonId();
-    const lvlId = levelId();
+  protected saveSubmission(createSubmissionData: () => TSubmissionData): void {
+    const submissionData = createSubmissionData();
+    const cId = this.courseId();
+    const uId = this.unitId();
+    const lId = this.lessonId();
+    const lvlId = this.levelId();
 
     if (cId && uId && lId && lvlId) {
       this.progressService.saveUserSubmission(cId, uId, lId, lvlId, submissionData);
     }
   }
 
-  protected saveUserSubmissionWithData<T>(
-    courseId: () => string | undefined,
-    unitId: () => string | undefined,
-    lessonId: () => string | undefined,
-    levelId: () => string | undefined,
-    createSubmissionData: () => T,
-  ): void {
-    const submissionData = createSubmissionData();
-    this.saveSubmissionData(courseId, unitId, lessonId, levelId, submissionData);
-  }
-
-  protected createHasHintsComputed(gameData: () => GameData<BaseGameData> | undefined) {
-    return computed(() => {
-      return (gameData()?.hints?.length || 0) > 0;
-    });
+  protected createHasHintsComputed(gameData: () => GameData<TGameData> | undefined) {
+    return computed(() => (gameData()?.hints?.length || 0) > 0);
   }
 
   protected createGameIsSubmittedComputed(

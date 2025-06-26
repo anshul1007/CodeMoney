@@ -8,7 +8,12 @@ import {
   SelectionItem,
   SelectionSubmissionData,
 } from '../../models';
-import { BaseGameComponent, BaseGameMixin } from '../../models/base-game.models';
+import {
+  BaseGameComponent,
+  BaseGameMixin,
+  GameComponentWithHints,
+  GameComponentWithSave,
+} from '../../models/base-game.models';
 
 @Component({
   selector: 'app-selection-game',
@@ -18,8 +23,8 @@ import { BaseGameComponent, BaseGameMixin } from '../../models/base-game.models'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectionGameComponent
-  extends BaseGameMixin<SelectionSubmissionData>
-  implements BaseGameComponent<MultiChoiceGameData>
+  extends BaseGameMixin<MultiChoiceGameData, SelectionSubmissionData>
+  implements BaseGameComponent<MultiChoiceGameData>, GameComponentWithHints, GameComponentWithSave
 {
   readonly gameData = input<GameData<MultiChoiceGameData>>();
   readonly isSubmitted = input<boolean>(false);
@@ -34,28 +39,15 @@ export class SelectionGameComponent
 
   constructor() {
     super();
-    this.initializeSubmissionLoading<SelectionSubmissionData>(
-      this.courseId,
-      this.unitId,
-      this.lessonId,
-      this.levelId,
-      this.isSubmitted,
-      (data: SelectionSubmissionData) => {
-        if (data && Array.isArray(data)) {
-          this.selectedItems.set(new Set(data));
-        }
-      },
-    );
+    this.initializeSubmissionLoading(this.isSubmitted, (data: SelectionSubmissionData) => {
+      if (data && Array.isArray(data)) {
+        this.selectedItems.set(new Set(data));
+      }
+    });
   }
 
   saveUserSubmission(): void {
-    this.saveUserSubmissionWithData(
-      this.courseId,
-      this.unitId,
-      this.lessonId,
-      this.levelId,
-      () => Array.from(this.selectedItems()) as SelectionSubmissionData,
-    );
+    this.saveSubmission(() => Array.from(this.selectedItems()) as SelectionSubmissionData);
   }
 
   readonly onInteraction = this.selectionChange;

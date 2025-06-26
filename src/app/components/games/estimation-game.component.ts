@@ -2,7 +2,12 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { BaseGameComponent, BaseGameMixin } from '../../models/base-game.models';
+import {
+  BaseGameComponent,
+  BaseGameMixin,
+  GameComponentWithHints,
+  GameComponentWithSave,
+} from '../../models/base-game.models';
 import {
   EstimationItem,
   EstimationSubmissionData,
@@ -18,8 +23,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EstimationGameComponent
-  extends BaseGameMixin<EstimationSubmissionData>
-  implements BaseGameComponent<ValueInputGameData>
+  extends BaseGameMixin<ValueInputGameData, EstimationSubmissionData>
+  implements BaseGameComponent<ValueInputGameData>, GameComponentWithHints, GameComponentWithSave
 {
   gameData = input<GameData<ValueInputGameData>>();
   isSubmitted = input<boolean>(false);
@@ -34,30 +39,17 @@ export class EstimationGameComponent
 
   constructor() {
     super();
-    this.initializeSubmissionLoading<EstimationSubmissionData>(
-      this.courseId,
-      this.unitId,
-      this.lessonId,
-      this.levelId,
-      this.isSubmitted,
-      (data: EstimationSubmissionData) => {
-        if (data && data.userEstimates) {
-          this.userEstimates.set(data.userEstimates);
-        }
-      },
-    );
+    this.initializeSubmissionLoading(this.isSubmitted, (data: EstimationSubmissionData) => {
+      if (data && data.userEstimates) {
+        this.userEstimates.set(data.userEstimates);
+      }
+    });
   }
 
   saveUserSubmission(): void {
-    this.saveUserSubmissionWithData(
-      this.courseId,
-      this.unitId,
-      this.lessonId,
-      this.levelId,
-      (): EstimationSubmissionData => ({
-        userEstimates: this.userEstimates(),
-      }),
-    );
+    this.saveSubmission(() => ({
+      userEstimates: this.userEstimates(),
+    }));
   }
 
   readonly gameIsSubmitted = this.createGameIsSubmittedComputed(

@@ -2,7 +2,12 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { BaseGameComponent, BaseGameMixin } from '../../models/base-game.models';
+import {
+  BaseGameComponent,
+  BaseGameMixin,
+  GameComponentWithHints,
+  GameComponentWithSave,
+} from '../../models/base-game.models';
 import {
   FundingSource,
   FundingSubmissionData,
@@ -18,8 +23,11 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FundingGameComponent
-  extends BaseGameMixin<FundingSubmissionData>
-  implements BaseGameComponent<ResourceAllocationGameData>
+  extends BaseGameMixin<ResourceAllocationGameData, FundingSubmissionData>
+  implements
+    BaseGameComponent<ResourceAllocationGameData>,
+    GameComponentWithHints,
+    GameComponentWithSave
 {
   gameData = input<GameData<ResourceAllocationGameData>>();
   isSubmitted = input<boolean>(false);
@@ -35,32 +43,19 @@ export class FundingGameComponent
 
   constructor() {
     super();
-    this.initializeSubmissionLoading<FundingSubmissionData>(
-      this.courseId,
-      this.unitId,
-      this.lessonId,
-      this.levelId,
-      this.isSubmitted,
-      (data: FundingSubmissionData) => {
-        if (data) {
-          this.userSelections.set(data.selections || {});
-          this.userAmounts.set(data.amounts || {});
-        }
-      },
-    );
+    this.initializeSubmissionLoading(this.isSubmitted, (data: FundingSubmissionData) => {
+      if (data) {
+        this.userSelections.set(data.selections || {});
+        this.userAmounts.set(data.amounts || {});
+      }
+    });
   }
 
   saveUserSubmission(): void {
-    this.saveUserSubmissionWithData(
-      this.courseId,
-      this.unitId,
-      this.lessonId,
-      this.levelId,
-      (): FundingSubmissionData => ({
-        selections: this.userSelections(),
-        amounts: this.userAmounts(),
-      }),
-    );
+    this.saveSubmission(() => ({
+      selections: this.userSelections(),
+      amounts: this.userAmounts(),
+    }));
   }
 
   readonly gameIsSubmitted = this.createGameIsSubmittedComputed(

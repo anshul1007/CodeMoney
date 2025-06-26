@@ -5,14 +5,14 @@ import {
   ComponentRef,
   computed,
   DestroyRef,
+  effect,
   inject,
   inputBinding,
-  OnInit,
   signal,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { firstValueFrom } from 'rxjs';
@@ -24,7 +24,11 @@ import {
   SceneDescriptionComponent,
 } from '../components';
 import { CurrentLevel, GameData } from '../models';
-import { BaseGameComponent } from '../models/base-game.models';
+import {
+  BaseGameComponent,
+  isGameComponentWithHints,
+  isGameComponentWithSave,
+} from '../models/base-game.models';
 import { CourseService } from '../services/course.service';
 import { GameService } from '../services/game.service';
 import { ProgressService } from '../services/progress.service';
@@ -52,7 +56,6 @@ import { ProgressService } from '../services/progress.service';
           (backClick)="goBack()"
         />
       }
-      <!-- Game Content -->
       <div
         class="px-4 pt-2 pb-3 mx-auto space-y-3 max-w-7xl sm:px-4 sm:pt-2 sm:pb-3 sm:space-y-3 xl:px-6 xl:pt-3 xl:pb-4"
       >
@@ -77,37 +80,9 @@ import { ProgressService } from '../services/progress.service';
         </app-card-wrapper>
       </div>
 
-      <!-- Validation Message -->
-      <!-- @if (
-            !gameSubmitted() &&
-            validationResult() &&
-            !validationResult()?.isValid
-          ) {
-            <div
-              class="p-4 mx-auto mb-4 max-w-md text-center bg-yellow-50 rounded-xl border border-yellow-200 sm:p-6 sm:mb-6 xl:p-8 xl:mb-8"
-            >
-              <div class="flex justify-center items-center mb-2 xl:mb-3">
-                <span class="mr-2 text-yellow-600 xl:mr-3">⚠️</span>
-                <span class="text-sm font-medium text-yellow-800 sm:text-base xl:text-lg">
-                  {{ validationResult()?.message }}
-                </span>
-              </div>
-              @if (validationResult()?.requiredActions?.length) {
-                <div class="mt-2 text-xs text-yellow-700 xl:mt-3 xl:text-sm">
-                  @for (
-                    action of validationResult()?.requiredActions;
-                    track $index
-                  ) {
-                    <div>• {{ action }}</div>
-                  }
-                </div>
-              }
-            </div>
-          } -->
       <div
         class="px-4 pt-2 pb-1 mx-auto space-y-3 max-w-7xl sm:px-4 sm:pt-2 sm:pb-1 sm:space-y-3 xl:px-6 xl:pt-3 xl:pb-2"
       >
-        <!-- Celebration Message -->
         @if (gameSubmitted()) {
           <app-card-wrapper variant="success" customClasses="mb-4 sm:mb-6 xl:mb-8 text-center">
             <div class="flex gap-2 justify-center items-center mb-2 xl:gap-3 xl:mb-3">
@@ -123,7 +98,6 @@ import { ProgressService } from '../services/progress.service';
           </app-card-wrapper>
         }
       </div>
-      <!-- Action Buttons -->
       <div
         class="flex flex-col justify-center pt-2 pb-6 space-y-4 text-center sm:flex-row sm:space-y-0 sm:space-x-6 xl:space-x-8"
       >
@@ -165,11 +139,10 @@ import { ProgressService } from '../services/progress.service';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LevelPlayerComponent implements OnInit {
+export class LevelPlayerComponent {
   @ViewChild('gameContainer', { read: ViewContainerRef, static: false })
   gameContainer!: ViewContainerRef;
 
-  // Injected services
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly gameService = inject(GameService);
@@ -177,7 +150,6 @@ export class LevelPlayerComponent implements OnInit {
   private readonly courseService = inject(CourseService);
   private readonly destroyRef = inject(DestroyRef);
 
-  // Signal-based reactive state
   readonly gameData = signal<GameData | undefined>(undefined);
   readonly currentLevel = computed<CurrentLevel | undefined>(() => {
     return this.gameData()?.currentLevel;
@@ -187,22 +159,21 @@ export class LevelPlayerComponent implements OnInit {
   readonly showHints = signal<boolean>(false);
   readonly lastScore = signal<number>(0);
 
-  // Route parameters
-  readonly courseId = signal<string>('');
-  readonly unitId = signal<string>('');
-  readonly lessonId = signal<string>('');
-  readonly levelId = signal<string>('');
-
-  // Game state - purely interface-based
-  //   readonly gameConfig = signal<DynamicGameConfig | null>(null);
-  //   readonly validationResult = signal<GameValidationResult | null>(null);
+  private readonly routeParams = toSignal(this.route.params, {
+    initialValue: {} as Record<string, string>,
+  });
+  readonly courseId = computed(() => this.routeParams()['courseId'] || '');
+  readonly unitId = computed(() => this.routeParams()['unitId'] || '');
+  readonly lessonId = computed(() => this.routeParams()['lessonId'] || '');
+  readonly levelId = computed(() => this.routeParams()['levelId'] || '');
 
   private currentGameComponent = signal<ComponentRef<BaseGameComponent> | null>(null);
 
-  // Computed properties
   readonly shouldShowHintsButton = computed(() => {
     const component = this.currentGameComponent();
-    if (!component?.instance?.hasHints) return false;
+    if (!component?.instance) return false;
+
+    if (!isGameComponentWithHints(component.instance)) return false;
 
     return !this.gameSubmitted() && !this.showHints() && component.instance.hasHints();
   });
@@ -218,14 +189,16 @@ export class LevelPlayerComponent implements OnInit {
     return this.hasAccessToLevel();
   });
 
-  ngOnInit(): void {
-    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
-      this.courseId.set(params['courseId']);
-      this.unitId.set(params['unitId']);
-      this.lessonId.set(params['lessonId']);
-      this.levelId.set(params['levelId']);
+  constructor() {
+    effect(() => {
+      const courseId = this.courseId();
+      const unitId = this.unitId();
+      const lessonId = this.lessonId();
+      const levelId = this.levelId();
 
-      this.checkLevelAccess();
+      if (courseId && unitId && lessonId && levelId) {
+        this.checkLevelAccess();
+      }
     });
   }
 
@@ -243,7 +216,6 @@ export class LevelPlayerComponent implements OnInit {
       return;
     }
 
-    // Check if level is already completed from local storage
     const isCompleted = this.progressService.isLevelCompleted(
       this.courseId(),
       this.unitId(),
@@ -251,7 +223,6 @@ export class LevelPlayerComponent implements OnInit {
       this.levelId(),
     );
 
-    // Update game data with completion status
     const gameDataWithCompletion = {
       ...result.gameData,
       isCompleted: isCompleted,
@@ -259,7 +230,6 @@ export class LevelPlayerComponent implements OnInit {
 
     this.gameData.set(gameDataWithCompletion);
 
-    // Update current position in progress
     this.progressService.updateCurrentPosition(
       this.courseId(),
       this.unitId(),
@@ -267,7 +237,6 @@ export class LevelPlayerComponent implements OnInit {
       this.levelId(),
     );
 
-    // Set initial state based on completion status
     if (isCompleted) {
       this.gameSubmitted.set(true);
       this.showHints.set(false);
@@ -311,13 +280,9 @@ export class LevelPlayerComponent implements OnInit {
         this.currentGameComponent.set(componentRef as ComponentRef<BaseGameComponent>);
       } else {
         this.currentGameComponent.set(null);
-        // this.error = `Component type '${config.componentType}' not found`;
       }
-    } catch (err) {
+    } catch {
       this.currentGameComponent.set(null);
-      // this.error = 'Failed to load component';
-      // eslint-disable-next-line no-console
-      console.error(err);
     }
   }
 
@@ -325,19 +290,15 @@ export class LevelPlayerComponent implements OnInit {
     const component = this.currentGameComponent();
     if (!component?.instance || !this.canSubmitGame() || this.gameSubmitted()) return;
 
-    // Save user submission data before marking as submitted
-    if (component.instance.saveUserSubmission) {
+    if (isGameComponentWithSave(component.instance)) {
       component.instance.saveUserSubmission();
     }
 
-    // Set the game as submitted
     this.gameSubmitted.set(true);
 
-    // Calculate a simple score (could be enhanced later)
-    const score = 3; // Default score for completion
+    const score = 3;
     this.lastScore.set(score);
 
-    // Mark level as complete and update local storage
     this.progressService.completeLevel(
       this.courseId(),
       this.unitId(),
@@ -346,10 +307,8 @@ export class LevelPlayerComponent implements OnInit {
       score,
     );
 
-    // Automatically unlock the next level
     this.unlockNextLevel();
 
-    // Update the game data to reflect completion
     const currentGameData = this.gameData();
     if (currentGameData) {
       this.gameData.set({
@@ -367,15 +326,12 @@ export class LevelPlayerComponent implements OnInit {
 
     if (!courseId || !unitId || !lessonId || !currentLevelId) return;
 
-    // Get the current level using the service
     const currentLevel = this.courseService.getLevel()(courseId, unitId, lessonId, currentLevelId);
     if (!currentLevel?.nextLevelId) return;
 
-    // Unlock the next level using nextLevelId
     this.progressService.unlockLevel(courseId, unitId, lessonId, currentLevel.nextLevelId);
   }
 
-  //   nextLevel(): void {}
   nextLevel(): void {
     const courseId = this.courseId();
     const unitId = this.unitId();
@@ -387,19 +343,15 @@ export class LevelPlayerComponent implements OnInit {
       return;
     }
 
-    // Get the current level using the service
     const currentLevel = this.courseService.getLevel()(courseId, unitId, lessonId, currentLevelId);
     if (!currentLevel) {
       this.router.navigate(['/courses']);
       return;
     }
 
-    // Navigate to next level if it exists
     if (currentLevel.nextLevelId) {
-      // Navigate to the next level using nextLevelId
       this.router.navigate(['/level', courseId, unitId, lessonId, currentLevel.nextLevelId]);
     } else {
-      // No more levels in this lesson, go back to courses dashboard
       this.router.navigate(['/courses']);
     }
   }
@@ -416,11 +368,9 @@ export class LevelPlayerComponent implements OnInit {
 
     if (!courseId || !unitId || !lessonId || !currentLevelId) return false;
 
-    // Get the current level using the service
     const currentLevel = this.courseService.getLevel()(courseId, unitId, lessonId, currentLevelId);
     if (!currentLevel) return false;
 
-    // First level (no prevLevelId) is always accessible, others require previous level to be completed
     return (
       !currentLevel.prevLevelId ||
       this.progressService.isLevelCompleted(courseId, unitId, lessonId, currentLevel.prevLevelId)
