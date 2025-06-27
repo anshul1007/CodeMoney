@@ -1,0 +1,113 @@
+{
+  "sampleCourse": {
+    "id": "money-mission",
+    "title": "Money Mission: Build Your Own Business!",
+    "description": "Learn about money, business, and finance through fun games and activities.",
+    "icon": "💰"
+  },
+  "sampleUnit": {
+    "id": "lemonade-stand",
+    "title": "📦 Unit 1: Start Your Lemonade Stand!",
+    "description": "Learn the basics of starting a business with a lemonade stand.",
+    "icon": "🍋"
+  },
+  "sampleLesson": {
+    "id": "getting-started",
+    "title": "🎯 Lesson 1: What Do You Need to Start?",
+    "description": "Discover what items you need to start your lemonade business.",
+    "icon": "🎯"
+  },
+  "sampleLevels": [
+    {
+      "id": "choose-items",
+      "title": "🧩 Level 1: Choose What You Need",
+      "description": "Select the right items to start your lemonade stand.",
+      "gameType": "selection"
+    },
+    {
+      "id": "estimate-costs",
+      "title": "💰 Level 2: How Much Does It Cost?",
+      "description": "Estimate the costs of your lemonade stand items.",
+      "gameType": "estimation"
+    },
+    {
+      "id": "funding-sources",
+      "title": "💸 Level 3: Where Will the Money Come From?",
+      "description": "Learn about different ways to fund your business.",
+      "gameType": "funding"
+    },
+    {
+      "id": "recap",
+      "title": "📝 Level 4: What We Learned",
+      "description": "Review and recap everything you learned about starting your lemonade stand.",
+      "gameType": "recap"
+    }
+  ],
+  "selectionItems": [
+    {
+      "id": "lemons",
+      "name": "Fresh Lemons",
+      "price": 2.5,
+      "isRequired": true
+    },
+    {
+      "id": "sugar",
+      "name": "Sugar",
+      "price": 1.25,
+      "isRequired": true
+    },
+    {
+      "id": "water",
+      "name": "Water",
+      "price": 0.0,
+      "isRequired": true
+    },
+    {
+      "id": "cups",
+      "name": "Paper Cups",
+      "price": 3.0,
+      "isRequired": true
+    },
+    {
+      "id": "sign",
+      "name": "Lemonade Stand Sign",
+      "price": 5.0,
+      "isRequired": false
+    },
+    {
+      "id": "decoration",
+      "name": "Decorations",
+      "price": 8.0,
+      "isRequired": false
+    }
+  ],
+  "fundingSources": [
+    {
+      "id": "allowance",
+      "name": "Weekly Allowance",
+      "maxAmount": 10.0,
+      "description": "Money you get from parents each week"
+    },
+    {
+      "id": "savings",
+      "name": "Personal Savings",
+      "maxAmount": 25.0,
+      "description": "Money you've saved up over time"
+    },
+    {
+      "id": "family-loan",
+      "name": "Family Loan",
+      "maxAmount": 50.0,
+      "description": "Borrow money from family members"
+    }
+  ],
+  "testUser": {
+    "id": "test-user-1",
+    "name": "Test Student",
+    "progress": {
+      "currentCourse": "money-mission",
+      "completedLevels": [],
+      "totalStars": 0
+    }
+  }
+}
