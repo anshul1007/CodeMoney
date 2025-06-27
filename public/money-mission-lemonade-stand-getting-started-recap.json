@@ -1,0 +1,86 @@
+{
+  "gameData": {
+    "currentLevel": {
+      "id": "recap",
+      "title": "What We Learned",
+      "description": "Review and recap everything you learned about starting your lemonade stand",
+      "stars": 0
+    },
+    "scene": "Congratulations! You've learned the essential steps for starting your lemonade stand business. Let's take a moment to review everything you've discovered and celebrate your progress!",
+    "prompt": "Review the key concepts, tips, and important points from this lesson. Understanding these fundamentals will help you succeed in your lemonade stand business!",
+    "hints": [
+      "Take your time to read through each section carefully",
+      "These concepts will be important for future lessons",
+      "Think about how you can apply these ideas to your own business",
+      "Don't hesitate to review previous levels if you need a refresher"
+    ],
+    "gameType": "recap",
+    "data": {
+      "summary": "In this lesson, you learned the three fundamental steps to start any business: choosing what you need, estimating costs, and finding funding sources. These are the building blocks for any successful venture!",
+      "notes": [
+        {
+          "id": "planning-is-key",
+          "title": "Planning is Everything",
+          "content": "Before starting any business, you need to plan what items and supplies you'll need. This prevents costly mistakes and ensures you're prepared.",
+          "type": "key-concept",
+          "icon": "🎯"
+        },
+        {
+          "id": "cost-estimation",
+          "title": "Know Your Costs",
+          "content": "Estimating costs helps you understand how much money you need to start your business. It's better to overestimate than underestimate!",
+          "type": "key-concept",
+          "icon": "💰"
+        },
+        {
+          "id": "funding-sources",
+          "title": "Multiple Funding Options",
+          "content": "There are many ways to fund a business: personal savings, loans from family, or even selling items you no longer need. Diversifying your funding sources reduces risk.",
+          "type": "key-concept",
+          "icon": "💸"
+        },
+        {
+          "id": "start-small",
+          "title": "Start Small, Think Big",
+          "content": "It's wise to start with the essentials and grow your business gradually. You can always add more items and features as you earn profits.",
+          "type": "tip",
+          "icon": "🌱"
+        },
+        {
+          "id": "quality-matters",
+          "title": "Quality Over Quantity",
+          "content": "It's better to have fewer high-quality items than many cheap ones. Customers will notice the difference and appreciate the quality.",
+          "type": "tip",
+          "icon": "⭐"
+        },
+        {
+          "id": "budget-tracking",
+          "title": "Track Your Spending",
+          "content": "Keep track of every dollar you spend. This helps you stay within budget and understand where your money goes.",
+          "type": "reminder",
+          "icon": "📊"
+        },
+        {
+          "id": "business-basics",
+          "title": "Business Planning Foundation",
+          "content": "You've learned the three core steps of business planning: identifying needs, calculating costs, and securing funding. These apply to any business, not just lemonade stands!",
+          "type": "summary",
+          "icon": "🏗️"
+        },
+        {
+          "id": "preparation-success",
+          "title": "Preparation Leads to Success",
+          "content": "By planning ahead and understanding your costs and funding, you're setting yourself up for business success. Preparation is the key to confidence!",
+          "type": "summary",
+          "icon": "🚀"
+        }
+      ],
+      "nextSteps": [
+        "In the next lesson, you'll learn how to manage your business finances",
+        "You'll discover how to organize your money using balance sheets",
+        "We'll explore the difference between assets, liabilities, and equity",
+        "You'll practice categorizing different types of financial items"
+      ]
+    }
+  }
+}

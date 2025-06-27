@@ -11,7 +11,7 @@ import { LevelCardComponent } from './level-card.component';
   standalone: true,
   imports: [CommonModule, RouterModule, LevelCardComponent],
   template: `
-    <div class="overflow-hidden rounded-lg border border-gray-100">
+    <div class="overflow-hidden mb-4 rounded-lg border border-gray-100">
       <!-- Lesson Header -->
       <div class="p-2 border-b border-gray-100 sm:p-3 bg-gray-25">
         <div>

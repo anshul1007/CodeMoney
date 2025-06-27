@@ -1,0 +1,87 @@
+{
+  "currentLevel": {
+    "id": "balance-sheet-1",
+    "title": "Basic Balance Sheet",
+    "description": "Learn to categorize personal finances into assets, liabilities, and equity",
+    "stars": 0
+  },
+  "scene": "You're helping Sarah organize her personal finances. She wants to create a balance sheet to understand her financial position. Help her categorize each item correctly!",
+  "prompt": "Drag and drop each financial item into the correct category. Remember: Assets = Liabilities + Equity",
+  "hints": [
+    "Assets are things you own that have value (cash, investments, property)",
+    "Liabilities are debts or obligations you owe to others (loans, credit cards)",
+    "Equity represents your ownership or net worth (savings, investments you own outright)",
+    "The balance sheet must balance: Total Assets = Total Liabilities + Total Equity"
+  ],
+  "gameType": "balance-sheet",
+  "data": {
+    "instructions": "Drag each item from the left into the appropriate category on the right. Your goal is to create a balanced balance sheet where Assets = Liabilities + Equity.",
+    "items": [
+      {
+        "id": "cash",
+        "name": "Cash in Bank",
+        "description": "Checking and savings account balance",
+        "icon": "💰",
+        "amount": 5000,
+        "correctCategory": "assets"
+      },
+      {
+        "id": "car",
+        "name": "Car",
+        "description": "2020 Honda Civic",
+        "icon": "🚗",
+        "amount": 15000,
+        "correctCategory": "assets"
+      },
+      {
+        "id": "house",
+        "name": "House",
+        "description": "Primary residence",
+        "icon": "🏠",
+        "amount": 250000,
+        "correctCategory": "assets"
+      },
+      {
+        "id": "investments",
+        "name": "Stock Portfolio",
+        "description": "Investment account",
+        "icon": "📈",
+        "amount": 10000,
+        "correctCategory": "assets"
+      },
+      {
+        "id": "mortgage",
+        "name": "Mortgage Loan",
+        "description": "Home loan remaining balance",
+        "icon": "🏠",
+        "amount": 180000,
+        "correctCategory": "liabilities"
+      },
+      {
+        "id": "car-loan",
+        "name": "Car Loan",
+        "description": "Auto loan remaining balance",
+        "icon": "🚗",
+        "amount": 8000,
+        "correctCategory": "liabilities"
+      },
+      {
+        "id": "credit-card",
+        "name": "Credit Card Debt",
+        "description": "Outstanding credit card balance",
+        "icon": "💳",
+        "amount": 2000,
+        "correctCategory": "liabilities"
+      },
+      {
+        "id": "personal-savings",
+        "name": "Personal Savings",
+        "description": "Initial investment and accumulated savings",
+        "icon": "🏦",
+        "amount": 90000,
+        "correctCategory": "equity"
+      }
+    ],
+    "totalAssets": 280000
+  }
+}

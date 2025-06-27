@@ -1,7 +1,13 @@
 import { Type } from '@angular/core';
 
 import { BaseGameComponent } from './base-game.models';
-import { MultiChoiceGameData, ResourceAllocationGameData, ValueInputGameData } from './game.models';
+import {
+  BalanceSheetGameData,
+  MultiChoiceGameData,
+  RecapGameData,
+  ResourceAllocationGameData,
+  ValueInputGameData,
+} from './game.models';
 
 // Generic game registry based on interaction patterns
 export interface GameRegistry {
@@ -16,6 +22,14 @@ export interface GameRegistry {
   'resource-allocation': {
     component: () => Promise<Type<BaseGameComponent>>;
     dataType: ResourceAllocationGameData;
+  };
+  'balance-sheet': {
+    component: () => Promise<Type<BaseGameComponent>>;
+    dataType: BalanceSheetGameData;
+  };
+  'recap': {
+    component: () => Promise<Type<BaseGameComponent>>;
+    dataType: RecapGameData;
   };
 }
 
@@ -48,5 +62,19 @@ export const GAME_REGISTRY: GameRegistry = {
         (m) => m.FundingGameComponent as Type<BaseGameComponent>,
       ),
     dataType: {} as ResourceAllocationGameData,
+  },
+  'balance-sheet': {
+    component: () =>
+      import('../components/games/balance-sheet-game.component').then(
+        (m) => m.BalanceSheetGameComponent as Type<BaseGameComponent>,
+      ),
+    dataType: {} as BalanceSheetGameData,
+  },
+  'recap': {
+    component: () =>
+      import('../components/games/recap-game.component').then(
+        (m) => m.RecapGameComponent as Type<BaseGameComponent>,
+      ),
+    dataType: {} as RecapGameData,
   },
 } as const;

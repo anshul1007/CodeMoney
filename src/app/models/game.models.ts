@@ -82,3 +82,41 @@ export interface FundingSubmissionData {
 }
 
 export type SelectionSubmissionData = string[];
+
+export interface BalanceSheetItem {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  amount: number;
+  correctCategory: 'assets' | 'liabilities' | 'equity';
+}
+
+export interface BalanceSheetGameData extends BaseGameData {
+  items: BalanceSheetItem[];
+  totalAssets?: number;
+  instructions?: string;
+}
+
+export interface BalanceSheetSubmissionData {
+  itemPlacements: Record<string, 'assets' | 'liabilities' | 'equity'>;
+}
+
+export interface RecapNote {
+  id: string;
+  title: string;
+  content: string;
+  icon?: string;
+  type: 'key-concept' | 'tip' | 'summary' | 'reminder';
+}
+
+export interface RecapGameData extends BaseGameData {
+  notes: RecapNote[];
+  summary?: string;
+  nextSteps?: string[];
+}
+
+export interface RecapSubmissionData {
+  completed: boolean;
+  readTime?: number;
+}

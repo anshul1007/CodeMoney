@@ -1,0 +1,155 @@
+<div class="p-4 mx-auto w-full max-w-4xl recap-game">
+  <!-- Header -->
+  <div class="mb-6 text-center">
+    <div class="mb-3 text-4xl">🎉</div>
+    <h2 class="mb-2 text-2xl font-bold text-gray-800">Lesson Complete!</h2>
+    <p class="text-gray-600">
+      Let's review what you learned about starting your lemonade stand business.
+    </p>
+  </div>
+
+  <!-- Summary Section -->
+  @if (gameData()?.data?.summary) {
+    <div class="p-4 mb-6 bg-green-50 rounded-lg border border-green-200">
+      <h3 class="flex items-center mb-2 text-lg font-semibold text-green-800">
+        <span class="mr-2">📋</span>
+        Lesson Summary
+      </h3>
+      <p class="text-green-700">{{ gameData()?.data?.summary }}</p>
+    </div>
+  }
+
+  <!-- Key Concepts -->
+  @if (keyConceptNotes().length > 0) {
+    <div class="mb-6">
+      <h3 class="flex items-center mb-4 text-lg font-semibold text-gray-800">
+        <span class="mr-2">🎯</span>
+        Key Concepts You Learned
+      </h3>
+      <div class="grid gap-3 sm:grid-cols-2">
+        @for (note of keyConceptNotes(); track trackByNoteId($index, note)) {
+          <div class="p-4 rounded-lg border {{ getNoteTypeColor(note.type) }}">
+            <div class="flex items-start space-x-3">
+              <span class="text-2xl">{{ getNoteIcon(note) }}</span>
+              <div class="flex-1">
+                <h4 class="mb-1 font-semibold">{{ note.title }}</h4>
+                <p class="text-sm">{{ note.content }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Tips -->
+  @if (tipNotes().length > 0) {
+    <div class="mb-6">
+      <h3 class="flex items-center mb-4 text-lg font-semibold text-gray-800">
+        <span class="mr-2">💡</span>
+        Pro Tips
+      </h3>
+      <div class="space-y-3">
+        @for (note of tipNotes(); track trackByNoteId($index, note)) {
+          <div class="p-4 rounded-lg border {{ getNoteTypeColor(note.type) }}">
+            <div class="flex items-start space-x-3">
+              <span class="text-xl">{{ getNoteIcon(note) }}</span>
+              <div class="flex-1">
+                <h4 class="mb-1 font-semibold">{{ note.title }}</h4>
+                <p class="text-sm">{{ note.content }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Summary Notes -->
+  @if (summaryNotes().length > 0) {
+    <div class="mb-6">
+      <h3 class="flex items-center mb-4 text-lg font-semibold text-gray-800">
+        <span class="mr-2">📝</span>
+        Summary Points
+      </h3>
+      <div class="space-y-3">
+        @for (note of summaryNotes(); track trackByNoteId($index, note)) {
+          <div class="p-4 rounded-lg border {{ getNoteTypeColor(note.type) }}">
+            <div class="flex items-start space-x-3">
+              <span class="text-xl">{{ getNoteIcon(note) }}</span>
+              <div class="flex-1">
+                <h4 class="mb-1 font-semibold">{{ note.title }}</h4>
+                <p class="text-sm">{{ note.content }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Reminders -->
+  @if (reminderNotes().length > 0) {
+    <div class="mb-6">
+      <h3 class="flex items-center mb-4 text-lg font-semibold text-gray-800">
+        <span class="mr-2">🔔</span>
+        Don't Forget
+      </h3>
+      <div class="space-y-3">
+        @for (note of reminderNotes(); track trackByNoteId($index, note)) {
+          <div class="p-4 rounded-lg border {{ getNoteTypeColor(note.type) }}">
+            <div class="flex items-start space-x-3">
+              <span class="text-xl">{{ getNoteIcon(note) }}</span>
+              <div class="flex-1">
+                <h4 class="mb-1 font-semibold">{{ note.title }}</h4>
+                <p class="text-sm">{{ note.content }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Next Steps -->
+  @if (nextSteps().length > 0) {
+    <div class="p-4 mb-6 bg-blue-50 rounded-lg border border-blue-200">
+      <h3 class="flex items-center mb-3 text-lg font-semibold text-blue-800">
+        <span class="mr-2">🚀</span>
+        What's Next?
+      </h3>
+      <ul class="space-y-2">
+        @for (step of nextSteps(); track $index) {
+          <li class="flex items-start space-x-2 text-blue-700">
+            <span class="mt-1 text-blue-500">•</span>
+            <span class="text-sm">{{ step }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+
+  <!-- Completion Button -->
+  <div class="mt-8 text-center">
+    @if (!gameIsSubmitted()) {
+      <button
+        (click)="markAsComplete()"
+        class="py-4 px-8 font-bold text-white bg-green-500 rounded-xl transition-all duration-200 cursor-pointer hover:bg-green-600 hover:shadow-lg hover:-translate-y-1"
+      >
+        ✅ I've Reviewed Everything
+      </button>
+    } @else {
+      <div
+        class="inline-flex items-center py-3 px-6 font-medium text-green-800 bg-green-100 rounded-xl"
+      >
+        <span class="mr-2">🎉</span>
+        Great job! You've completed the recap.
+      </div>
+    }
+  </div>
+
+  <!-- Progress Indicator -->
+  <div class="mt-6 text-sm text-center text-gray-500">
+    <p>Take your time to review these concepts. They'll help you in future lessons!</p>
+  </div>
+</div>

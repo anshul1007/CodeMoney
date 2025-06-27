@@ -52,6 +52,37 @@
                   "isUnlocked": false,
                   "stars": 0,
                   "prevLevelId": "estimate-costs",
+                  "nextLevelId": "recap"
+                },
+                {
+                  "id": "recap",
+                  "title": "📝 Level 4: What We Learned",
+                  "description": "Review and recap everything you learned about starting your lemonade stand.",
+                  "objective": "Review the key concepts and steps for starting a business.",
+                  "isCompleted": false,
+                  "isUnlocked": false,
+                  "stars": 0,
+                  "prevLevelId": "funding-sources",
+                  "nextLevelId": null
+                }
+              ]
+            },
+            {
+              "id": "financial-management",
+              "title": "📊 Lesson 2: Manage Your Money",
+              "description": "Learn how to organize and track your business finances.",
+              "icon": "📊",
+              "isUnlocked": false,
+              "levels": [
+                {
+                  "id": "balance-sheet",
+                  "title": "📋 Level 1: Create Your Balance Sheet",
+                  "description": "Organize your assets, liabilities, and equity into a balance sheet.",
+                  "objective": "Learn to categorize your financial items into assets, liabilities, and equity.",
+                  "isCompleted": false,
+                  "isUnlocked": false,
+                  "stars": 0,
+                  "prevLevelId": null,
                   "nextLevelId": null
                 }
               ]

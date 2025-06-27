@@ -84,7 +84,7 @@ export class FundingGameComponent
   });
 
   readonly selectedSources = computed(() =>
-    this.fundingSources().filter((source) => source.isSelected && (source.amount || 0) > 0),
+    this.fundingSources().filter((source) => source.isSelected),
   );
 
   readonly totalFunding = computed(() =>
@@ -107,11 +107,7 @@ export class FundingGameComponent
   });
 
   readonly canSubmit = computed(() => {
-    return (
-      this.hasSelectedSources() &&
-      this.hasMinimumSources() &&
-      (this.totalEstimatedCost() === 0 || this.isFundingSufficient())
-    );
+    return this.totalEstimatedCost() === 0 || this.isFundingSufficient();
   });
 
   resetGame(): void {
