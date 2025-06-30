@@ -32,7 +32,7 @@ import { ProgressService } from '../services/progress.service';
         class="py-8 px-4 mx-auto max-w-7xl sm:py-12 sm:px-6 md:py-12 xl:py-16 xl:px-8 2xl:py-16 2xl:px-10"
       >
         <div
-          class="w-full grid grid-cols-1 gap-4 sm:gap-6 xl:gap-8 2xl:gap-10 text-center"
+          class="grid grid-cols-1 gap-4 w-full text-center sm:gap-6 xl:gap-8 2xl:gap-10"
           role="main"
           aria-label="Available courses"
         >

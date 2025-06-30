@@ -11,7 +11,7 @@ import { UnitCardComponent } from './unit-card.component';
   standalone: true,
   imports: [CommonModule, RouterModule, UnitCardComponent],
   template: `
-    <div class="w-full overflow-hidden bg-white rounded-xl shadow-lg sm:rounded-2xl">
+    <div class="overflow-hidden w-full bg-white rounded-xl shadow-lg sm:rounded-2xl">
       <!-- Course Header - Mobile optimized -->
       <div
         class="p-4 text-white bg-gradient-to-r from-blue-500 to-purple-600 sm:p-6 xl:p-8 2xl:p-10"
