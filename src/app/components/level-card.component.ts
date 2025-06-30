@@ -10,14 +10,14 @@ import { Level } from '../models';
   imports: [CommonModule, RouterModule],
   template: `
     <div
-      class="h-full level-card"
+      class="w-full h-full level-card"
       [class.completed]="level().isCompleted"
       [class.unlocked]="level().isUnlocked"
       [class.locked]="!level().isUnlocked"
       [routerLink]="level().isUnlocked ? levelRoute() : null"
     >
       <div
-        class="flex relative flex-col p-2 h-full rounded-lg border shadow-md transition-all duration-200 cursor-pointer sm:p-3 lg:p-4 hover:shadow-xl hover:-translate-y-0.5 active:scale-95 min-h-[80px] sm:min-h-[100px]"
+        class="flex relative flex-col p-2 w-full h-full rounded-lg border shadow-md transition-all duration-200 cursor-pointer sm:p-3 lg:p-4 hover:shadow-xl hover:-translate-y-0.5 active:scale-95 min-h-[80px] sm:min-h-[100px]"
         [ngClass]="levelCardClasses()"
       >
         <!-- Level Icon/Status -->

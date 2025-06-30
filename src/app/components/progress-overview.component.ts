@@ -19,7 +19,7 @@ export interface UserProgress {
   imports: [CommonModule],
   template: `
     <div class="bg-purple-50 border-t border-gray-100">
-      <div class="p-4 mx-auto max-w-7xl sm:p-6 xl:p-8 2xl:p-10">
+      <div class="py-4 px-4 mx-auto max-w-7xl sm:py-6 sm:px-6 xl:py-8 xl:px-8 2xl:py-10 2xl:px-10">
         <div class="flex justify-between items-center mb-2 xl:mb-3">
           <div class="flex items-center space-x-4 xl:space-x-5">
             <span class="text-sm font-medium text-gray-700 xl:text-base">Your Progress</span>

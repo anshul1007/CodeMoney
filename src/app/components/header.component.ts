@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, RouterModule],
   template: `
     <div class="bg-white border-b border-gray-100 shadow-sm">
-      <div class="py-3 px-4 mx-auto max-w-7xl sm:py-4">
+      <div class="py-3 px-4 mx-auto max-w-7xl sm:py-4 sm:px-6 xl:py-5 xl:px-8 2xl:py-6 2xl:px-10">
         <!-- Single row header -->
         <div class="flex justify-between items-center">
           <!-- Left - Back button with logo -->

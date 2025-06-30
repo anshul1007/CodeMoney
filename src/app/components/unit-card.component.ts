@@ -11,7 +11,9 @@ import { LessonCardComponent } from './lesson-card.component';
   standalone: true,
   imports: [CommonModule, RouterModule, LessonCardComponent],
   template: `
-    <div class="overflow-hidden rounded-lg border border-gray-200 sm:rounded-xl xl:rounded-2xl">
+    <div
+      class="w-full overflow-hidden rounded-lg border border-gray-200 sm:rounded-xl xl:rounded-2xl"
+    >
       <!-- Unit Header -->
       <div class="p-4 bg-gray-50 border-b border-gray-200 sm:p-6 xl:p-8">
         <div>
