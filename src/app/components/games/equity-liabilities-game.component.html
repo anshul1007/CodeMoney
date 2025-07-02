@@ -1,0 +1,408 @@
+<!-- Equity & Liabilities Game Component -->
+<div class="p-4 mx-auto w-full max-w-6xl equity-liabilities-game">
+  @if (!hasValidGameData()) {
+    <div class="p-8 text-center">
+      <div class="mb-4 text-4xl">⏳</div>
+      <div class="mb-2 text-lg font-semibold text-gray-600">
+        Loading Equity & Liabilities Game...
+      </div>
+      <div class="text-sm text-gray-500">
+        @if (!gameData()) {
+          Game data is loading...
+        } @else if (!gameData()?.data) {
+          Game configuration is missing...
+        } @else if (!gameData()?.data?.items) {
+          Game items are missing...
+        } @else {
+          Preparing game items...
+        }
+      </div>
+    </div>
+  } @else {
+    <!-- Game Interface -->
+    <div class="space-y-6">
+      <!-- Instructions -->
+      <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+        <h3 class="mb-2 text-lg font-semibold text-blue-800">📋 Instructions</h3>
+        <p class="mb-2 text-blue-700">
+          🎯 <strong>Your Mission:</strong> Help sort these money items! Look at each item and
+          decide if it's:
+        </p>
+        <div class="grid grid-cols-1 gap-4 mb-3 md:grid-cols-2">
+          <div class="p-3 bg-purple-100 rounded-lg">
+            <div class="mb-1 font-semibold text-purple-800">💼 Equity (Owner's Money)</div>
+            <div class="text-sm text-purple-700">Money that belongs TO the business owner</div>
+          </div>
+          <div class="p-3 bg-red-100 rounded-lg">
+            <div class="mb-1 font-semibold text-red-800">📄 Liabilities (Money Owed)</div>
+            <div class="text-sm text-red-700">Money the business owes to OTHER people</div>
+          </div>
+        </div>
+        <p class="text-sm text-blue-700">
+          🔍 Click your answer to see a personalized explanation for each specific item!
+        </p>
+      </div>
+
+      <!-- Progress Indicator -->
+      <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+        <div class="flex justify-center items-center space-x-2">
+          <span class="text-2xl">📊</span>
+          <span class="text-gray-600">
+            {{ getAnsweredCount() }} of {{ getTotalItemsCount() }} questions answered
+          </span>
+          @if (allItemsAnswered()) {
+            <span class="ml-4 font-semibold text-green-600">
+              ✅ {{ correctAnswersCount() }}/{{ getTotalItemsCount() }} correct
+            </span>
+          }
+        </div>
+      </div>
+
+      <!-- Cards Grid -->
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        @for (item of gameData()?.data?.items || []; track item.id) {
+          <div class="card-container">
+            <!-- Main Card -->
+            <div
+              class="card-content h-full bg-white rounded-lg border-2 shadow-sm transition-all duration-300"
+              [ngClass]="{
+                'border-gray-300': !getSelectedAnswer(item.id),
+                'border-green-400 shadow-green-100':
+                  getSelectedAnswer(item.id) && isAnswerCorrect(item.id),
+                'border-red-400 shadow-red-100':
+                  getSelectedAnswer(item.id) && !isAnswerCorrect(item.id),
+              }"
+            >
+              <div class="card-header">
+                <div class="mb-3 text-4xl">{{ item.icon }}</div>
+                <h4 class="mb-2 text-xl font-bold text-gray-800">{{ item.name }}</h4>
+                <p class="mb-4 text-sm text-gray-600">{{ item.description }}</p>
+                <div class="mb-6 text-lg font-bold text-green-600">${{ item.amount }}</div>
+              </div>
+
+              <div class="card-body">
+                <div class="space-y-3 w-full">
+                  <p class="mb-4 font-medium text-center text-gray-700">
+                    Is this Equity or Liabilities?
+                  </p>
+                  <div class="grid grid-cols-2 gap-3 card-actions">
+                    <button
+                      (click)="selectAnswer(item.id, 'equity')"
+                      class="flex justify-center items-center py-3 px-4 space-x-2 font-semibold text-white rounded-lg transition-colors duration-200"
+                      [class.bg-purple-500]="!getSelectedAnswer(item.id)"
+                      [class.hover:bg-purple-600]="!getSelectedAnswer(item.id)"
+                      [class.bg-purple-700]="getSelectedAnswer(item.id) === 'equity'"
+                      [class.bg-gray-400]="
+                        getSelectedAnswer(item.id) && getSelectedAnswer(item.id) !== 'equity'
+                      "
+                      [disabled]="gameIsSubmitted()"
+                    >
+                      <span>💼</span>
+                      <span>Equity</span>
+                    </button>
+                    <button
+                      (click)="selectAnswer(item.id, 'liabilities')"
+                      class="flex justify-center items-center py-3 px-4 space-x-2 font-semibold text-white rounded-lg transition-colors duration-200"
+                      [class.bg-red-500]="!getSelectedAnswer(item.id)"
+                      [class.hover:bg-red-600]="!getSelectedAnswer(item.id)"
+                      [class.bg-red-700]="getSelectedAnswer(item.id) === 'liabilities'"
+                      [class.bg-gray-400]="
+                        getSelectedAnswer(item.id) && getSelectedAnswer(item.id) !== 'liabilities'
+                      "
+                      [disabled]="gameIsSubmitted()"
+                    >
+                      <span>📄</span>
+                      <span>Liabilities</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Explanation Section (Visible After Answer or When Submitted) -->
+            @if (getSelectedAnswer(item.id) || gameIsSubmitted()) {
+              <!-- Connection Line -->
+              <div class="flex justify-center">
+                <div
+                  class="w-1 h-4 transition-colors duration-300"
+                  [ngClass]="{
+                    'bg-green-400': isAnswerCorrect(item.id),
+                    'bg-red-400': !isAnswerCorrect(item.id),
+                    'bg-gray-400': !getSelectedAnswer(item.id) && gameIsSubmitted(),
+                  }"
+                ></div>
+              </div>
+
+              <div
+                class="p-4 rounded-lg border-2 transition-all duration-300"
+                [ngClass]="{
+                  'bg-green-50 border-green-300 shadow-green-100': isAnswerCorrect(item.id),
+                  'bg-red-50 border-red-300 shadow-red-100':
+                    !isAnswerCorrect(item.id) && getSelectedAnswer(item.id),
+                  'bg-gray-50 border-gray-300 shadow-gray-100':
+                    !getSelectedAnswer(item.id) && gameIsSubmitted(),
+                }"
+              >
+                <!-- Result Header -->
+                <div class="text-center mb-3">
+                  @if (getSelectedAnswer(item.id)) {
+                    @if (isAnswerCorrect(item.id)) {
+                      <p class="mb-1 text-lg font-bold text-green-800">✅ Correct!</p>
+                    } @else {
+                      <div class="mb-1 text-3xl">❌</div>
+                      <p class="font-bold text-red-800">Incorrect</p>
+                    }
+                  } @else if (gameIsSubmitted()) {
+                    <div class="mb-1 text-3xl">❓</div>
+                    <p class="font-bold text-gray-800">Not Answered</p>
+                  }
+                </div>
+
+                <!-- Answer Comparison -->
+                <div class="text-center mb-3">
+                  @if (getSelectedAnswer(item.id)) {
+                    @if (isAnswerCorrect(item.id)) {
+                      <!-- Just show the answer for correct responses -->
+                      <p class="text-sm font-semibold text-green-700">
+                        {{ getSelectedAnswer(item.id) === 'equity' ? 'Equity' : 'Liabilities' }}
+                      </p>
+                    } @else {
+                      <!-- Show both when user got it wrong -->
+                      <p class="mb-1 text-sm font-semibold text-red-700">
+                        Your answer:
+                        {{ getSelectedAnswer(item.id) === 'equity' ? 'Equity' : 'Liabilities' }}
+                      </p>
+                      <p class="text-sm font-semibold text-green-700">
+                        Correct answer:
+                        {{ item.correctCategory === 'equity' ? 'Equity' : 'Liabilities' }}
+                      </p>
+                    }
+                  } @else if (gameIsSubmitted()) {
+                    <!-- Show what they should have answered when not answered -->
+                    <p class="mb-1 text-sm font-semibold text-gray-700">
+                      Your answer: Not provided
+                    </p>
+                    <p class="text-sm font-semibold text-gray-700">
+                      Correct answer:
+                      {{ item.correctCategory === 'equity' ? 'Equity' : 'Liabilities' }}
+                    </p>
+                  }
+                </div>
+
+                <!-- Detailed Explanation -->
+                <div
+                  class="explanation-text"
+                  [ngClass]="{
+                    'text-green-700': isAnswerCorrect(item.id) && getSelectedAnswer(item.id),
+                    'text-red-700': !isAnswerCorrect(item.id) && getSelectedAnswer(item.id),
+                    'text-gray-700': !getSelectedAnswer(item.id) && gameIsSubmitted(),
+                  }"
+                >
+                  @if (item.correctCategory === 'equity') {
+                    @switch (item.id) {
+                      @case ('owners-investment') {
+                        <div class="mb-2 text-center">
+                          <strong>💰 Owner's Investment</strong> - This is YOUR money!
+                        </div>
+                        <div class="text-sm">
+                          When you start a lemonade stand, you use your own saved money to buy
+                          supplies like cups, lemons, and sugar. This money becomes
+                          <strong>equity</strong> because it belongs to you, the business owner!
+                        </div>
+                      }
+                      @case ('retained-earnings') {
+                        <div class="mb-2 text-center">
+                          <strong>📈 Retained Earnings</strong> - Profits you keep!
+                        </div>
+                        <div class="text-sm">
+                          When your lemonade stand makes money, you can either take it home
+                          (dividends) or keep it in the business to buy more supplies. The money you
+                          keep is called <strong>retained earnings</strong> - it's still yours!
+                        </div>
+                      }
+                      @case ('piggy-bank-savings') {
+                        <div class="mb-2 text-center">
+                          <strong>🐷 Piggy Bank Savings</strong> - Your own saved money!
+                        </div>
+                        <div class="text-sm">
+                          This is money you saved up from your allowance and put into your piggy
+                          bank! When you use it for your lemonade stand, it becomes
+                          <strong>equity</strong>
+                          because it's YOUR money that you're investing in your business.
+                        </div>
+                      }
+                      @case ('birthday-money') {
+                        <div class="mb-2 text-center">
+                          <strong>🎂 Birthday Money</strong> - Gift money you invested!
+                        </div>
+                        <div class="text-sm">
+                          Happy birthday! When you use birthday gift money for your lemonade stand,
+                          it becomes <strong>equity</strong> because once it's given to you, it's
+                          YOUR money to invest in your business!
+                        </div>
+                      }
+                      @case ('chore-earnings') {
+                        <div class="mb-2 text-center">
+                          <strong>🧹 Chore Money</strong> - Money you earned!
+                        </div>
+                        <div class="text-sm">
+                          You worked hard doing extra chores to earn this money! When you put your
+                          hard-earned money into the lemonade stand, it's <strong>equity</strong>
+                          because you earned it and it belongs to you.
+                        </div>
+                      }
+                      @case ('lemonade-profits') {
+                        <div class="mb-2 text-center">
+                          <strong>🍋 Lemonade Profits</strong> - Money your business made!
+                        </div>
+                        <div class="text-sm">
+                          Great job! Your lemonade stand made money, and you decided to keep it in
+                          the business instead of spending it. These profits are
+                          <strong>equity</strong>
+                          because they belong to you, the business owner!
+                        </div>
+                      }
+                      @default {
+                        <div class="mb-2 text-center">
+                          <strong>🏦 Equity</strong> - Money that belongs to the owner!
+                        </div>
+                        <div class="text-sm">
+                          This represents the owner's claim on the business. It's like your share of
+                          the pie - the more equity, the more the business belongs to you!
+                        </div>
+                      }
+                    }
+                  } @else {
+                    @switch (item.id) {
+                      @case ('bank-loan') {
+                        <div class="mb-2 text-center">
+                          <strong>🏦 Bank Loan</strong> - Borrowed money to pay back!
+                        </div>
+                        <div class="text-sm">
+                          Sometimes you need more money than you have saved. A bank loan is when the
+                          bank gives you money now, but you promise to pay it back later with a
+                          little extra (interest). It's like borrowing from a friend!
+                        </div>
+                      }
+                      @case ('accounts-payable') {
+                        <div class="mb-2 text-center">
+                          <strong>📋 Accounts Payable</strong> - Bills you haven't paid yet!
+                        </div>
+                        <div class="text-sm">
+                          When you buy lemons from a supplier but haven't paid them yet, that's
+                          <strong>accounts payable</strong>. It's like when you buy lunch and tell
+                          your friend "I'll pay you back tomorrow!"
+                        </div>
+                      }
+                      @case ('mom-dad-loan') {
+                        <div class="mb-2 text-center">
+                          <strong>👨‍👩‍👧‍👦 Loan from Parents</strong> - Money borrowed from family!
+                        </div>
+                        <div class="text-sm">
+                          Your parents lent you money to help start your lemonade stand! This is a
+                          <strong>liability</strong> because even though they're family, you
+                          promised to pay them back. It's money you owe!
+                        </div>
+                      }
+                      @case ('friend-loan') {
+                        <div class="mb-2 text-center">
+                          <strong>👫 Friend's Loan</strong> - Money borrowed from your buddy!
+                        </div>
+                        <div class="text-sm">
+                          Your best friend was so nice to lend you money for supplies! This is a
+                          <strong>liability</strong> because you need to pay your friend back.
+                          Friends help friends, but debts should be repaid!
+                        </div>
+                      }
+                      @case ('grocery-store-tab') {
+                        <div class="mb-2 text-center">
+                          <strong>🛒 Store Credit</strong> - Supplies you got but haven't paid for!
+                        </div>
+                        <div class="text-sm">
+                          The store let you take supplies now and pay later - how nice! This is a
+                          <strong>liability</strong> because you owe the store money. It's like
+                          having an IOU for your lemonade supplies!
+                        </div>
+                      }
+                      @case ('neighbor-advance') {
+                        <div class="mb-2 text-center">
+                          <strong>🏠 Neighbor's Advance</strong> - Payment for future lemonade!
+                        </div>
+                        <div class="text-sm">
+                          Your neighbor paid you early for next week's lemonade! This is a
+                          <strong>liability</strong> because you owe them lemonade. You got the
+                          money now, but you have to deliver the product later!
+                        </div>
+                      }
+                      @default {
+                        <div class="mb-2 text-center">
+                          <strong>📄 Liabilities</strong> - Money you owe to others!
+                        </div>
+                        <div class="text-sm">
+                          These are debts or promises to pay money to someone else. It's like an IOU
+                          - you got something now but need to pay for it later!
+                        </div>
+                      }
+                    }
+                  }
+                </div>
+
+                <!-- Try Again Button (Only for incorrect answers and if not submitted) -->
+                @if (!gameIsSubmitted() && !isAnswerCorrect(item.id)) {
+                  <div class="mt-4 text-center">
+                    <button
+                      (click)="clearAnswer(item.id)"
+                      class="py-2 px-4 text-sm font-medium rounded-lg transition-colors duration-200 bg-red-200 hover:bg-red-300 text-red-800"
+                    >
+                      🔄 Try Again
+                    </button>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Final Results -->
+      @if (allItemsAnswered()) {
+        <div
+          class="p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border-2 border-blue-200"
+        >
+          <div class="text-center">
+            <div class="mb-4 text-4xl">🎯</div>
+            <h3 class="mb-4 text-2xl font-bold text-blue-800">Challenge Complete!</h3>
+            <p class="mb-4 text-lg text-blue-700">
+              You got {{ correctAnswersCount() }} out of {{ getTotalItemsCount() }} questions
+              correct.
+            </p>
+            @if (canSubmit()) {
+              <div class="mb-4 p-4 bg-green-100 rounded-lg border border-green-300">
+                <div class="font-semibold text-green-800">
+                  🎉 Perfect score! You can submit your answers.
+                </div>
+              </div>
+              @if (gameIsSubmitted()) {
+                <div class="p-4 bg-blue-100 rounded-lg border border-blue-300">
+                  <div class="font-semibold text-blue-800">✅ Quiz submitted successfully!</div>
+                </div>
+              }
+            } @else {
+              @if (!gameIsSubmitted()) {
+                <div class="mb-4 p-4 bg-yellow-100 rounded-lg border border-yellow-300">
+                  <div class="text-yellow-800">
+                    💡 Review the incorrect answers and try again to get a perfect score!
+                  </div>
+                </div>
+              } @else {
+                <div class="p-4 bg-blue-100 rounded-lg border border-blue-300">
+                  <div class="font-semibold text-blue-800">✅ Quiz submitted successfully!</div>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

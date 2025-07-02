@@ -1,4 +1,4 @@
-<div class="p-4 mx-auto w-full max-w-6xl balance-sheet-game">
+<div class="p-4 mx-auto w-full max-w-6xl equity-liabilities-game">
   @if (!hasValidGameData()) {
     <div class="p-8 text-center">
       <div class="mb-4 text-4xl">⏳</div>
@@ -25,12 +25,9 @@
 
     <!-- Balance Sheet Summary -->
     <div class="p-4 mb-6 bg-gray-50 rounded-lg border border-gray-200">
-      <h3 class="mb-3 text-lg font-semibold text-gray-800">Balance Sheet Summary</h3>
+      <h3 class="mb-3 text-lg font-semibold text-gray-800">Equity & Liabilities Overview</h3>
       <div class="grid grid-cols-1 gap-4 text-sm md:grid-cols-3">
-        <div class="text-center">
-          <div class="font-medium text-green-700">Total Assets</div>
-          <div class="text-xl font-bold text-green-800">{{ formatCurrency(totalAssets()) }}</div>
-        </div>
+        <!-- Assets summary removed for this level -->
         <div class="text-center">
           <div class="font-medium text-red-700">Total Liabilities</div>
           <div class="text-xl font-bold text-red-800">{{ formatCurrency(totalLiabilities()) }}</div>
@@ -43,19 +40,7 @@
 
       <!-- Balance Check -->
       <div class="mt-3 text-center">
-        @if (isBalanced()) {
-          <div
-            class="inline-flex items-center py-1 px-3 text-sm font-medium text-green-800 bg-green-100 rounded-full"
-          >
-            ✅ Balanced (Assets = Liabilities + Equity)
-          </div>
-        } @else {
-          <div
-            class="inline-flex items-center py-1 px-3 text-sm font-medium text-red-800 bg-red-100 rounded-full"
-          >
-            ❌ Not Balanced ({{ formatCurrency(getBalanceDifference()) }} difference)
-          </div>
-        }
+        <!-- Balance check removed for equity/liabilities-only mode -->
       </div>
     </div>
 
@@ -97,59 +82,7 @@
 
       <!-- Balance Sheet Categories -->
       <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:col-span-3">
-        <!-- Assets Column -->
-        <div class="p-4 bg-green-50 rounded-lg border-2 border-green-200">
-          <h3
-            class="pb-2 mb-3 text-lg font-semibold text-center text-green-800 border-b border-green-300"
-          >
-            💰 Assets
-          </h3>
-          <div
-            class="space-y-2 min-h-[300px]"
-            (dragover)="onDragOver($event)"
-            (drop)="onDrop($event, 'assets')"
-          >
-            @for (item of assetsItems(); track trackByItemId($index, item)) {
-              <div class="p-3 bg-white rounded-lg border border-green-200 shadow-sm">
-                <div class="flex justify-between items-center">
-                  <div class="flex flex-1 items-center space-x-2">
-                    @if (item.icon) {
-                      <span class="text-lg">{{ item.icon }}</span>
-                    }
-                    <div>
-                      <div class="text-sm font-medium text-gray-900">{{ item.name }}</div>
-                      <div class="text-sm font-semibold text-green-600">
-                        {{ formatCurrency(item.amount) }}
-                      </div>
-                    </div>
-                  </div>
-                  @if (!gameIsSubmitted()) {
-                    <button
-                      (click)="removeItem(item.id)"
-                      class="ml-2 text-sm font-medium text-red-500 hover:text-red-700"
-                      title="Remove item"
-                    >
-                      ✕
-                    </button>
-                  }
-                </div>
-              </div>
-            } @empty {
-              <div
-                class="py-8 text-center text-green-600 rounded-lg border-2 border-green-300 border-dashed"
-              >
-                <div class="mb-2 text-3xl">💰</div>
-                <div class="text-sm">Drop assets here</div>
-                <div class="mt-1 text-xs text-green-500">Things you own with value</div>
-              </div>
-            }
-          </div>
-          <div class="pt-3 mt-3 border-t border-green-300">
-            <div class="font-semibold text-center text-green-800">
-              Total: {{ formatCurrency(totalAssets()) }}
-            </div>
-          </div>
-        </div>
+        <!-- Assets column removed for this level -->
 
         <!-- Liabilities Column -->
         <div class="p-4 bg-red-50 rounded-lg border-2 border-red-200">
@@ -264,15 +197,7 @@
     <!-- Progress Information -->
     <div class="mt-6 text-sm text-center text-gray-600">
       @if (allItemsPlaced()) {
-        @if (isBalanced()) {
-          <div class="font-medium text-green-600">
-            ✅ Perfect! Your balance sheet is complete and balanced.
-          </div>
-        } @else {
-          <div class="font-medium text-orange-600">
-            ⚠️ All items placed, but the balance sheet needs to be balanced.
-          </div>
-        }
+        <div class="font-medium text-green-600">✅ All items placed!</div>
       } @else {
         <div>{{ availableItems().length }} item(s) remaining to categorize</div>
       }

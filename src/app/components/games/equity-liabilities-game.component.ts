@@ -16,13 +16,14 @@ import {
 } from '../../models/game.models';
 
 @Component({
-  selector: 'app-balance-sheet-game',
+  selector: 'app-equity-liabilities-game',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './balance-sheet-game.component.html',
+  templateUrl: './equity-liabilities-game.component.html',
+  styleUrl: './equity-liabilities-game.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BalanceSheetGameComponent
+export class EquityLiabilitiesGameComponent
   extends BaseGameMixin<BalanceSheetGameData, BalanceSheetSubmissionData>
   implements
     BaseGameComponent<BalanceSheetGameData>,
@@ -38,9 +39,9 @@ export class BalanceSheetGameComponent
   readonly lessonId = input<string>();
   readonly levelId = input<string>();
 
-  private readonly itemPlacements = signal<Record<string, 'assets' | 'liabilities' | 'equity'>>({});
+  readonly itemPlacements = signal<Record<string, 'assets' | 'liabilities' | 'equity'>>({});
   private readonly submittedState = signal<boolean>(false);
-  private readonly draggedItem = signal<BalanceSheetItem | null>(null);
+  readonly selectedAnswers = signal<Record<string, 'equity' | 'liabilities'>>({});
 
   constructor() {
     super();
@@ -48,12 +49,18 @@ export class BalanceSheetGameComponent
       if (data?.itemPlacements) {
         this.itemPlacements.set(data.itemPlacements);
       }
+      if (data?.selectedAnswers) {
+        this.selectedAnswers.set(data.selectedAnswers);
+      }
+      // Set submitted state to true when loading submitted data
+      this.submittedState.set(true);
     });
   }
 
   saveUserSubmission(): void {
     this.saveSubmission(() => ({
       itemPlacements: this.itemPlacements(),
+      selectedAnswers: this.selectedAnswers(),
     }));
   }
 
@@ -73,13 +80,6 @@ export class BalanceSheetGameComponent
     return !!this.gameData()?.data?.items?.length;
   });
 
-  readonly assetsItems = computed(() => {
-    const items = this.gameData()?.data?.items || [];
-    const placements = this.itemPlacements();
-
-    return items.filter((item) => placements[item.id] === 'assets');
-  });
-
   readonly liabilitiesItems = computed(() => {
     const items = this.gameData()?.data?.items || [];
     const placements = this.itemPlacements();
@@ -94,20 +94,12 @@ export class BalanceSheetGameComponent
     return items.filter((item) => placements[item.id] === 'equity');
   });
 
-  readonly totalAssets = computed(() => {
-    return this.assetsItems().reduce((total, item) => total + item.amount, 0);
-  });
-
   readonly totalLiabilities = computed(() => {
     return this.liabilitiesItems().reduce((total, item) => total + item.amount, 0);
   });
 
   readonly totalEquity = computed(() => {
     return this.equityItems().reduce((total, item) => total + item.amount, 0);
-  });
-
-  readonly isBalanced = computed(() => {
-    return Math.abs(this.totalAssets() - (this.totalLiabilities() + this.totalEquity())) < 0.01;
   });
 
   readonly allItemsPlaced = computed(() => {
@@ -117,12 +109,27 @@ export class BalanceSheetGameComponent
   });
 
   readonly canSubmit = computed(() => {
-    // Only enable submit if all items are placed AND all are in their correct category
-    if (!this.allItemsPlaced() || this.gameIsSubmitted()) return false;
+    // All items must have been answered
     const items = this.gameData()?.data?.items || [];
-    const placements = this.itemPlacements();
-    // Every item must be placed in its correct category
-    return items.every((item) => placements[item.id] === item.correctCategory);
+    const answers = this.selectedAnswers();
+
+    if (items.length === 0 || Object.keys(answers).length !== items.length) return false;
+    if (this.gameIsSubmitted()) return false;
+
+    // Check if all answers are correct
+    return items.every((item) => answers[item.id] === item.correctCategory);
+  });
+
+  readonly allItemsAnswered = computed(() => {
+    const items = this.gameData()?.data?.items || [];
+    const answers = this.selectedAnswers();
+    return items.length > 0 && Object.keys(answers).length === items.length;
+  });
+
+  readonly correctAnswersCount = computed(() => {
+    const items = this.gameData()?.data?.items || [];
+    const answers = this.selectedAnswers();
+    return items.filter((item) => answers[item.id] === item.correctCategory).length;
   });
 
   readonly hasHints = this.createHasHintsComputed(this.gameData);
@@ -130,70 +137,61 @@ export class BalanceSheetGameComponent
   resetGame(): void {
     this.submittedState.set(false);
     this.itemPlacements.set({});
-    this.draggedItem.set(null);
+    this.selectedAnswers.set({});
   }
 
-  // Drag and Drop event handlers
-  onDragStart(event: DragEvent, item: BalanceSheetItem): void {
+  // Submit quiz answers
+  submitQuiz(): void {
+    if (!this.allItemsAnswered() || this.gameIsSubmitted()) return;
+
+    // Mark as submitted
+    this.submittedState.set(true);
+
+    // Save the submission
+    this.saveUserSubmission();
+  }
+
+  // Answer selection methods
+  selectAnswer(itemId: string, answer: 'equity' | 'liabilities'): void {
     if (this.gameIsSubmitted()) return;
 
-    this.draggedItem.set(item);
-    if (event.dataTransfer) {
-      event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('text/plain', item.id);
-    }
-  }
-
-  onDragOver(event: DragEvent): void {
-    event.preventDefault();
-    if (event.dataTransfer) {
-      event.dataTransfer.dropEffect = 'move';
-    }
-  }
-
-  onDrop(event: DragEvent, category: 'assets' | 'liabilities' | 'equity'): void {
-    event.preventDefault();
-
-    if (this.gameIsSubmitted()) return;
-
-    const draggedItem = this.draggedItem();
-    if (!draggedItem) return;
-
-    const currentPlacements = this.itemPlacements();
-    this.itemPlacements.set({
-      ...currentPlacements,
-      [draggedItem.id]: category,
+    // Update selected answer
+    const currentAnswers = this.selectedAnswers();
+    this.selectedAnswers.set({
+      ...currentAnswers,
+      [itemId]: answer,
     });
-
-    this.draggedItem.set(null);
   }
 
-  onDragEnd(): void {
-    this.draggedItem.set(null);
-  }
-
-  // Remove item from category (return to available items)
-  removeItem(itemId: string): void {
+  clearAnswer(itemId: string): void {
     if (this.gameIsSubmitted()) return;
 
-    const currentPlacements = this.itemPlacements();
-    const newPlacements = { ...currentPlacements };
-    delete newPlacements[itemId];
-    this.itemPlacements.set(newPlacements);
+    // Remove the answer
+    const currentAnswers = this.selectedAnswers();
+    const newAnswers = { ...currentAnswers };
+    delete newAnswers[itemId];
+    this.selectedAnswers.set(newAnswers);
   }
+
+  getSelectedAnswer(itemId: string): 'equity' | 'liabilities' | null {
+    return this.selectedAnswers()[itemId] || null;
+  }
+
+  isAnswerCorrect(itemId: string): boolean {
+    const item = this.gameData()?.data?.items?.find((i) => i.id === itemId);
+    const selectedAnswer = this.selectedAnswers()[itemId];
+    return item && selectedAnswer ? selectedAnswer === item.correctCategory : false;
+  }
+
+  readonly getAnsweredCount = computed(() => {
+    return Object.keys(this.selectedAnswers()).length;
+  });
+
+  readonly getTotalItemsCount = computed(() => {
+    return this.gameData()?.data?.items?.length || 0;
+  });
 
   trackByItemId(index: number, item: BalanceSheetItem): string {
     return item.id || index.toString();
-  }
-
-  formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
-  }
-
-  getBalanceDifference(): number {
-    return Math.abs(this.totalAssets() - (this.totalLiabilities() + this.totalEquity()));
   }
 }

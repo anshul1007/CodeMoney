@@ -1,0 +1,129 @@
+{
+  "gameData": {
+    "currentLevel": {
+      "title": "Sort Equity and Liabilities",
+      "description": "Sort each item into the correct category: Equity or Liabilities. There are no assets in this level.",
+      "stars": 3
+    },
+    "scene": "A busy lemonade stand with a financial workspace where you need to organize your business records.",
+    "prompt": "Now that your lemonade stand is running, it's time to organize your finances! Sort each item into the correct category: Equity or Liabilities.",
+    "gameType": "equity-liabilities",
+    "hints": [
+      "Equity represents the owner's claims on the business.",
+      "Liabilities are what the business owes to others."
+    ],
+    "data": {
+      "items": [
+        {
+          "id": "owners-investment",
+          "name": "Owner's Investment",
+          "description": "Money put into the business by the owner",
+          "icon": "💰",
+          "amount": 100,
+          "correctCategory": "equity"
+        },
+        {
+          "id": "bank-loan",
+          "name": "Bank Loan",
+          "description": "Money borrowed from the bank that must be repaid",
+          "icon": "🏦",
+          "amount": 50,
+          "correctCategory": "liabilities"
+        },
+        {
+          "id": "retained-earnings",
+          "name": "Retained Earnings",
+          "description": "Profits kept in the business instead of being paid out",
+          "icon": "📈",
+          "amount": 25,
+          "correctCategory": "equity"
+        },
+        {
+          "id": "accounts-payable",
+          "name": "Accounts Payable",
+          "description": "Money owed to suppliers for goods or services",
+          "icon": "📋",
+          "amount": 30,
+          "correctCategory": "liabilities"
+        },
+        {
+          "id": "piggy-bank-savings",
+          "name": "Piggy Bank Savings",
+          "description": "Your own saved allowance money you put into the business",
+          "icon": "🐷",
+          "amount": 20,
+          "correctCategory": "equity"
+        },
+        {
+          "id": "mom-dad-loan",
+          "name": "Loan from Parents",
+          "description": "Money borrowed from mom and dad that you need to pay back",
+          "icon": "👨‍👩‍👧‍👦",
+          "amount": 40,
+          "correctCategory": "liabilities"
+        },
+        {
+          "id": "birthday-money",
+          "name": "Birthday Money",
+          "description": "Gift money from your birthday that you invested in the stand",
+          "icon": "🎂",
+          "amount": 15,
+          "correctCategory": "equity"
+        },
+        {
+          "id": "friend-loan",
+          "name": "Friend's Loan",
+          "description": "Money your best friend lent you for supplies",
+          "icon": "👫",
+          "amount": 10,
+          "correctCategory": "liabilities"
+        },
+        {
+          "id": "chore-earnings",
+          "name": "Chore Money",
+          "description": "Money you earned from doing extra chores at home",
+          "icon": "🧹",
+          "amount": 18,
+          "correctCategory": "equity"
+        },
+        {
+          "id": "grocery-store-tab",
+          "name": "Store Credit",
+          "description": "Supplies you got from the store but haven't paid for yet",
+          "icon": "🛒",
+          "amount": 12,
+          "correctCategory": "liabilities"
+        },
+        {
+          "id": "lemonade-profits",
+          "name": "Lemonade Profits",
+          "description": "Money you made from selling lemonade that you kept in the business",
+          "icon": "🍋",
+          "amount": 35,
+          "correctCategory": "equity"
+        },
+        {
+          "id": "neighbor-advance",
+          "name": "Neighbor's Advance",
+          "description": "Your neighbor paid you early for next week's lemonade delivery",
+          "icon": "🏠",
+          "amount": 8,
+          "correctCategory": "liabilities"
+        }
+      ],
+      "categories": [
+        {
+          "id": "equity",
+          "label": "Equity"
+        },
+        {
+          "id": "liabilities",
+          "label": "Liabilities"
+        }
+      ],
+      "submitPrompt": "Submit your answers when all items are sorted.",
+      "successMessage": "Great job! You've correctly sorted equity and liabilities.",
+      "failureMessage": "Try again! Make sure each item is in the correct category."
+    }
+  }
+}

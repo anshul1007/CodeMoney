@@ -100,6 +100,7 @@ export interface BalanceSheetGameData extends BaseGameData {
 
 export interface BalanceSheetSubmissionData {
   itemPlacements: Record<string, 'assets' | 'liabilities' | 'equity'>;
+  selectedAnswers?: Record<string, 'equity' | 'liabilities'>;
 }
 
 export interface RecapNote {

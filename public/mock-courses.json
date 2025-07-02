@@ -63,7 +63,7 @@
                   "isUnlocked": false,
                   "stars": 0,
                   "prevLevelId": "funding-sources",
-                  "nextLevelId": null
+                  "nextLevelId": "equity-liabilities"
                 }
               ]
             },
@@ -72,15 +72,15 @@
               "title": "📊 Lesson 2: Manage Your Money",
               "description": "Learn how to organize and track your business finances.",
               "icon": "📊",
-              "isUnlocked": false,
+              "isUnlocked": true,
               "levels": [
                 {
-                  "id": "balance-sheet",
-                  "title": "📋 Level 1: Create Your Balance Sheet",
-                  "description": "Organize your assets, liabilities, and equity into a balance sheet.",
-                  "objective": "Learn to categorize your financial items into assets, liabilities, and equity.",
+                  "id": "equity-liabilities",
+                  "title": "📋 Level 1: Equity & Liabilities Sort",
+                  "description": "Sort items into equity and liabilities only.",
+                  "objective": "Learn to categorize your financial items into equity and liabilities.",
                   "isCompleted": false,
-                  "isUnlocked": false,
+                  "isUnlocked": true,
                   "stars": 0,
                   "prevLevelId": null,
                   "nextLevelId": null

@@ -23,7 +23,7 @@ export interface GameRegistry {
     component: () => Promise<Type<BaseGameComponent>>;
     dataType: ResourceAllocationGameData;
   };
-  'balance-sheet': {
+  'equity-liabilities': {
     component: () => Promise<Type<BaseGameComponent>>;
     dataType: BalanceSheetGameData;
   };
@@ -63,10 +63,10 @@ export const GAME_REGISTRY: GameRegistry = {
       ),
     dataType: {} as ResourceAllocationGameData,
   },
-  'balance-sheet': {
+  'equity-liabilities': {
     component: () =>
-      import('../components/games/balance-sheet-game.component').then(
-        (m) => m.BalanceSheetGameComponent as Type<BaseGameComponent>,
+      import('../components/games/equity-liabilities-game.component').then(
+        (m) => m.EquityLiabilitiesGameComponent as Type<BaseGameComponent>,
       ),
     dataType: {} as BalanceSheetGameData,
   },
