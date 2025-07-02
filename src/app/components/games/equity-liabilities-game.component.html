@@ -64,7 +64,7 @@
           <div class="card-container">
             <!-- Main Card -->
             <div
-              class="card-content h-full bg-white rounded-lg border-2 shadow-sm transition-all duration-300"
+              class="h-full bg-white rounded-lg border-2 shadow-sm transition-all duration-300 card-content"
               [ngClass]="{
                 'border-gray-300': !getSelectedAnswer(item.id),
                 'border-green-400 shadow-green-100':
@@ -144,7 +144,7 @@
                 }"
               >
                 <!-- Result Header -->
-                <div class="text-center mb-3">
+                <div class="mb-3 text-center">
                   @if (getSelectedAnswer(item.id)) {
                     @if (isAnswerCorrect(item.id)) {
                       <p class="mb-1 text-lg font-bold text-green-800">✅ Correct!</p>
@@ -159,7 +159,7 @@
                 </div>
 
                 <!-- Answer Comparison -->
-                <div class="text-center mb-3">
+                <div class="mb-3 text-center">
                   @if (getSelectedAnswer(item.id)) {
                     @if (isAnswerCorrect(item.id)) {
                       <!-- Just show the answer for correct responses -->
@@ -352,7 +352,7 @@
                   <div class="mt-4 text-center">
                     <button
                       (click)="clearAnswer(item.id)"
-                      class="py-2 px-4 text-sm font-medium rounded-lg transition-colors duration-200 bg-red-200 hover:bg-red-300 text-red-800"
+                      class="py-2 px-4 text-sm font-medium text-red-800 bg-red-200 rounded-lg transition-colors duration-200 hover:bg-red-300"
                     >
                       🔄 Try Again
                     </button>
@@ -377,7 +377,7 @@
               correct.
             </p>
             @if (canSubmit()) {
-              <div class="mb-4 p-4 bg-green-100 rounded-lg border border-green-300">
+              <div class="p-4 mb-4 bg-green-100 rounded-lg border border-green-300">
                 <div class="font-semibold text-green-800">
                   🎉 Perfect score! You can submit your answers.
                 </div>
@@ -389,7 +389,7 @@
               }
             } @else {
               @if (!gameIsSubmitted()) {
-                <div class="mb-4 p-4 bg-yellow-100 rounded-lg border border-yellow-300">
+                <div class="p-4 mb-4 bg-yellow-100 rounded-lg border border-yellow-300">
                   <div class="text-yellow-800">
                     💡 Review the incorrect answers and try again to get a perfect score!
                   </div>
