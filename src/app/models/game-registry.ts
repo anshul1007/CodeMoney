@@ -3,6 +3,7 @@ import { Type } from '@angular/core';
 import { BaseGameComponent } from './base-game.models';
 import {
   BalanceSheetGameData,
+  InteractiveBalanceGameData,
   MultiChoiceGameData,
   RecapGameData,
   ResourceAllocationGameData,
@@ -22,6 +23,14 @@ export interface GameRegistry {
   'resource-allocation': {
     component: () => Promise<Type<BaseGameComponent>>;
     dataType: ResourceAllocationGameData;
+  };
+  'balance-equation': {
+    component: () => Promise<Type<BaseGameComponent>>;
+    dataType: BalanceSheetGameData;
+  };
+  'interactive-balance': {
+    component: () => Promise<Type<BaseGameComponent>>;
+    dataType: InteractiveBalanceGameData;
   };
   'equity-liabilities': {
     component: () => Promise<Type<BaseGameComponent>>;
@@ -62,6 +71,20 @@ export const GAME_REGISTRY: GameRegistry = {
         (m) => m.FundingGameComponent as Type<BaseGameComponent>,
       ),
     dataType: {} as ResourceAllocationGameData,
+  },
+  'balance-equation': {
+    component: () =>
+      import('../components/games/balance-equation-game.component').then(
+        (m) => m.BalanceEquationGameComponent as Type<BaseGameComponent>,
+      ),
+    dataType: {} as BalanceSheetGameData,
+  },
+  'interactive-balance': {
+    component: () =>
+      import('../components/games/interactive-balance-game.component').then(
+        (m) => m.InteractiveBalanceGameComponent as Type<BaseGameComponent>,
+      ),
+    dataType: {} as InteractiveBalanceGameData,
   },
   'equity-liabilities': {
     component: () =>

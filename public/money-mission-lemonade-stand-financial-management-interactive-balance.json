@@ -1,0 +1,135 @@
+{
+  "gameData": {
+    "currentLevel": {
+      "id": "interactive-balance",
+      "title": "Build Your Business & Balance Your Books",
+      "description": "Start with some money and build your lemonade stand by buying what you need!",
+      "stars": 0
+    },
+    "scene": "🎯 Welcome to Lucy's Interactive Lemonade Stand Builder! You have some money to start with - some is your own savings (equity) and some is borrowed from your parents (loan). Your mission is to spend wisely and build the perfect lemonade stand while keeping your books balanced!",
+    "prompt": "You start with $300 total ($200 from your savings + $100 loan from parents). Buy everything you need for your lemonade stand and watch how each purchase affects your balance sheet. Remember: Assets = Liabilities + Equity!",
+    "hints": [
+      "You have $300 total to spend: $200 of your own money (equity) + $100 loan (liability)",
+      "Every item you buy becomes an asset, but your cash (also an asset) goes down",
+      "Your total assets should always equal your liabilities plus equity",
+      "Try to spend all your money to see the equation in action!",
+      "You can sell items back if you change your mind"
+    ],
+    "gameType": "interactive-balance",
+    "data": {
+      "startingEquity": 200,
+      "startingLoan": 100,
+      "instructions": "Start shopping! Every purchase shows you how the balance sheet equation works in real life.",
+      "availableItems": [
+        {
+          "id": "lemonade-stand-table",
+          "name": "Lemonade Stand Table",
+          "description": "A sturdy wooden table to set up your stand",
+          "icon": "🏪",
+          "amount": 80,
+          "category": "assets",
+          "explanation": "This table is an asset because it's something valuable your business owns!"
+        },
+        {
+          "id": "large-pitcher",
+          "name": "Large Glass Pitcher",
+          "description": "Perfect for mixing and serving lemonade",
+          "icon": "🥤",
+          "amount": 25,
+          "category": "assets",
+          "explanation": "Equipment like this pitcher helps your business operate and has lasting value."
+        },
+        {
+          "id": "premium-lemons",
+          "name": "Premium Fresh Lemons",
+          "description": "The juiciest lemons for the best lemonade (20 lemons)",
+          "icon": "🍋",
+          "amount": 30,
+          "category": "assets",
+          "explanation": "Inventory like lemons are assets because they will be used to make products for sale."
+        },
+        {
+          "id": "sugar-supply",
+          "name": "Sugar Supply",
+          "description": "5 pounds of sugar to sweeten your lemonade",
+          "icon": "🍯",
+          "amount": 15,
+          "category": "assets",
+          "explanation": "Raw materials like sugar are assets that will become part of your final product."
+        },
+        {
+          "id": "cups-and-napkins",
+          "name": "Cups & Napkins Set",
+          "description": "100 eco-friendly cups and napkins",
+          "icon": "🥤",
+          "amount": 20,
+          "category": "assets",
+          "explanation": "Supplies needed to serve customers are business assets."
+        },
+        {
+          "id": "ice-cooler",
+          "name": "Ice Cooler",
+          "description": "Keep your lemonade cold and refreshing",
+          "icon": "🧊",
+          "amount": 40,
+          "category": "assets",
+          "explanation": "This cooler is equipment that will help your business for a long time."
+        },
+        {
+          "id": "colorful-sign",
+          "name": "Colorful Lemonade Sign",
+          "description": "Attract customers with this bright, fun sign",
+          "icon": "🪧",
+          "amount": 25,
+          "category": "assets",
+          "explanation": "Marketing materials like signs help bring in customers and are business assets."
+        },
+        {
+          "id": "cash-box",
+          "name": "Cash Box",
+          "description": "Keep your earnings safe and organized",
+          "icon": "💰",
+          "amount": 15,
+          "category": "assets",
+          "explanation": "A cash box is equipment that helps you manage your business operations."
+        },
+        {
+          "id": "measuring-tools",
+          "name": "Measuring Cups & Spoons",
+          "description": "Get the perfect lemonade recipe every time",
+          "icon": "🥄",
+          "amount": 12,
+          "category": "assets",
+          "explanation": "Measuring tools are equipment that help ensure consistent quality."
+        },
+        {
+          "id": "cleaning-supplies",
+          "name": "Cleaning Supplies",
+          "description": "Keep everything clean and sanitary",
+          "icon": "🧽",
+          "amount": 18,
+          "category": "assets",
+          "explanation": "Supplies needed to maintain your business are assets."
+        },
+        {
+          "id": "umbrella",
+          "name": "Colorful Umbrella",
+          "description": "Provide shade for customers and protect from rain",
+          "icon": "☂️",
+          "amount": 35,
+          "category": "assets",
+          "explanation": "Equipment that improves customer experience is a valuable business asset."
+        },
+        {
+          "id": "folding-chairs",
+          "name": "Two Folding Chairs",
+          "description": "Seating for customers to enjoy their lemonade",
+          "icon": "🪑",
+          "amount": 25,
+          "category": "assets",
+          "explanation": "Furniture that serves customers is equipment owned by the business."
+        }
+      ]
+    }
+  }
+}

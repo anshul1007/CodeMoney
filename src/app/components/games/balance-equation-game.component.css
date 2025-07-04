@@ -1,0 +1,72 @@
+/* Balance Equation Game Styles */
+.balance-equation-game {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Card hover effects */
+.balance-equation-game .cursor-move:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Drag and drop zones */
+.balance-equation-game [class*='border-dashed'] {
+  transition: all 0.3s ease;
+}
+
+.balance-equation-game [class*='border-dashed']:hover {
+  border-color: #6b7280;
+  background-color: #f9fafb;
+}
+
+/* Balance status indicator */
+.balance-equation-game .text-green-600 {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Category totals */
+.balance-equation-game .font-bold {
+  font-weight: 700;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .balance-equation-game .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .balance-equation-game .lg\:col-span-3 {
+    grid-column: span 1;
+  }
+
+  .balance-equation-game .md\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Submit button animation */
+.balance-equation-game button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Enhanced visual feedback */
+.balance-equation-game .shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.balance-equation-game .shadow-md {
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}

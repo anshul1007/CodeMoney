@@ -1,0 +1,284 @@
+<!-- Interactive Balance Sheet Game Component -->
+<div class="p-4 mx-auto w-full max-w-7xl interactive-balance-game">
+  @if (!hasValidGameData()) {
+    <div class="p-8 text-center">
+      <div class="mb-4 text-4xl">⏳</div>
+      <div class="mb-2 text-lg font-semibold text-gray-600">
+        Loading Interactive Balance Game...
+      </div>
+      <div class="text-sm text-gray-500">
+        @if (!gameData()) {
+          Game data is loading...
+        } @else if (!gameData()?.data) {
+          Game configuration is missing...
+        } @else if (!gameData()?.data?.availableItems) {
+          Game items are missing...
+        } @else {
+          Preparing game items...
+        }
+      </div>
+    </div>
+  } @else {
+    <!-- Game Instructions -->
+    <div class="p-4 mb-6 bg-blue-50 rounded-lg border border-blue-200">
+      <h3 class="mb-3 text-lg font-semibold text-blue-800">💡 Your Mission</h3>
+      <div class="mb-3 text-center">
+        <div class="inline-block p-3 bg-white rounded-lg border-2 border-blue-400 shadow-sm">
+          <span class="text-lg font-bold text-green-600">Assets</span>
+          <span class="mx-2 text-lg font-bold text-gray-600">=</span>
+          <span class="text-lg font-bold text-red-600">Liabilities</span>
+          <span class="mx-2 text-lg font-bold text-gray-600">+</span>
+          <span class="text-lg font-bold text-blue-600">Equity</span>
+        </div>
+      </div>
+      <div class="text-sm text-blue-800">
+        <p class="mb-2">🎯 You have some money to start your lemonade stand business!</p>
+        <p class="mb-2">
+          🛒 Buy items for your business and watch how it affects your balance sheet.
+        </p>
+        <p class="mb-2">
+          ⚖️ Your goal is to buy at least one item and see the balance sheet in action!
+        </p>
+        <p class="text-xs text-blue-600">
+          💡 Tip: You don't need to spend all your money - leftover cash is still an asset!
+        </p>
+      </div>
+    </div>
+
+    <!-- Starting Capital Overview -->
+    <div class="grid grid-cols-1 gap-4 mb-6 md:grid-cols-2">
+      <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+        <h4 class="mb-2 text-lg font-semibold text-blue-800">💼 Your Starting Capital</h4>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span>Your Investment (Equity):</span>
+            <span class="font-bold text-blue-600">{{ formatCurrency(startingEquity()) }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Loan from Parents:</span>
+            <span class="font-bold text-red-600">{{ formatCurrency(startingLoan()) }}</span>
+          </div>
+          <div class="pt-2 border-t border-blue-300">
+            <div class="flex justify-between">
+              <span class="font-semibold">Total Cash Available:</span>
+              <span class="font-bold text-green-600">{{
+                formatCurrency(startingEquity() + startingLoan())
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+        <h4 class="mb-2 text-lg font-semibold text-green-800">💰 Current Cash</h4>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-green-600">{{ formatCurrency(availableCash()) }}</div>
+          <div class="text-sm text-green-700">Available to spend</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current Balance Sheet -->
+    <div class="p-4 mb-6 bg-gray-50 rounded-lg border border-gray-200">
+      <h3 class="mb-3 text-lg font-semibold text-gray-800">📊 Current Balance Sheet</h3>
+      <div class="grid grid-cols-1 gap-4 text-sm md:grid-cols-3">
+        <div class="text-center">
+          <div class="font-medium text-green-700">Assets</div>
+          <div class="text-xl font-bold text-green-800">{{ formatCurrency(totalAssets()) }}</div>
+          <div class="text-xs text-green-600">Cash + Items</div>
+        </div>
+        <div class="text-center">
+          <div class="font-medium text-red-700">Liabilities</div>
+          <div class="text-xl font-bold text-red-800">{{ formatCurrency(totalLiabilities()) }}</div>
+          <div class="text-xs text-red-600">Loans</div>
+        </div>
+        <div class="text-center">
+          <div class="font-medium text-blue-700">Equity</div>
+          <div class="text-xl font-bold text-blue-800">{{ formatCurrency(totalEquity()) }}</div>
+          <div class="text-xs text-blue-600">Your Investment</div>
+        </div>
+      </div>
+
+      <!-- Balance Status -->
+      <div class="mt-4 text-center">
+        @if (isBalanced()) {
+          <div class="p-3 bg-green-100 rounded-lg border border-green-300">
+            <div class="font-semibold text-green-800">✅ Your balance sheet is balanced!</div>
+            <div class="text-sm text-green-700">
+              {{ formatCurrency(totalAssets()) }} = {{ formatCurrency(totalLiabilities()) }} +
+              {{ formatCurrency(totalEquity()) }}
+            </div>
+          </div>
+        } @else {
+          <div class="p-3 bg-yellow-100 rounded-lg border border-yellow-300">
+            <div class="font-semibold text-yellow-800">⚠️ Balance sheet not balanced yet!</div>
+            <div class="text-sm text-yellow-700">Keep buying items to balance the equation</div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Game Interface -->
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <!-- Shopping Area -->
+      <div class="order-2 lg:order-1">
+        <h3 class="pb-2 mb-4 text-lg font-semibold text-gray-800 border-b">🛒 Items You Can Buy</h3>
+        <div class="space-y-3">
+          @for (item of availableItems(); track trackByItemId($index, item)) {
+            <div class="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+              <div class="flex justify-between items-start">
+                <div class="flex items-center space-x-3">
+                  <span class="text-2xl">{{ item.icon }}</span>
+                  <div>
+                    <h4 class="font-semibold text-gray-800">{{ item.name }}</h4>
+                    <p class="text-sm text-gray-600">{{ item.description }}</p>
+                    <div class="text-lg font-bold text-green-600">
+                      {{ formatCurrency(item.amount) }}
+                    </div>
+                  </div>
+                </div>
+                <div class="text-right">
+                  @if (canPurchaseItem()(item)) {
+                    <button
+                      (click)="purchaseItem(item)"
+                      class="py-2 px-4 font-semibold text-white bg-green-600 rounded-lg transition-colors duration-200 hover:bg-green-700"
+                    >
+                      🛍️ Buy
+                    </button>
+                  } @else if (availableCash() < item.amount) {
+                    <button
+                      disabled
+                      class="py-2 px-4 font-semibold text-gray-400 bg-gray-200 rounded-lg cursor-not-allowed"
+                    >
+                      💸 Not enough cash
+                    </button>
+                  } @else {
+                    <button
+                      disabled
+                      class="py-2 px-4 font-semibold text-gray-400 bg-gray-200 rounded-lg cursor-not-allowed"
+                    >
+                      ✅ Submitted
+                    </button>
+                  }
+                </div>
+              </div>
+            </div>
+          } @empty {
+            <div class="p-8 text-center text-gray-500">
+              <div class="mb-2 text-4xl">🎉</div>
+              <div class="text-lg font-semibold">All items purchased!</div>
+              <div class="text-sm">Great job managing your money!</div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Your Assets -->
+      <div class="order-1 lg:order-2">
+        <h3 class="pb-2 mb-4 text-lg font-semibold text-gray-800 border-b">
+          🏢 Your Business Assets
+        </h3>
+        <div class="space-y-3">
+          <!-- Cash -->
+          <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">💰</span>
+                <div>
+                  <h4 class="font-semibold text-gray-800">Cash</h4>
+                  <p class="text-sm text-gray-600">Money available to spend</p>
+                </div>
+              </div>
+              <div class="text-lg font-bold text-green-600">
+                {{ formatCurrency(availableCash()) }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Purchased Items -->
+          @for (item of purchasedItems(); track trackByItemId($index, item)) {
+            <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                  <span class="text-2xl">{{ item.icon }}</span>
+                  <div>
+                    <h4 class="font-semibold text-gray-800">{{ item.name }}</h4>
+                    <p class="text-sm text-gray-600">{{ item.description }}</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <div class="text-lg font-bold text-blue-600">
+                    {{ formatCurrency(item.amount) }}
+                  </div>
+                  @if (!gameIsSubmitted()) {
+                    <button
+                      (click)="sellItem(item)"
+                      class="mt-1 text-sm font-medium text-red-500 hover:text-red-700"
+                      title="Sell this item"
+                    >
+                      🔄 Sell
+                    </button>
+                  }
+                </div>
+              </div>
+            </div>
+          } @empty {
+            <div class="p-8 text-center text-gray-400">
+              <div class="mb-2 text-4xl">🛍️</div>
+              <div class="text-sm">No items purchased yet</div>
+              <div class="text-xs">Start shopping to build your business!</div>
+            </div>
+          }
+        </div>
+
+        <!-- Summary -->
+        <div class="mt-4 p-3 bg-gray-100 rounded-lg">
+          <div class="text-center">
+            <div class="text-sm text-gray-600">Total Assets</div>
+            <div class="text-xl font-bold text-gray-800">{{ formatCurrency(totalAssets()) }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress & Submit -->
+    <div class="mt-6 text-center">
+      @if (purchasedItems().length > 0 && isBalanced()) {
+        @if (canSubmit()) {
+          <div class="mb-4 p-4 bg-green-100 rounded-lg border border-green-300">
+            <div class="font-semibold text-green-800">
+              🎯 Perfect! You've made some purchases and balanced your books!
+            </div>
+            <div class="text-sm text-green-700">You're ready to submit your balance sheet.</div>
+          </div>
+          <button
+            (click)="submittedState.set(true); saveUserSubmission()"
+            class="py-3 px-6 font-bold text-white bg-green-600 rounded-lg transition-colors duration-200 hover:bg-green-700"
+          >
+            🎉 Submit My Balance Sheet
+          </button>
+        } @else if (gameIsSubmitted()) {
+          <div class="p-4 bg-green-100 rounded-lg border border-green-300">
+            <div class="font-semibold text-green-800">✅ Balance sheet submitted successfully!</div>
+            <div class="text-sm text-green-700">
+              You've mastered the art of balancing a business budget!
+            </div>
+          </div>
+        }
+      } @else {
+        <div class="p-4 bg-blue-100 rounded-lg border border-blue-300">
+          <div class="font-semibold text-blue-800">💡 Keep Going!</div>
+          <div class="text-sm text-blue-700">
+            @if (purchasedItems().length === 0) {
+              Try buying your first item to see how the balance sheet works!
+            } @else if (!isBalanced()) {
+              Great start! Your balance sheet is working perfectly.
+            } @else {
+              You have {{ formatCurrency(availableCash()) }} available. Feel free to buy more items!
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

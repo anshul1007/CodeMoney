@@ -1,0 +1,100 @@
+{
+  "gameData": {
+    "currentLevel": {
+      "id": "balance-equation",
+      "title": "The Balance Sheet Equation",
+      "description": "Master the fundamental accounting equation: Assets = Liabilities + Equity",
+      "stars": 0
+    },
+    "scene": "🎯 Welcome to Lucy's Lemonade Stand Balance Sheet Challenge! Now that you understand equity and liabilities, let's learn the most important rule in accounting - the balance sheet equation. Every successful business owner needs to know this!",
+    "prompt": "Help Lucy organize her lemonade stand's finances using the balance sheet equation. Drag each item to the correct category and make sure the equation balances: Assets = Liabilities + Equity",
+    "hints": [
+      "Assets are things the business owns (cash, supplies, equipment)",
+      "Liabilities are debts the business owes to others (loans, bills to pay)",
+      "Equity is the owner's investment and retained earnings",
+      "The equation MUST balance: Total Assets = Total Liabilities + Total Equity",
+      "If the equation doesn't balance, check if items are in the wrong category"
+    ],
+    "gameType": "balance-equation",
+    "data": {
+      "instructions": "Drag each item to the correct category. Remember: Assets = Liabilities + Equity. The balance sheet must balance perfectly!",
+      "items": [
+        {
+          "id": "cash-register",
+          "name": "Cash in Register",
+          "description": "Money from lemonade sales",
+          "icon": "💰",
+          "amount": 150,
+          "correctCategory": "assets"
+        },
+        {
+          "id": "lemonade-supplies",
+          "name": "Lemonade Supplies",
+          "description": "Lemons, sugar, cups, and ice",
+          "icon": "🍋",
+          "amount": 75,
+          "correctCategory": "assets"
+        },
+        {
+          "id": "lemonade-stand",
+          "name": "Lemonade Stand",
+          "description": "The wooden stand table",
+          "icon": "🏪",
+          "amount": 100,
+          "correctCategory": "assets"
+        },
+        {
+          "id": "pitcher-and-spoons",
+          "name": "Pitcher & Spoons",
+          "description": "Equipment for making lemonade",
+          "icon": "🥤",
+          "amount": 25,
+          "correctCategory": "assets"
+        },
+        {
+          "id": "savings-account",
+          "name": "Business Savings",
+          "description": "Money saved from profits",
+          "icon": "🏦",
+          "amount": 50,
+          "correctCategory": "assets"
+        },
+        {
+          "id": "parent-loan",
+          "name": "Loan from Parents",
+          "description": "Money borrowed to start the business",
+          "icon": "👨‍👩‍👧‍👦",
+          "amount": 100,
+          "correctCategory": "liabilities"
+        },
+        {
+          "id": "supplier-credit",
+          "name": "Supplier Credit",
+          "description": "Money owed to the grocery store",
+          "icon": "🛒",
+          "amount": 50,
+          "correctCategory": "liabilities"
+        },
+        {
+          "id": "lucy-investment",
+          "name": "Lucy's Investment",
+          "description": "Her own money put into the business",
+          "icon": "💼",
+          "amount": 200,
+          "correctCategory": "equity"
+        },
+        {
+          "id": "retained-earnings",
+          "name": "Retained Earnings",
+          "description": "Profits kept in the business",
+          "icon": "📈",
+          "amount": 50,
+          "correctCategory": "equity"
+        }
+      ],
+      "totalAssets": 400,
+      "totalLiabilities": 150,
+      "totalEquity": 250
+    }
+  }
+}

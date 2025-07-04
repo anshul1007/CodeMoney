@@ -121,3 +121,26 @@ export interface RecapSubmissionData {
   completed: boolean;
   readTime?: number;
 }
+
+export interface PurchaseableItem {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  amount: number;
+  category: 'assets' | 'liabilities' | 'equity';
+  explanation?: string;
+}
+
+export interface InteractiveBalanceGameData extends BaseGameData {
+  startingEquity: number;
+  startingLoan: number;
+  availableItems: PurchaseableItem[];
+  instructions?: string;
+  targetScenario?: string;
+}
+
+export interface InteractiveBalanceSubmissionData {
+  purchasedItems: PurchaseableItem[];
+  availableCash: number;
+}

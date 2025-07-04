@@ -83,6 +83,28 @@
                   "isUnlocked": true,
                   "stars": 0,
                   "prevLevelId": null,
+                  "nextLevelId": "interactive-balance"
+                },
+                {
+                  "id": "interactive-balance",
+                  "title": "🎮 Level 2: Build Your Business Budget",
+                  "description": "Start with money and buy items for your lemonade stand - see the balance sheet in action!",
+                  "objective": "Experience how spending money affects the balance sheet equation in real-time.",
+                  "isCompleted": false,
+                  "isUnlocked": false,
+                  "stars": 0,
+                  "prevLevelId": "equity-liabilities",
+                  "nextLevelId": "balance-equation"
+                },
+                {
+                  "id": "balance-equation",
+                  "title": "⚖️ Level 3: The Balance Sheet Equation",
+                  "description": "Master the fundamental accounting equation: Assets = Liabilities + Equity",
+                  "objective": "Learn to balance a complete balance sheet using the accounting equation.",
+                  "isCompleted": false,
+                  "isUnlocked": false,
+                  "stars": 0,
+                  "prevLevelId": "interactive-balance",
                   "nextLevelId": null
                 }
               ]
