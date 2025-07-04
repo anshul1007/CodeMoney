@@ -232,7 +232,7 @@
         </div>
 
         <!-- Summary -->
-        <div class="mt-4 p-3 bg-gray-100 rounded-lg">
+        <div class="p-3 mt-4 bg-gray-100 rounded-lg">
           <div class="text-center">
             <div class="text-sm text-gray-600">Total Assets</div>
             <div class="text-xl font-bold text-gray-800">{{ formatCurrency(totalAssets()) }}</div>
@@ -245,7 +245,7 @@
     <div class="mt-6 text-center">
       @if (purchasedItems().length > 0 && isBalanced()) {
         @if (canSubmit()) {
-          <div class="mb-4 p-4 bg-green-100 rounded-lg border border-green-300">
+          <div class="p-4 mb-4 bg-green-100 rounded-lg border border-green-300">
             <div class="font-semibold text-green-800">
               🎯 Perfect! You've made some purchases and balanced your books!
             </div>
