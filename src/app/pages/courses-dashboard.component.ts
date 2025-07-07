@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { CourseCardComponent, HeaderComponent } from '../components';
 import { ProgressOverviewComponent, UserProgress } from '../components/progress-overview.component';
+import { AnalyticsService } from '../services/analytics.service';
 import { CourseService } from '../services/course.service';
 import { ProgressService } from '../services/progress.service';
 
@@ -48,12 +49,26 @@ import { ProgressService } from '../services/progress.service';
 export class CoursesDashboardComponent {
   private readonly courseService = inject(CourseService);
   private readonly progressService = inject(ProgressService);
+  private readonly analyticsService = inject(AnalyticsService);
 
   readonly courses = this.courseService.courses;
 
   readonly progress = computed<UserProgress>(() => {
     const progressData = this.progressService.progress();
     const stats = this.progressService.getCompletionStats();
+
+    // Track progress milestones
+    const totalLevels = this.getTotalLevels();
+    const completionPercentage =
+      totalLevels > 0 ? Math.round((progressData.completedLevels.length / totalLevels) * 100) : 0;
+
+    if (completionPercentage > 0) {
+      this.analyticsService.trackProgressMilestone(
+        progressData.completedLevels.length,
+        stats.totalStars,
+        completionPercentage,
+      );
+    }
 
     return {
       totalStars: stats.totalStars,
@@ -65,4 +80,20 @@ export class CoursesDashboardComponent {
       currentLevel: progressData.currentLevel,
     };
   });
+
+  private getTotalLevels(): number {
+    return this.courses().reduce((total, course) => {
+      return (
+        total +
+        course.units.reduce((unitTotal, unit) => {
+          return (
+            unitTotal +
+            unit.lessons.reduce((lessonTotal, lesson) => {
+              return lessonTotal + lesson.levels.length;
+            }, 0)
+          );
+        }, 0)
+      );
+    }, 0);
+  }
 }

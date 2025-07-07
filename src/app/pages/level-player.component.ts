@@ -30,6 +30,7 @@ import {
   isGameComponentWithReset,
   isGameComponentWithSave,
 } from '../models/base-game.models';
+import { AnalyticsService } from '../services/analytics.service';
 import { CourseService } from '../services/course.service';
 import { GameService } from '../services/game.service';
 import { ProgressService } from '../services/progress.service';
@@ -129,7 +130,7 @@ import { ProgressService } from '../services/progress.service';
 
         @if (shouldShowHintsButton()) {
           <button
-            (click)="showHints.set(true)"
+            (click)="showHintsWithTracking()"
             class="py-4 px-8 w-full text-base font-bold text-white bg-yellow-500 rounded-xl transition-all duration-200 cursor-pointer sm:py-5 sm:px-10 sm:w-auto sm:text-lg xl:py-6 xl:px-12 xl:text-xl hover:bg-yellow-600 hover:shadow-lg hover:-translate-y-1 hover:cursor-pointer"
           >
             💡 Show Hints
@@ -159,6 +160,7 @@ export class LevelPlayerComponent {
   private readonly progressService = inject(ProgressService);
   private readonly courseService = inject(CourseService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly analyticsService = inject(AnalyticsService);
 
   readonly gameData = signal<GameData | undefined>(undefined);
   readonly currentLevel = computed<CurrentLevel | undefined>(() => {
@@ -217,6 +219,26 @@ export class LevelPlayerComponent {
         this.checkLevelAccess();
       }
     });
+
+    // Track level abandonment when component is destroyed
+    this.destroyRef.onDestroy(() => {
+      if (!this.gameSubmitted()) {
+        const courseId = this.courseId();
+        const unitId = this.unitId();
+        const lessonId = this.lessonId();
+        const levelId = this.levelId();
+
+        if (courseId && unitId && lessonId && levelId) {
+          this.analyticsService.trackLevelAbandonment(
+            courseId,
+            unitId,
+            lessonId,
+            levelId,
+            50, // Estimate 50% progress if abandoned
+          );
+        }
+      }
+    });
   }
 
   private async checkLevelAccess(): Promise<void> {
@@ -246,6 +268,15 @@ export class LevelPlayerComponent {
     };
 
     this.gameData.set(gameDataWithCompletion);
+
+    // Track level start in analytics
+    this.analyticsService.trackLevelStart(
+      this.courseId(),
+      this.unitId(),
+      this.lessonId(),
+      this.levelId(),
+      gameDataWithCompletion.currentLevel.title || 'Unknown Level',
+    );
 
     this.progressService.updateCurrentPosition(
       this.courseId(),
@@ -324,6 +355,23 @@ export class LevelPlayerComponent {
       score,
     );
 
+    // Track level completion in analytics
+    const gameData = this.gameData();
+    if (gameData) {
+      this.analyticsService.trackLevelComplete({
+        courseId: this.courseId(),
+        unitId: this.unitId(),
+        lessonId: this.lessonId(),
+        levelId: this.levelId(),
+        levelName: gameData.currentLevel.title || 'Unknown Level',
+        progress: 100,
+        isCompleted: true,
+        timeSpent: 0, // Will be calculated by analytics service
+        hintsUsed: 0, // TODO: Track hints if needed
+        errors: 0, // TODO: Track errors if needed
+      });
+    }
+
     this.unlockNextLevel();
 
     const currentGameData = this.gameData();
@@ -384,7 +432,22 @@ export class LevelPlayerComponent {
   }
 
   goBack(): void {
+    // Track user going back without completing
+    if (!this.gameSubmitted()) {
+      this.analyticsService.trackUserEngagement('go_back', 'navigation', {
+        from_level: this.levelId(),
+        completed: false,
+      });
+    }
+
     this.router.navigate(['/courses']);
+  }
+
+  showHintsWithTracking(): void {
+    // Track help usage
+    this.analyticsService.trackHelpUsage(this.courseId(), this.levelId(), 'hints', 'level_hints');
+
+    this.showHints.set(true);
   }
 
   private hasAccessToLevel(): boolean {

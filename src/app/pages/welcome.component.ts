@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { RouterModule } from '@angular/router';
 
 import { Course } from '../models';
+import { AnalyticsService } from '../services/analytics.service';
 import { CourseService } from '../services/course.service';
 import { ProgressService } from '../services/progress.service';
 
@@ -16,6 +17,7 @@ import { ProgressService } from '../services/progress.service';
 export class WelcomeComponent {
   private readonly courseService = inject(CourseService);
   private readonly progressService = inject(ProgressService);
+  private readonly analyticsService = inject(AnalyticsService);
 
   readonly courses = this.courseService.courses;
 
@@ -104,7 +106,16 @@ export class WelcomeComponent {
   }
 
   startGame() {
-    // This will be handled by routing to courses
+    // Track user starting their learning journey
+    this.analyticsService.trackUserEngagement('start_learning', 'user_journey', {
+      from_page: 'welcome',
+      first_time: this.progressService.progress().completedLevels.length === 0,
+    });
+
+    // Track conversion event
+    this.analyticsService.trackConversion('learning_journey_start', 1, {
+      entry_point: 'welcome_page',
+    });
   }
 
   getTotalLevelsCount(course: Course): number {
@@ -118,6 +129,13 @@ export class WelcomeComponent {
   }
 
   resetProgress() {
+    // Track progress reset
+    const currentProgress = this.progressService.progress();
+    this.analyticsService.trackUserEngagement('reset_progress', 'user_action', {
+      completed_levels: currentProgress.completedLevels.length,
+      total_stars: currentProgress.totalStars,
+    });
+
     // Use progress service to reset all progress
     this.progressService.resetProgress();
     alert('Progress has been reset!');
