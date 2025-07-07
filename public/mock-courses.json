@@ -112,6 +112,55 @@
           ]
         }
       ]
+    },
+    {
+      "id": "investment-academy",
+      "title": "Investment Academy: Grow Your Money!",
+      "description": "Learn about investing, savings, and growing your money through smart financial decisions.",
+      "icon": "📈",
+      "isUnlocked": true,
+      "units": [
+        {
+          "id": "savings-basics",
+          "title": "💎 Unit 1: Save Smart!",
+          "description": "Learn the fundamentals of saving money and setting financial goals.",
+          "icon": "💎",
+          "isUnlocked": true,
+          "lessons": [
+            {
+              "id": "goal-setting",
+              "title": "🎯 Lesson 1: Set Your Financial Goals",
+              "description": "Learn how to set achievable financial goals and track your progress.",
+              "icon": "🎯",
+              "isUnlocked": true,
+              "levels": [
+                {
+                  "id": "short-term-goals",
+                  "title": "🏃 Level 1: Short-term Goals",
+                  "description": "Set and plan for goals you can achieve in weeks or months.",
+                  "objective": "Learn to set realistic short-term financial goals.",
+                  "isCompleted": false,
+                  "isUnlocked": true,
+                  "stars": 0,
+                  "prevLevelId": null,
+                  "nextLevelId": "long-term-goals"
+                },
+                {
+                  "id": "long-term-goals",
+                  "title": "🏔️ Level 2: Long-term Goals",
+                  "description": "Plan for bigger goals that take years to achieve.",
+                  "objective": "Learn to set and plan for long-term financial goals.",
+                  "isCompleted": false,
+                  "isUnlocked": false,
+                  "stars": 0,
+                  "prevLevelId": "short-term-goals",
+                  "nextLevelId": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -2,18 +2,19 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 
 import {
+  BalanceSheetGameData,
+  BalanceSheetItem,
+  BalanceSheetSubmissionData,
+  formatCurrency,
+  GameData,
+} from '../../models';
+import {
   BaseGameComponent,
   BaseGameMixin,
   GameComponentWithHints,
   GameComponentWithReset,
   GameComponentWithSave,
 } from '../../models/base-game.models';
-import {
-  BalanceSheetGameData,
-  BalanceSheetItem,
-  BalanceSheetSubmissionData,
-  GameData,
-} from '../../models/game.models';
 
 @Component({
   selector: 'app-balance-equation-game',
@@ -183,12 +184,8 @@ export class BalanceEquationGameComponent
     return item.id || index.toString();
   }
 
-  formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
-  }
+  // Make formatCurrency available in template
+  formatCurrency = formatCurrency;
 
   getBalanceDifference(): number {
     return Math.abs(this.totalAssets() - (this.totalLiabilities() + this.totalEquity()));

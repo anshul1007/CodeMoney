@@ -7,9 +7,9 @@
       "stars": 0
     },
     "scene": "🎯 Welcome to Lucy's Interactive Lemonade Stand Builder! You have some money to start with - some is your own savings (equity) and some is borrowed from your parents (loan). Your mission is to spend wisely and build the perfect lemonade stand while keeping your books balanced!",
-    "prompt": "You start with $300 total ($200 from your savings + $100 loan from parents). Buy everything you need for your lemonade stand and watch how each purchase affects your balance sheet. Remember: Assets = Liabilities + Equity!",
+    "prompt": "You start with ₹300 total (₹200 from your savings + ₹100 loan from parents). Buy everything you need for your lemonade stand and watch how each purchase affects your balance sheet. Remember: Assets = Liabilities + Equity!",
     "hints": [
-      "You have $300 total to spend: $200 of your own money (equity) + $100 loan (liability)",
+      "You have ₹300 total to spend: ₹200 of your own money (equity) + ₹100 loan (liability)",
       "Every item you buy becomes an asset, but your cash (also an asset) goes down",
       "Your total assets should always equal your liabilities plus equity",
       "Try to spend all your money to see the equation in action!",

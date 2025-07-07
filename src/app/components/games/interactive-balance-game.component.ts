@@ -2,18 +2,19 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 
 import {
+  formatCurrency,
+  GameData,
+  InteractiveBalanceGameData,
+  InteractiveBalanceSubmissionData,
+  PurchaseableItem,
+} from '../../models';
+import {
   BaseGameComponent,
   BaseGameMixin,
   GameComponentWithHints,
   GameComponentWithReset,
   GameComponentWithSave,
 } from '../../models/base-game.models';
-import {
-  GameData,
-  InteractiveBalanceGameData,
-  InteractiveBalanceSubmissionData,
-  PurchaseableItem,
-} from '../../models/game.models';
 
 @Component({
   selector: 'app-interactive-balance-game',
@@ -162,12 +163,8 @@ export class InteractiveBalanceGameComponent
     this.saveUserSubmission();
   }
 
-  formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
-  }
+  // Make formatCurrency available in template
+  formatCurrency = formatCurrency;
 
   trackByItemId(index: number, item: PurchaseableItem): string {
     return item.id || index.toString();

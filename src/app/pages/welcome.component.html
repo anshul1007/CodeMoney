@@ -1,7 +1,7 @@
 <div class="min-h-screen text-white educational-gradient font-body">
-  <div class="p-4 mx-auto max-w-7xl text-center sm:p-6 xl:p-8 2xl:p-10">
+  <div class="pt-2 p-4 mx-auto max-w-7xl text-center sm:p-6 xl:p-8 2xl:p-10">
     <div
-      class="p-4 my-4 rounded-2xl border sm:p-8 sm:my-10 sm:rounded-3xl md:p-10 xl:p-12 xl:my-12 2xl:p-16 shadow-glow animate-fade-in border-white/20 bg-neutral-900/80 backdrop-blur-lg"
+      class="p-4 mt-2 mb-2 rounded-2xl border sm:p-8 sm:mt-2 sm:mb-2 sm:rounded-3xl md:p-10 xl:p-12 xl:mt-2 xl:mb-2 2xl:p-16 shadow-glow animate-fade-in border-white/20 bg-neutral-900/80 backdrop-blur-lg"
     >
       <!-- Logo -->
       <div class="flex justify-center mb-6 sm:mb-8">
@@ -45,13 +45,13 @@
         class="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-6 sm:justify-center md:gap-8 xl:gap-10"
       >
         <button
-          class="py-4 px-8 w-full text-lg font-bold text-white rounded-xl transition-all duration-200 cursor-pointer sm:py-5 sm:px-10 sm:w-auto sm:text-xl xl:py-6 xl:px-12 xl:text-2xl hover:shadow-xl hover:-translate-y-1 hover:cursor-pointer animate-scale-up bg-primary-600 sm:min-w-[200px] xl:min-w-[240px] hover:bg-primary-700"
+          class="py-4 px-8 w-full text-lg font-bold text-white rounded-xl transition-all duration-200 cursor-pointer sm:py-5 sm:px-10 sm:w-auto sm:text-xl xl:py-6 xl:px-12 xl:text-2xl hover:shadow-xl hover:-translate-y-1 animate-scale-up bg-primary-600 sm:min-w-[200px] xl:min-w-[240px] hover:bg-primary-700"
           routerLink="/courses"
         >
           🚀 Start Learning
         </button>
         <button
-          class="py-4 px-8 w-full text-lg font-bold text-white rounded-xl transition-all duration-200 cursor-pointer sm:py-5 sm:px-10 sm:w-auto sm:text-xl xl:py-6 xl:px-12 xl:text-2xl hover:shadow-xl hover:-translate-y-1 hover:cursor-pointer animate-scale-up bg-secondary-600 sm:min-w-[200px] xl:min-w-[240px] hover:bg-secondary-700"
+          class="py-4 px-8 w-full text-lg font-bold text-white rounded-xl transition-all duration-200 cursor-pointer sm:py-5 sm:px-10 sm:w-auto sm:text-xl xl:py-6 xl:px-12 xl:text-2xl hover:shadow-xl hover:-translate-y-1 animate-scale-up bg-secondary-600 sm:min-w-[200px] xl:min-w-[240px] hover:bg-secondary-700"
           (click)="resetProgress()"
         >
           🔄 Reset Progress
@@ -76,92 +76,92 @@
       <div
         class="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 sm:gap-8 sm:mt-8 md:grid-cols-3 md:mt-10 lg:grid-cols-4 xl:gap-10"
       >
-        <div
-          class="p-4 text-center bg-white rounded-xl border shadow-xl transition-all duration-300 sm:p-6 hover:shadow-2xl hover:-translate-y-1 animate-fade-in border-neutral-200"
-        >
-          <div class="mb-4 text-4xl sm:mb-5 sm:text-5xl">🧩</div>
-          <h4 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl md:text-2xl text-neutral-800">
-            Item Selection
-          </h4>
-          <p class="text-sm leading-relaxed sm:text-base text-neutral-600">
-            Learn what you need to start a business by choosing the right items
-          </p>
-        </div>
-
-        <div
-          class="p-4 text-center bg-white rounded-xl border shadow-xl transition-all duration-300 sm:p-6 hover:shadow-2xl hover:-translate-y-1 animate-fade-in border-neutral-200"
-        >
-          <div class="mb-4 text-4xl sm:mb-5 sm:text-5xl">💰</div>
-          <h4 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl md:text-2xl text-neutral-800">
-            Cost Estimation
-          </h4>
-          <p class="text-sm leading-relaxed sm:text-base text-neutral-600">
-            Practice estimating how much business items cost in the real world
-          </p>
-        </div>
-
-        <div
-          class="p-4 text-center bg-white rounded-xl border shadow-xl transition-all duration-300 sm:p-6 hover:shadow-2xl hover:-translate-y-1 animate-fade-in border-neutral-200"
-        >
-          <div class="mb-4 text-4xl sm:mb-5 sm:text-5xl">💸</div>
-          <h4 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl md:text-2xl text-neutral-800">
-            Funding Sources
-          </h4>
-          <p class="text-sm leading-relaxed sm:text-base text-neutral-600">
-            Discover different ways to get money to start your business
-          </p>
-        </div>
-
-        <div
-          class="p-4 text-center bg-white rounded-xl border shadow-xl transition-all duration-300 sm:p-6 hover:shadow-2xl hover:-translate-y-1 animate-fade-in border-neutral-200"
-        >
-          <div class="mb-4 text-4xl sm:mb-5 sm:text-5xl">⭐</div>
-          <h4 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl md:text-2xl text-neutral-800">
-            Star Scoring
-          </h4>
-          <p class="text-sm leading-relaxed sm:text-base text-neutral-600">
-            Earn stars based on your performance and unlock new levels
-          </p>
-        </div>
+        @for (topic of learningTopics(); track topic.title) {
+          <div
+            class="p-4 text-center bg-white rounded-xl border shadow-xl transition-all duration-300 sm:p-6 hover:shadow-2xl hover:-translate-y-1 animate-fade-in border-neutral-200"
+          >
+            <div class="mb-4 text-4xl sm:mb-5 sm:text-5xl">{{ topic.icon }}</div>
+            <h4 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl md:text-2xl text-neutral-800">
+              {{ topic.title }}
+            </h4>
+            <p class="text-sm leading-relaxed sm:text-base text-neutral-600">
+              {{ topic.description }}
+            </p>
+          </div>
+        }
       </div>
     </div>
     <div
       class="p-4 my-4 mx-auto max-w-7xl rounded-2xl border shadow-2xl sm:p-8 sm:my-10 sm:rounded-3xl md:p-10 border-white/30 bg-neutral-800/95 backdrop-blur-lg"
     >
-      <h3
-        class="mb-6 text-2xl font-bold text-center text-white sm:mb-8 sm:text-3xl md:text-4xl font-display drop-shadow-lg"
-      >
-        Course: Money Missions
-      </h3>
-      <div class="flex justify-center">
-        <div
-          class="p-6 max-w-lg text-center bg-white rounded-2xl border-2 shadow-2xl transition-all duration-300 cursor-pointer sm:p-8 hover:-translate-y-1 border-neutral-200 text-neutral-700 hover:shadow-3xl"
-          routerLink="/courses"
+      @if (courses().length > 0) {
+        <h3
+          class="mb-6 text-2xl font-bold text-center text-white sm:mb-8 sm:text-3xl md:text-4xl font-display drop-shadow-lg"
         >
-          <h4 class="mb-3 text-lg font-bold sm:mb-4 sm:text-xl md:text-2xl text-neutral-800">
-            Unit 1: Start Your Lemonade Stand!
-          </h4>
-          <p class="mb-4 text-sm font-medium leading-relaxed sm:mb-5 sm:text-base text-neutral-600">
-            Learn what you need to start a business, estimate costs, and find funding sources
-            through fun interactive games
-          </p>
+          Available Courses
+        </h3>
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:gap-8">
+          @for (course of courses(); track course.id) {
+            <div class="flex justify-center">
+              <div
+                class="p-6 max-w-lg text-center bg-white rounded-2xl border-2 shadow-2xl transition-all duration-300 cursor-pointer sm:p-8 hover:-translate-y-1 border-neutral-200 text-neutral-700 hover:shadow-3xl"
+                routerLink="/courses"
+              >
+                <div class="mb-3 text-4xl sm:mb-4 sm:text-5xl">{{ course.icon }}</div>
+                <h4 class="mb-3 text-lg font-bold sm:mb-4 sm:text-xl md:text-2xl text-neutral-800">
+                  {{ course.title }}
+                </h4>
+                <p
+                  class="mb-4 text-sm font-medium leading-relaxed sm:mb-5 sm:text-base text-neutral-600"
+                >
+                  {{ course.description }}
+                </p>
+                @if (course.units.length > 0) {
+                  <div class="mb-4 text-xs text-neutral-500">
+                    Featured: {{ course.units[0].title }}
+                  </div>
+                }
+                <div
+                  class="inline-block py-2 px-4 text-sm font-bold text-white rounded-full border-0 shadow-xl transition-transform duration-200 sm:py-3 sm:px-6 sm:text-base hover:scale-105"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #10b981 0%,
+                      #059669 25%,
+                      #047857 50%,
+                      #065f46 75%,
+                      #064e3b 100%
+                    );
+                  "
+                >
+                  {{ getTotalLevelsCount(course) }} Interactive Levels → Start Learning!
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <h3
+          class="mb-6 text-2xl font-bold text-center text-white sm:mb-8 sm:text-3xl md:text-4xl font-display drop-shadow-lg"
+        >
+          Courses Loading...
+        </h3>
+        <div class="flex justify-center">
           <div
-            class="inline-block py-2 px-4 text-sm font-bold text-white rounded-full border-0 shadow-xl transition-transform duration-200 sm:py-3 sm:px-6 sm:text-base hover:scale-105"
-            style="
-              background: linear-gradient(
-                135deg,
-                #10b981 0%,
-                #059669 25%,
-                #047857 50%,
-                #065f46 75%,
-                #064e3b 100%
-              );
-            "
+            class="p-6 max-w-lg text-center bg-white rounded-2xl border-2 shadow-2xl sm:p-8 border-neutral-200 text-neutral-700"
           >
-            3 Interactive Levels → Click to Start!
+            <div class="mb-3 text-4xl sm:mb-4 sm:text-5xl">⏳</div>
+            <h4 class="mb-3 text-lg font-bold sm:mb-4 sm:text-xl md:text-2xl text-neutral-800">
+              Loading Course Data...
+            </h4>
+            <p
+              class="mb-4 text-sm font-medium leading-relaxed sm:mb-5 sm:text-base text-neutral-600"
+            >
+              Please wait while we load your learning adventures!
+            </p>
           </div>
         </div>
-      </div>
+      }
     </div>
   </div>
 </div>
